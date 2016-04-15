@@ -1,2 +1,19 @@
 $icon-font-path: "../assets/fonts/bootstrap/" !default;
 @import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+body{
+  padding: 0;
+  margin: 0;
+}
+//login page
+html#login {
+  height: 100%;
+}
+html#login body{
+  position: relative;
+  height: 100%;
+}
+
+html#login body div.center-block {
+  margin:auto;
+  width: 50%;
+}

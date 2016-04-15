@@ -8791,3 +8791,25 @@ button.close {
     display: none !important;
   }
 }
+/* line 3, ../../scss/basic.scss */
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* line 8, ../../scss/basic.scss */
+html#login {
+  height: 100%;
+}
+
+/* line 11, ../../scss/basic.scss */
+html#login body {
+  position: relative;
+  height: 100%;
+}
+
+/* line 16, ../../scss/basic.scss */
+html#login body div.center-block {
+  margin: auto;
+  width: 50%;
+}
