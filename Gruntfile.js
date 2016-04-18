@@ -36,6 +36,11 @@ module.exports = function (grunt) {
                     flatten: true,
                     src: ['node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js'],
                     dest: 'public/js/dev/'
+                },{
+                    expand: true,
+                    flatten: true,
+                    src: ['node_modules/holderjs/holder.min.js'],
+                    dest: 'public/js/dev/'
                 }]
             },main: {
                 files:[
