@@ -1,19 +1,71 @@
+@import "googleFonts.scss";
+@import "compass/css3";
+$brand-primary:         lighten(#0ca1fa,0%) !default; // #337ab7
+$link-hover-color:      darken($brand-primary, 10%) !default;
+$font-family-base: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 $icon-font-path: "../assets/fonts/bootstrap/" !default;
+$link-hover-decoration: none !default;
 @import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-body{
+
+body {
   padding: 0;
   margin: 0;
 }
-//login page
-html#login {
+
+body:before {
+  content: '';
+  position: fixed;
+  width: 100%;
   height: 100%;
-}
-html#login body{
-  position: relative;
-  height: 100%;
+  left: 0;
+  top: 0;
+  background: url(../assets/images/bg.jpg) center center no-repeat;
+  background-size: cover;
+  z-index: -1;
 }
 
-html#login body div.center-block {
-  margin:auto;
-  width: 50%;
+//login page
+html#auth, html#auth body, .auth-main {
+  height: 100%;
+  position: relative;
+}
+
+.auth-main {
+  margin: auto;
+  width: 100%;
+  @include display-flex(flex);
+  @include align-items(center);
+}
+
+.auth-block {
+  width: 540px;
+  margin: 0 auto;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  padding: 32px;
+}
+
+
+
+
+.cls
+
+
+element.style {
+}
+.auth-block h1 {
+  font-weight: normal;
+  margin-bottom: 28px;
+}
+.auth-block h1{
+  text-align: center;
+}
+
+.auth-link{
+  text-decoration: none;
+  @include transition(all .2s ease);
+  text-align: center;
+  display: block;
+  font-size: 16px;
 }
