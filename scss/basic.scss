@@ -1,11 +1,23 @@
 @import "googleFonts.scss";
+@import "icon.scss";
 @import "compass/css3";
-$brand-primary:         lighten(#0ca1fa,0%) !default; // #337ab7
-$link-hover-color:      darken($brand-primary, 10%) !default;
+
+$brand-primary: darken(#0ca1fa, 5%) !default;
+// #337ab7
+$input-color: #fff !default;
+$input-color-placeholder: #fff !default;
+$input-bg: rgba(0, 0, 0, .4) !default;
+$border-radius-base: 5px !default;
+$link-hover-color: darken($brand-primary, 6.5%) !default;
 $font-family-base: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 $icon-font-path: "../assets/fonts/bootstrap/" !default;
 $link-hover-decoration: none !default;
 @import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+body, html {
+  min-height: 100%;
+  min-width: 320px;
+}
 
 body {
   padding: 0;
@@ -22,6 +34,11 @@ body:before {
   background: url(../assets/images/bg.jpg) center center no-repeat;
   background-size: cover;
   z-index: -1;
+}
+
+a, .a {
+  cursor: pointer;
+  @include transition(all .2s ease);
 }
 
 //login page
@@ -46,26 +63,162 @@ html#auth, html#auth body, .auth-main {
   padding: 32px;
 }
 
-
-
-
-.cls
-
-
-element.style {
-}
 .auth-block h1 {
   font-weight: normal;
   margin-bottom: 28px;
 }
-.auth-block h1{
+
+.auth-block h1 {
   text-align: center;
 }
 
-.auth-link{
+.auth-link {
   text-decoration: none;
-  @include transition(all .2s ease);
   text-align: center;
   display: block;
   font-size: 16px;
+  margin-bottom: 33px;
+}
+
+.form-group label {
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.form-control {
+  border: none;
+}
+
+.form-control:focus {
+  box-shadow: none;
+}
+
+a.forgot-pass {
+  display: block;
+  text-align: right;
+  margin-bottom: -20px;
+  float: right;
+  z-index: 2;
+  position: relative;
+}
+
+.auth-sep {
+  margin-top: 36px;
+  margin-bottom: 24px;
+  line-height: 20px;
+  display: block;
+  position: relative;
+  font-size: 16px;
+  text-align: center;
+}
+
+.auth-sep:after, .auth-sep:before {
+  border-top: solid 1px #fff;
+  content: "";
+  height: 1px;
+  width: 35%;
+  display: table-cell;
+}
+
+.auth-sep > span {
+  display: table-cell;
+  width: 30%;
+  padding: 0 24px;
+  color: #fff;
+}
+
+.auth-sep > span, .nowrap {
+  white-space: nowrap;
+}
+
+.auth-sep > span > span {
+  margin-top: -12px;
+  display: block;
+}
+
+.al-share-auth {
+  text-align: center;
+}
+
+.al-share-auth .al-share {
+  float: none;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  li {
+    list-style: none;
+    float: left;
+    margin-left: 24px;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+.socicon {
+  font-family: 'Icomoon Icon' !important;
+  cursor: pointer;
+  color: #fff;
+  padding: 6px;
+  box-sizing: content-box;
+  font-size: 24px;
+  font-style: normal;
+  border-radius: $border-radius-base;
+}
+
+.socicon-weibo {
+  background: #fa7d3c;
+  &:before {
+    content: "\e901";
+  }
+  &:hover {
+    background: darken(#fa7d3c, 6.5%);
+  }
+}
+
+.socicon-wechat {
+  background: #609700;
+  &:before {
+    content: "\e900";
+  }
+  &:hover {
+    background: darken(#609700, 6.5%);
+  }
+}
+
+//404 page
+html#page-404{
+  height: 100%;
+  body{
+    @include display-flex(flex);
+    @include align-items(center);
+    width: 100%;
+    margin: auto;
+    height: 100%;
+  }
+}
+
+.page-not-found-modal {
+  width: 638px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, .5);
+  border-radius: 5px;
+  font-weight: 300;
+  color: #fff;
+  padding: 32px;
+  text-align: center;
+  box-sizing: content-box;
+  h1 {
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+  p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  a {
+    text-decoration: none;
+    outline: 0;
+    display: inline-block;
+  }
 }
