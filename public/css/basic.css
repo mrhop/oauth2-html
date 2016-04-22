@@ -8855,19 +8855,20 @@ button.close {
     display: none !important;
   }
 }
-/* line 17, ../../scss/basic.scss */
+/* line 18, ../../scss/basic.scss */
 body, html {
   min-height: 100%;
   min-width: 320px;
 }
 
-/* line 22, ../../scss/basic.scss */
+/* line 23, ../../scss/basic.scss */
 body {
   padding: 0;
   margin: 0;
+  color: white;
 }
 
-/* line 27, ../../scss/basic.scss */
+/* line 29, ../../scss/basic.scss */
 body:before {
   content: '';
   position: fixed;
@@ -8880,7 +8881,7 @@ body:before {
   z-index: -1;
 }
 
-/* line 39, ../../scss/basic.scss */
+/* line 41, ../../scss/basic.scss */
 a, .a {
   cursor: pointer;
   -webkit-transition: all 0.2s ease;
@@ -8888,13 +8889,91 @@ a, .a {
   transition: all 0.2s ease;
 }
 
-/* line 45, ../../scss/basic.scss */
+@-moz-keyframes pulsate {
+  30% {
+    -webkit-transform: scale(0.1, 0.1);
+    -ms-transform: scale(0.1, 0.1);
+    -o-transform: scale(0.1, 0.1);
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+  35% {
+    -webkit-transform: scale(0.1, 0.1);
+    -ms-transform: scale(0.1, 0.1);
+    -o-transform: scale(0.1, 0.1);
+    transform: scale(0.1, 0.1);
+    opacity: 1;
+    filter: alpha(opacity=100);
+  }
+  40% {
+    -webkit-transform: scale(1.2, 1.2);
+    -ms-transform: scale(1.2, 1.2);
+    -o-transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+}
+@-webkit-keyframes pulsate {
+  30% {
+    -webkit-transform: scale(0.1, 0.1);
+    -ms-transform: scale(0.1, 0.1);
+    -o-transform: scale(0.1, 0.1);
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+  35% {
+    -webkit-transform: scale(0.1, 0.1);
+    -ms-transform: scale(0.1, 0.1);
+    -o-transform: scale(0.1, 0.1);
+    transform: scale(0.1, 0.1);
+    opacity: 1;
+    filter: alpha(opacity=100);
+  }
+  40% {
+    -webkit-transform: scale(1.2, 1.2);
+    -ms-transform: scale(1.2, 1.2);
+    -o-transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+}
+@keyframes pulsate {
+  30% {
+    -webkit-transform: scale(0.1, 0.1);
+    -ms-transform: scale(0.1, 0.1);
+    -o-transform: scale(0.1, 0.1);
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+  35% {
+    -webkit-transform: scale(0.1, 0.1);
+    -ms-transform: scale(0.1, 0.1);
+    -o-transform: scale(0.1, 0.1);
+    transform: scale(0.1, 0.1);
+    opacity: 1;
+    filter: alpha(opacity=100);
+  }
+  40% {
+    -webkit-transform: scale(1.2, 1.2);
+    -ms-transform: scale(1.2, 1.2);
+    -o-transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+}
+/* line 62, ../../scss/basic.scss */
 html#auth, html#auth body, .auth-main {
   height: 100%;
   position: relative;
 }
 
-/* line 50, ../../scss/basic.scss */
+/* line 67, ../../scss/basic.scss */
 .auth-main {
   margin: auto;
   width: 100%;
@@ -8904,7 +8983,7 @@ html#auth, html#auth body, .auth-main {
   align-items: center;
 }
 
-/* line 57, ../../scss/basic.scss */
+/* line 74, ../../scss/basic.scss */
 .auth-block {
   width: 540px;
   margin: 0 auto;
@@ -8914,18 +8993,18 @@ html#auth, html#auth body, .auth-main {
   padding: 32px;
 }
 
-/* line 66, ../../scss/basic.scss */
+/* line 83, ../../scss/basic.scss */
 .auth-block h1 {
   font-weight: normal;
   margin-bottom: 28px;
 }
 
-/* line 71, ../../scss/basic.scss */
+/* line 88, ../../scss/basic.scss */
 .auth-block h1 {
   text-align: center;
 }
 
-/* line 75, ../../scss/basic.scss */
+/* line 92, ../../scss/basic.scss */
 .auth-link {
   text-decoration: none;
   text-align: center;
@@ -8934,23 +9013,23 @@ html#auth, html#auth body, .auth-main {
   margin-bottom: 33px;
 }
 
-/* line 83, ../../scss/basic.scss */
+/* line 100, ../../scss/basic.scss */
 .form-group label {
   font-weight: 400;
   font-size: 13px;
 }
 
-/* line 88, ../../scss/basic.scss */
+/* line 105, ../../scss/basic.scss */
 .form-control {
   border: none;
 }
 
-/* line 92, ../../scss/basic.scss */
+/* line 109, ../../scss/basic.scss */
 .form-control:focus {
   box-shadow: none;
 }
 
-/* line 96, ../../scss/basic.scss */
+/* line 113, ../../scss/basic.scss */
 a.forgot-pass {
   display: block;
   text-align: right;
@@ -8960,7 +9039,7 @@ a.forgot-pass {
   position: relative;
 }
 
-/* line 105, ../../scss/basic.scss */
+/* line 122, ../../scss/basic.scss */
 .auth-sep {
   margin-top: 36px;
   margin-bottom: 24px;
@@ -8971,7 +9050,7 @@ a.forgot-pass {
   text-align: center;
 }
 
-/* line 115, ../../scss/basic.scss */
+/* line 132, ../../scss/basic.scss */
 .auth-sep:after, .auth-sep:before {
   border-top: solid 1px #fff;
   content: "";
@@ -8980,7 +9059,7 @@ a.forgot-pass {
   display: table-cell;
 }
 
-/* line 123, ../../scss/basic.scss */
+/* line 140, ../../scss/basic.scss */
 .auth-sep > span {
   display: table-cell;
   width: 30%;
@@ -8988,41 +9067,41 @@ a.forgot-pass {
   color: #fff;
 }
 
-/* line 130, ../../scss/basic.scss */
+/* line 147, ../../scss/basic.scss */
 .auth-sep > span, .nowrap {
   white-space: nowrap;
 }
 
-/* line 134, ../../scss/basic.scss */
+/* line 151, ../../scss/basic.scss */
 .auth-sep > span > span {
   margin-top: -12px;
   display: block;
 }
 
-/* line 139, ../../scss/basic.scss */
+/* line 156, ../../scss/basic.scss */
 .al-share-auth {
   text-align: center;
 }
 
-/* line 143, ../../scss/basic.scss */
+/* line 160, ../../scss/basic.scss */
 .al-share-auth .al-share {
   float: none;
   margin: 0;
   padding: 0;
   display: inline-block;
 }
-/* line 148, ../../scss/basic.scss */
+/* line 165, ../../scss/basic.scss */
 .al-share-auth .al-share li {
   list-style: none;
   float: left;
   margin-left: 24px;
 }
-/* line 152, ../../scss/basic.scss */
+/* line 169, ../../scss/basic.scss */
 .al-share-auth .al-share li:first-child {
   margin-left: 0;
 }
 
-/* line 158, ../../scss/basic.scss */
+/* line 175, ../../scss/basic.scss */
 .socicon {
   font-family: 'Icomoon Icon' !important;
   cursor: pointer;
@@ -9034,37 +9113,37 @@ a.forgot-pass {
   border-radius: 5px;
 }
 
-/* line 169, ../../scss/basic.scss */
+/* line 186, ../../scss/basic.scss */
 .socicon-weibo {
   background: #fa7d3c;
 }
-/* line 171, ../../scss/basic.scss */
+/* line 188, ../../scss/basic.scss */
 .socicon-weibo:before {
   content: "\e901";
 }
-/* line 174, ../../scss/basic.scss */
+/* line 191, ../../scss/basic.scss */
 .socicon-weibo:hover {
   background: #f9671c;
 }
 
-/* line 179, ../../scss/basic.scss */
+/* line 196, ../../scss/basic.scss */
 .socicon-wechat {
   background: #609700;
 }
-/* line 181, ../../scss/basic.scss */
+/* line 198, ../../scss/basic.scss */
 .socicon-wechat:before {
   content: "\e900";
 }
-/* line 184, ../../scss/basic.scss */
+/* line 201, ../../scss/basic.scss */
 .socicon-wechat:hover {
   background: #4b7600;
 }
 
-/* line 190, ../../scss/basic.scss */
+/* line 207, ../../scss/basic.scss */
 html#page-404 {
   height: 100%;
 }
-/* line 192, ../../scss/basic.scss */
+/* line 209, ../../scss/basic.scss */
 html#page-404 body {
   display: -webkit-flex;
   display: flex;
@@ -9075,7 +9154,7 @@ html#page-404 body {
   height: 100%;
 }
 
-/* line 201, ../../scss/basic.scss */
+/* line 218, ../../scss/basic.scss */
 .page-not-found-modal {
   width: 638px;
   margin: 0 auto;
@@ -9087,19 +9166,274 @@ html#page-404 body {
   text-align: center;
   box-sizing: content-box;
 }
-/* line 211, ../../scss/basic.scss */
+/* line 228, ../../scss/basic.scss */
 .page-not-found-modal h1 {
   font-weight: 300;
   margin-bottom: 32px;
 }
-/* line 215, ../../scss/basic.scss */
+/* line 232, ../../scss/basic.scss */
 .page-not-found-modal p {
   font-size: 16px;
   line-height: 24px;
 }
-/* line 219, ../../scss/basic.scss */
+/* line 236, ../../scss/basic.scss */
 .page-not-found-modal a {
   text-decoration: none;
   outline: 0;
   display: inline-block;
+}
+
+/* line 244, ../../scss/basic.scss */
+.page-top {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  z-index: 904;
+  box-shadow: 2px 0 3px rgba(0, 0, 0, 0.5);
+  height: 66px;
+  width: 100%;
+  padding: 0 32px 0 40px;
+  min-width: 320px;
+}
+@media (max-width: 479px) {
+  /* line 244, ../../scss/basic.scss */
+  .page-top {
+    padding: 0 20px;
+  }
+}
+
+/* line 258, ../../scss/basic.scss */
+a.al-logo {
+  color: #fff;
+  display: block;
+  font-size: 24px;
+  white-space: nowrap;
+  float: left;
+  outline: 0 !important;
+  line-height: 60px;
+}
+/* line 266, ../../scss/basic.scss */
+a.al-logo:hover {
+  color: #047ec7;
+}
+/* line 269, ../../scss/basic.scss */
+a.al-logo span {
+  color: #0593e8;
+}
+@media (max-width: 479px) {
+  /* line 258, ../../scss/basic.scss */
+  a.al-logo {
+    font-size: 20px;
+  }
+}
+
+/* line 277, ../../scss/basic.scss */
+a.collapse-menu-link {
+  font-size: 31px;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  line-height: 42px;
+  color: #fff;
+  padding: 0;
+  float: left;
+  margin: 11px 0 0 25px;
+  font-family: 'Icomoon Icon' !important;
+}
+/* line 288, ../../scss/basic.scss */
+a.collapse-menu-link:before {
+  content: "\e905";
+}
+/* line 291, ../../scss/basic.scss */
+a.collapse-menu-link:hover {
+  color: #f0ad4e;
+}
+@media (max-width: 479px) {
+  /* line 277, ../../scss/basic.scss */
+  a.collapse-menu-link {
+    margin-left: 5px;
+    font-size: 24px;
+  }
+}
+
+/* line 300, ../../scss/basic.scss */
+.search {
+  font-size: 13px;
+  line-height: 25px;
+  width: 162px;
+  float: left;
+  margin: 20px 0 0 30px;
+  color: #fff;
+}
+@media (max-width: 767px) {
+  /* line 300, ../../scss/basic.scss */
+  .search {
+    display: none;
+  }
+}
+
+/* line 312, ../../scss/basic.scss */
+.search i {
+  width: 16px;
+  display: inline-block;
+  cursor: pointer;
+  padding-left: 1px;
+  font-size: 16px;
+  margin-right: 13px;
+  font-family: 'Icomoon Icon' !important;
+  font-style: normal;
+}
+/* line 321, ../../scss/basic.scss */
+.search i:before {
+  content: "\e902";
+}
+
+/* line 326, ../../scss/basic.scss */
+.search input {
+  background: 0 0;
+  border: none;
+  outline: 0;
+  width: 120px;
+  padding: 0;
+  margin: 0 0 0 -3px;
+  height: 27px;
+}
+
+/* line 336, ../../scss/basic.scss */
+.questions-section {
+  position: absolute;
+  right: 200px;
+  top: 0;
+  height: 66px;
+  line-height: 66px;
+}
+@media (max-width: 991px) {
+  /* line 336, ../../scss/basic.scss */
+  .questions-section {
+    display: none;
+  }
+}
+
+/* line 349, ../../scss/basic.scss */
+.user-profile {
+  float: right;
+  min-width: 170px;
+  margin-top: 10px;
+}
+@media (max-width: 767px) {
+  /* line 349, ../../scss/basic.scss */
+  .user-profile {
+    min-width: 136px;
+  }
+}
+/* line 356, ../../scss/basic.scss */
+.user-profile a {
+  display: block;
+}
+/* line 359, ../../scss/basic.scss */
+.user-profile .al-user-profile {
+  float: right;
+  margin-right: 12px;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  opacity: 1;
+  position: relative;
+}
+/* line 368, ../../scss/basic.scss */
+.user-profile .al-user-profile img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+/* line 376, ../../scss/basic.scss */
+.al-msg-center {
+  float: right;
+  padding: 0;
+  list-style: none;
+  margin: 13px 47px 0 0;
+}
+/* line 381, ../../scss/basic.scss */
+.al-msg-center li {
+  list-style: none;
+  float: left;
+  margin-left: 30px;
+}
+/* line 385, ../../scss/basic.scss */
+.al-msg-center li:first-child {
+  margin-left: 0;
+}
+/* line 388, ../../scss/basic.scss */
+.al-msg-center li > a {
+  color: #fff;
+}
+/* line 390, ../../scss/basic.scss */
+.al-msg-center li > a:hover .fa-bell-o {
+  color: #d9534f;
+}
+/* line 393, ../../scss/basic.scss */
+.al-msg-center li > a:hover .fa-envelope-o {
+  color: #5bc0de;
+}
+/* line 396, ../../scss/basic.scss */
+.al-msg-center li > a span {
+  display: inline-block;
+  min-width: 10px;
+  padding: 2px 4px;
+  color: #fff;
+  vertical-align: baseline;
+  white-space: nowrap;
+  text-align: center;
+  border-radius: 13px;
+  text-shadow: none;
+  line-height: 11px;
+  background-color: #d9534f;
+  position: absolute;
+  top: -5px;
+  right: -14px;
+  font-size: 11px;
+}
+/* line 413, ../../scss/basic.scss */
+.al-msg-center li > a.msg span {
+  background-color: #5bc0de;
+}
+/* line 416, ../../scss/basic.scss */
+.al-msg-center li > a .notification-ring {
+  border: 1px solid #d9534f;
+  border-radius: 100px;
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: -18px;
+  right: -27px;
+  -webkit-animation: pulsate 8s ease-out;
+  -o-animation: pulsate 8s ease-out;
+  animation: pulsate 8s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  opacity: 0;
+}
+/* line 428, ../../scss/basic.scss */
+.al-msg-center li > a.msg .notification-ring {
+  border: 1px solid #5bc0de;
+}
+
+/* line 434, ../../scss/basic.scss */
+.fa {
+  font-family: 'Icomoon Icon' !important;
+  font-style: normal;
+  -webkit-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+/* line 439, ../../scss/basic.scss */
+.fa-bell-o:before {
+  content: "";
+}
+
+/* line 443, ../../scss/basic.scss */
+.fa-envelope-o:before {
+  content: "\e904";
 }
