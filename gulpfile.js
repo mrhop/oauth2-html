@@ -107,3 +107,4 @@ gulp.task('pre-build',function(){
         return process.env.NODE_ENV = 'production';
 });
 gulp.task('build', ['pre-build','browserify-vendor','browserify-app', 'compass-prod', 'copy-main']);
+//next do intl and multi-module
