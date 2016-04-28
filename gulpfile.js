@@ -2,79 +2,108 @@ const gulp = require('gulp');
 const compass = require('gulp-compass');
 const minifyCSS = require('gulp-minify-css');
 const uglify = require('gulp-uglify');
-const browserify = require('gulp-browserify');
-const reactify = require('reactify');
+const browserify = require('browserify');
+var source = require('vinyl-source-stream');
 const streamify = require('gulp-streamify');
-const envify = require('envify/custom');
-const babel = require('gulp-babel');
-
-
+const babelify = require('babelify');
+var cache = require('gulp-cached');
+var foreach = require('gulp-foreach');
+var initialParam = require('./public/js/dev/self/env/initial');
+const basicVendors = initialParam.libVendors;
 const path = {
-    SASS_SRC:'scss',
-    WORK_SRC:'public',
-    CSS_SRC:'public/css',
-    ASSET_SRC:'public/assets',
-    JS_SRC:'public/js',
-    DEST_SRC:'dest',
-    DEST_CSS_SRC:'dest/css',
-    DEST_ASSET_SRC:'dest/assets',
-    DEST_JS_SRC:'dest/js'
+    SASS_SRC: 'scss',
+    WORK_SRC: 'public',
+    CSS_SRC: 'public/css',
+    ASSET_SRC: 'public/assets',
+    JS_SRC: 'public/js',
+    JS_SRC_WORK: 'public/js/dev/self',
+    DEST_SRC: 'dest',
+    DEST_CSS_SRC: 'dest/css',
+    DEST_ASSET_SRC: 'dest/assets',
+    DEST_JS_SRC: 'dest/js'
 };
 
-
-gulp.task('compass-dev', function() {
-    gulp.src(path.SASS_SRC+'/basic.scss').pipe(compass({
+gulp.task('compass-dev', function () {
+    gulp.src(path.SASS_SRC + '/basic.scss').pipe(compass({
         sass: path.SASS_SRC,
-        css:path.CSS_SRC
+        css: path.CSS_SRC
     })).pipe(gulp.dest(path.CSS_SRC));
 });
 
-gulp.task('compass-prod', function() {
-    gulp.src(path.SASS_SRC+'/basic.scss').pipe(compass({
+gulp.task('compass-prod', function () {
+    gulp.src(path.SASS_SRC + '/basic.scss').pipe(compass({
         sass: path.SASS_SRC,
-        css:path.CSS_SRC
+        css: path.CSS_SRC
     })).pipe(minifyCSS()).pipe(gulp.dest(path.DEST_CSS_SRC));
 });
 
-gulp.task('copy-once', function() {
+gulp.task('copy-once', function () {
     gulp.src('node_modules/bootstrap-sass/assets/fonts/bootstrap/*').pipe(gulp.dest('public/assets/fonts/bootstrap/'));
-    gulp.src('node_modules/holderjs/holder.min.js').pipe(gulp.dest(path.JS_SRC+'/dev'));
+    gulp.src('node_modules/holderjs/holder.min.js').pipe(gulp.dest(path.JS_SRC + '/dev'));
 });
-gulp.task('copy-main', function() {
-    gulp.src(path.WORK_SRC+'/**/*.html').pipe(gulp.dest(path.DEST_SRC));
-    gulp.src(path.ASSET_SRC+'/**').pipe(gulp.dest(path.DEST_ASSET_SRC));
-    gulp.src(path.JS_SRC+'/dev/holder.min.js').pipe(gulp.dest(path.DEST_JS_SRC+'/dev/'));
-});
-
-gulp.task('browserify-basic', function() {
-     gulp.src(path.JS_SRC+'/dev/self/basic.js').pipe(browserify({
-        transform: ['reactify',envify({
-            NODE_ENV: 'development'
-        })],
-        extensions: ['.jsx','.js']
-    })).pipe(babel({
-         presets: ['es2015']
-     })).pipe(gulp.dest(path.JS_SRC));
+gulp.task('copy-main', function () {
+    gulp.src(path.WORK_SRC + '/**/*.html').pipe(gulp.dest(path.DEST_SRC));
+    gulp.src(path.ASSET_SRC + '/**').pipe(gulp.dest(path.DEST_ASSET_SRC));
+    gulp.src(path.JS_SRC + '/dev/holder.min.js').pipe(gulp.dest(path.DEST_JS_SRC + '/dev/'));
 });
 
-gulp.task('browserify-prod', function() {
-    gulp.src(path.JS_SRC+'/dev/self/basic.js').pipe(browserify({
-        transform: ['reactify',envify({
-            NODE_ENV: 'production'
-        })],
-        extensions: ['.jsx','.js']
-    })).pipe(babel({
-        presets: ['es2015']
-    }))
-        .pipe(streamify(uglify())) // where the uglify cause something wrong
-        .pipe(gulp.dest(path.DEST_JS_SRC));
+gulp.task('browserify-vendor', function () {
+    var b = browserify('basic.js', {basedir: path.JS_SRC_WORK});
+    basicVendors.forEach(function (vendor) {
+        if (vendor.expose) {
+            b = b.require(vendor.name, {expose: vendor.expose});
+        } else {
+            b = b.require(vendor.name)
+        }
+    });
+    var stream = b.transform('babelify', {presets: ["es2015", "react"]}).bundle().pipe(source('basic.js'));
+    if(process.env.NODE_ENV=='development'){
+        stream.pipe(gulp.dest(path.JS_SRC));
+    }else{
+        stream.pipe(streamify(uglify())).pipe(gulp.dest(path.DEST_JS_SRC));
+    }
+
 });
 
-gulp.task('watch', function() {
-    gulp.watch(path.SASS_SRC+'/**/*.scss', ['compass-dev']);
-    gulp.watch(path.JS_SRC+'/dev/self/**/*.js', ['browserify-basic']);
-    gulp.watch(path.JS_SRC+'/dev/self/**/*.jsx', ['browserify-basic']);
+gulp.task('browserify-app', function () {
+    gulp.src([path.JS_SRC + '/dev/self/module/**/*.jsx']).pipe(cache('linting')).pipe(foreach(function (stream, file) {
+        console.log(file.path);
+        var b = browserify(file.path);
+        var fileName = file.path.replace(/^.*[\\\/]/, '');
+        var subPath =  file.path.split(/[\\\/]module[\\\/]/);
+        subPath = subPath[1].replace(fileName,'').replace(/[\\]/,'\/');
+        fileName = fileName.substr(0, fileName.lastIndexOf('.'));
+        basicVendors.forEach(function (vendor) {
+            if (vendor.expose) {
+                b = b.external(vendor.expose);
+            } else {
+                b = b.external(vendor.name)
+            }
+        });
+        var stream = b.transform('babelify', {presets: ["es2015", "react"]}).bundle().pipe(source(fileName+'.js'));
+        if(process.env.NODE_ENV =='development'){
+            return stream.pipe(gulp.dest(path.JS_SRC + "/module/"+subPath));
+        }else{
+            return stream.pipe(streamify(uglify())).pipe(gulp.dest(path.DEST_JS_SRC + "/module/"+subPath));
+        }
+    }));
+});
+
+
+gulp.task('watch', function () {
+    process.env.NODE_ENV = 'production';
+    gulp.watch(path.SASS_SRC + '/**/*.scss', ['compass-dev']);
+    gulp.watch(path.JS_SRC + '/dev/self/**/*.jsx', ['browserify-app']);
 });
 
 gulp.task('init', ['copy-once']);
-gulp.task('build', ['browserify-prod','compass-prod','copy-main']);
+//need a param to show if is needed to be node env
+gulp.task('pre-dev',function(){
+    return process.env.NODE_ENV = 'development';
+});
+gulp.task('dev', ['pre-dev','browserify-vendor','browserify-app', 'compass-dev']);
+
+gulp.task('pre-build',function(){
+        return process.env.NODE_ENV = 'production';
+});
+gulp.task('build', ['pre-build','browserify-vendor','browserify-app', 'compass-prod', 'copy-main']);
