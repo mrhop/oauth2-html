@@ -3,5 +3,5 @@
  */
 module.exports = {
     locale:'zh-CN',
-    libVendors: [{name:'react'}, {name:'react-dom'},{name:'./util/utilFun',expose:'utilFun'}],
+    libVendors: [{name:'react'}, {name:'react-dom'},{name:'react-intl'},{name:'react-intl/locale-data/en'},{name:'react-intl/locale-data/zh'},{name:'./util/utilFun',expose:'utilFun'}]
 }

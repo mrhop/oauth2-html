@@ -1,5 +1,8 @@
-export default {
-  "appName": "Hope",
-  "adminPlatform":"Admin",
-  "signIn":"Sign in to {appName} {adminPlatform}"
+export default{
+    app: {
+        name: 'Hope',
+        adminPlatform: "Admin"
+    }, auth: {
+        signIn: 'Sign in to {appName} {adminPlatform}'
+    }
 }

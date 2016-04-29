@@ -1,5 +1,8 @@
-export default  {
-  "appName": "霍普",
-  "adminPlatform":"管理平台",
-  "signIn":"登录至 {appName} {adminPlatform}"
+export default{
+    authSignIn: '登录至 {appName} {adminPlatform}',
+    'auth.signIn':'登录至 {appName} {adminPlatform}',
+    app: {
+        appName: '霍普',
+        adminPlatform: "管理平台"
+    }
 }

@@ -1,30 +1,41 @@
 import data from '../data/auth'
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {IntlProvider,FormattedMessage, FormattedNumber, FormattedPlural,FormattedDate,FormattedRelative} from 'react-intl';
+import {addLocaleData} from 'react-intl';
+import en from 'react-intl/locale-data/en';
+import zh from 'react-intl/locale-data/zh';
 import utilFun from 'utilFun';
 
-class AuthMain extends React.Component{
+addLocaleData([...en, ...zh]);
+
+
+class AuthMain extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            name       : 'Eric',
-            unreadCount: 1000
-        };
     }
 
     render() {
-        let {name, unreadCount} = this.state;
         return (
             <p>
-                Hello <b>{name}</b>, you have
+                <FormattedMessage
+                    id='auth.signIn'
+                    values={{
+                        appName: 'Eric',
+                        adminPlatform:'test'
+                    }}/>
             </p>
         );
     }
 }
 
-utilFun.domReady(function(){
+utilFun.domReady(function () {
+    var locale = utilFun.getLocale();
+   // console.log(utilFun.getIntl().auth.signIn);
     ReactDOM.render(
-        <AuthMain />,
+        <IntlProvider locale={locale} messages={utilFun.getIntl()}>
+            <AuthMain />
+        </IntlProvider>,
         document.getElementById('containerTest')
     );
 })

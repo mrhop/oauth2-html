@@ -91,7 +91,7 @@ gulp.task('browserify-app', function () {
 
 
 gulp.task('watch', function () {
-    process.env.NODE_ENV = 'production';
+    process.env.NODE_ENV = 'development';
     gulp.watch(path.SASS_SRC + '/**/*.scss', ['compass-dev']);
     gulp.watch(path.JS_SRC + '/dev/self/**/*.jsx', ['browserify-app']);
 });

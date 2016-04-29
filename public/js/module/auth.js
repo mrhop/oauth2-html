@@ -30,6 +30,16 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _reactIntl = require('react-intl');
+
+var _en = require('react-intl/locale-data/en');
+
+var _en2 = _interopRequireDefault(_en);
+
+var _zh = require('react-intl/locale-data/zh');
+
+var _zh2 = _interopRequireDefault(_zh);
+
 var _utilFun = require('utilFun');
 
 var _utilFun2 = _interopRequireDefault(_utilFun);
@@ -42,38 +52,31 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+(0, _reactIntl.addLocaleData)([].concat(_toConsumableArray(_en2.default), _toConsumableArray(_zh2.default)));
+
 var AuthMain = function (_React$Component) {
     _inherits(AuthMain, _React$Component);
 
     function AuthMain(props) {
         _classCallCheck(this, AuthMain);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AuthMain).call(this, props));
-
-        _this.state = {
-            name: 'Eric',
-            unreadCount: 1000
-        };
-        return _this;
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(AuthMain).call(this, props));
     }
 
     _createClass(AuthMain, [{
         key: 'render',
         value: function render() {
-            var _state = this.state;
-            var name = _state.name;
-            var unreadCount = _state.unreadCount;
-
             return _react2.default.createElement(
                 'p',
                 null,
-                'Hello ',
-                _react2.default.createElement(
-                    'b',
-                    null,
-                    name
-                ),
-                ', you have'
+                _react2.default.createElement(_reactIntl.FormattedMessage, {
+                    id: 'auth.signIn',
+                    values: {
+                        appName: 'Eric',
+                        adminPlatform: 'test'
+                    } })
             );
         }
     }]);
@@ -82,7 +85,13 @@ var AuthMain = function (_React$Component) {
 }(_react2.default.Component);
 
 _utilFun2.default.domReady(function () {
-    _reactDom2.default.render(_react2.default.createElement(AuthMain, null), document.getElementById('containerTest'));
+    var locale = _utilFun2.default.getLocale();
+    // console.log(utilFun.getIntl().auth.signIn);
+    _reactDom2.default.render(_react2.default.createElement(
+        _reactIntl.IntlProvider,
+        { locale: locale, messages: _utilFun2.default.getIntl() },
+        _react2.default.createElement(AuthMain, null)
+    ), document.getElementById('containerTest'));
 });
 
-},{"../data/auth":1,"react":"react","react-dom":"react-dom","utilFun":"utilFun"}]},{},[2]);
+},{"../data/auth":1,"react":"react","react-dom":"react-dom","react-intl":"react-intl","react-intl/locale-data/en":"react-intl/locale-data/en","react-intl/locale-data/zh":"react-intl/locale-data/zh","utilFun":"utilFun"}]},{},[2]);
