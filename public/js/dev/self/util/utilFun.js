@@ -15,12 +15,22 @@ export default  {
             document.addEventListener("DOMContentLoaded", callback);
         }
     },
-    getIntl: function () {
-        return intl[this.getLocale()];
-    },
     getLocale: function () {
         var locale = navigator.language.split('-');
         locale = locale[1] ? '${locale[0]}-${locale[1].toUpperCase()}' : navigator.language;
         return intl[locale] ? locale : initial.locale;
+    },
+    getIntl: function (...pageKeys) {
+        var obj = {};
+        var locale = this.getLocale();
+        pageKeys.forEach(function(key){
+            for(var subKey of Object.keys(intl[locale][key])){
+                obj[subKey] = intl[locale][key][subKey];
+            }
+        })
+        return obj;
+    },
+    getGlobalProps:function(){
+        return intl[this.getLocale()]['app'];
     }
 }

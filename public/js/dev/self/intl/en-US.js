@@ -1,8 +1,8 @@
 export default{
     app: {
-        name: 'Hope',
-        adminPlatform: "Admin"
+        'app.name': 'Hope',
+        'app.adminPlatform': "Admin"
     }, auth: {
-        signIn: 'Sign in to {appName} {adminPlatform}'
+        'auth.signIn': 'Sign in to {appName} {adminPlatform}'
     }
 }

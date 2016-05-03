@@ -44,6 +44,10 @@ var _utilFun = require('utilFun');
 
 var _utilFun2 = _interopRequireDefault(_utilFun);
 
+var _baseComponent = require('baseComponent');
+
+var _baseComponent2 = _interopRequireDefault(_baseComponent);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -56,8 +60,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 (0, _reactIntl.addLocaleData)([].concat(_toConsumableArray(_en2.default), _toConsumableArray(_zh2.default)));
 
-var AuthMain = function (_React$Component) {
-    _inherits(AuthMain, _React$Component);
+var AuthMain = function (_BaseComponent) {
+    _inherits(AuthMain, _BaseComponent);
 
     function AuthMain(props) {
         _classCallCheck(this, AuthMain);
@@ -74,24 +78,24 @@ var AuthMain = function (_React$Component) {
                 _react2.default.createElement(_reactIntl.FormattedMessage, {
                     id: 'auth.signIn',
                     values: {
-                        appName: 'Eric',
-                        adminPlatform: 'test'
+                        appName: this.props.appPros['app.name'],
+                        adminPlatform: this.props.appPros['app.adminPlatform']
                     } })
             );
         }
     }]);
 
     return AuthMain;
-}(_react2.default.Component);
+}(_baseComponent2.default);
 
 _utilFun2.default.domReady(function () {
     var locale = _utilFun2.default.getLocale();
     // console.log(utilFun.getIntl().auth.signIn);
     _reactDom2.default.render(_react2.default.createElement(
         _reactIntl.IntlProvider,
-        { locale: locale, messages: _utilFun2.default.getIntl() },
+        { locale: locale, messages: _utilFun2.default.getIntl('auth') },
         _react2.default.createElement(AuthMain, null)
     ), document.getElementById('containerTest'));
 });
 
-},{"../data/auth":1,"react":"react","react-dom":"react-dom","react-intl":"react-intl","react-intl/locale-data/en":"react-intl/locale-data/en","react-intl/locale-data/zh":"react-intl/locale-data/zh","utilFun":"utilFun"}]},{},[2]);
+},{"../data/auth":1,"baseComponent":"baseComponent","react":"react","react-dom":"react-dom","react-intl":"react-intl","react-intl/locale-data/en":"react-intl/locale-data/en","react-intl/locale-data/zh":"react-intl/locale-data/zh","utilFun":"utilFun"}]},{},[2]);

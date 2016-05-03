@@ -6,11 +6,12 @@ import {addLocaleData} from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import zh from 'react-intl/locale-data/zh';
 import utilFun from 'utilFun';
+import BaseComponent from 'baseComponent';
 
 addLocaleData([...en, ...zh]);
 
 
-class AuthMain extends React.Component {
+class AuthMain extends BaseComponent{
     constructor(props) {
         super(props);
     }
@@ -21,8 +22,8 @@ class AuthMain extends React.Component {
                 <FormattedMessage
                     id='auth.signIn'
                     values={{
-                        appName: 'Eric',
-                        adminPlatform:'test'
+                        appName: this.props.appPros['app.name'],
+                        adminPlatform:this.props.appPros['app.adminPlatform']
                     }}/>
             </p>
         );
@@ -33,7 +34,7 @@ utilFun.domReady(function () {
     var locale = utilFun.getLocale();
    // console.log(utilFun.getIntl().auth.signIn);
     ReactDOM.render(
-        <IntlProvider locale={locale} messages={utilFun.getIntl()}>
+        <IntlProvider locale={locale} messages={utilFun.getIntl('auth')}>
             <AuthMain />
         </IntlProvider>,
         document.getElementById('containerTest')

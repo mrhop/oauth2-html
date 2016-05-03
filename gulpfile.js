@@ -1,14 +1,15 @@
 const gulp = require('gulp');
+const clean = require('gulp-clean');
 const compass = require('gulp-compass');
 const minifyCSS = require('gulp-minify-css');
 const uglify = require('gulp-uglify');
 const browserify = require('browserify');
-var source = require('vinyl-source-stream');
+const source = require('vinyl-source-stream');
 const streamify = require('gulp-streamify');
 const babelify = require('babelify');
-var cache = require('gulp-cached');
-var foreach = require('gulp-foreach');
-var initialParam = require('./public/js/dev/self/env/initial');
+const cache = require('gulp-cached');
+const foreach = require('gulp-foreach');
+const initialParam = require('./public/js/dev/self/env/initial');
 const basicVendors = initialParam.libVendors;
 const path = {
     SASS_SRC: 'scss',
@@ -51,9 +52,9 @@ gulp.task('browserify-vendor', function () {
     var b = browserify('basic.js', {basedir: path.JS_SRC_WORK});
     basicVendors.forEach(function (vendor) {
         if (vendor.expose) {
-            b = b.require(vendor.name, {expose: vendor.expose});
+            b.require(vendor.name, {expose: vendor.expose});
         } else {
-            b = b.require(vendor.name)
+            b.require(vendor.name)
         }
     });
     var stream = b.transform('babelify', {presets: ["es2015", "react"]}).bundle().pipe(source('basic.js'));
@@ -66,11 +67,11 @@ gulp.task('browserify-vendor', function () {
 });
 
 gulp.task('browserify-app', function () {
-    gulp.src([path.JS_SRC + '/dev/self/module/**/*.jsx']).pipe(cache('linting')).pipe(foreach(function (stream, file) {
+    gulp.src([path.JS_SRC + '/dev/self/react/module/**/*.jsx']).pipe(cache('linting')).pipe(foreach(function (stream, file) {
         console.log(file.path);
         var b = browserify(file.path);
         var fileName = file.path.replace(/^.*[\\\/]/, '');
-        var subPath =  file.path.split(/[\\\/]module[\\\/]/);
+        var subPath =  file.path.split(/[\\\/]react[\\\/]module[\\\/]/);
         subPath = subPath[1].replace(fileName,'').replace(/[\\]/,'\/');
         fileName = fileName.substr(0, fileName.lastIndexOf('.'));
         basicVendors.forEach(function (vendor) {
@@ -82,9 +83,9 @@ gulp.task('browserify-app', function () {
         });
         var stream = b.transform('babelify', {presets: ["es2015", "react"]}).bundle().pipe(source(fileName+'.js'));
         if(process.env.NODE_ENV =='development'){
-            return stream.pipe(gulp.dest(path.JS_SRC + "/module/"+subPath));
+            return stream.pipe(gulp.dest(path.JS_SRC + "/react/module/"+subPath));
         }else{
-            return stream.pipe(streamify(uglify())).pipe(gulp.dest(path.DEST_JS_SRC + "/module/"+subPath));
+            return stream.pipe(streamify(uglify())).pipe(gulp.dest(path.DEST_JS_SRC + "/react/module/"+subPath));
         }
     }));
 });
@@ -93,18 +94,20 @@ gulp.task('browserify-app', function () {
 gulp.task('watch', function () {
     process.env.NODE_ENV = 'development';
     gulp.watch(path.SASS_SRC + '/**/*.scss', ['compass-dev']);
-    gulp.watch(path.JS_SRC + '/dev/self/**/*.jsx', ['browserify-app']);
+    gulp.watch(path.JS_SRC + '/dev/self/react/module/**/*.jsx', ['browserify-app']);
 });
 
 gulp.task('init', ['copy-once']);
 //need a param to show if is needed to be node env
 gulp.task('pre-dev',function(){
-    return process.env.NODE_ENV = 'development';
+    process.env.NODE_ENV = 'development';
 });
 gulp.task('dev', ['pre-dev','browserify-vendor','browserify-app', 'compass-dev']);
 
 gulp.task('pre-build',function(){
-        return process.env.NODE_ENV = 'production';
+        process.env.NODE_ENV = 'production';
+        return gulp.src(path.DEST_SRC, {read: false})
+        .pipe(clean());
 });
 gulp.task('build', ['pre-build','browserify-vendor','browserify-app', 'compass-prod', 'copy-main']);
 //next do intl and multi-module

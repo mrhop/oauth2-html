@@ -1,3 +1,5 @@
 https://github.com/akveo/blur-admin
 
-//next do intl and multi-module
+//next do multi-module
+//multi module,包含 include 重用的部分 header，left
+//content 部分作为
