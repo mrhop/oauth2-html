@@ -1,7 +1,25 @@
-
+@import "googleFonts.scss";
+@import "icon.scss";
+@import "../../bower_components/compass-mixins/lib/compass/support";
+@import "../../bower_components/compass-mixins/lib/compass/css3";
+@import "../../bower_components/compass-mixins/lib/compass/css3";
+@import "../../bower_components/compass-mixins/lib/animation/core";
+$brand-primary: darken(#0ca1fa, 5%) !default;
+// #337ab7
+$input-color: #fff !default;
+$input-color-placeholder: #fff !default;
+$input-bg: rgba(0, 0, 0, .4) !default;
+$border-radius-base: 5px !default;
+$link-hover-color: darken($brand-primary, 6.5%) !default;
+$font-family-base: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$icon-font-path: "../assets/fonts/bootstrap/" !default;
+$link-hover-decoration: none !default;
+$screen-min-width: 320px;
 
 body, html {
   min-height: 100%;
+  min-width: $screen-min-width;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -17,6 +35,29 @@ body:before {
   height: 100%;
   left: 0;
   top: 0;
+  background: url(../assets/images/bg.jpg) center center no-repeat;
   background-size: cover;
   z-index: -1;
 }
+
+a, .a {
+  cursor: pointer;
+  @include transition(all .2s ease);
+}
+
+@include keyframes("pulsate"){
+  30% {
+    @include scale(.1,.1);
+    @include opacity(0);
+  }
+  35% {
+    @include scale(.1,.1);
+    @include opacity(1);
+  }
+  40% {
+    @include scale(1.2,1.2);
+    @include opacity(0);
+  }
+}
+
+

@@ -1,12 +1,11 @@
 require("./auth.scss");
-require("../../../../scss/basic1.scss");
 import data from './data/auth'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {IntlProvider,FormattedMessage, FormattedNumber, FormattedPlural,FormattedDate,FormattedRelative} from 'react-intl';
 import {addLocaleData} from 'react-intl';
-import en from 'react-intl/locale-data/en';
-import zh from 'react-intl/locale-data/zh';
+import en from '../../../../node_modules/react-intl/locale-data/en';
+import zh from '../../../../node_modules/react-intl/locale-data/zh';
 import utilFun from '../../util/utilFun';
 import BaseComponent from '../common/baseComponent.jsx';
 

@@ -1,8 +1,12 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var fs = require('fs');
-const vendorJs = ['react', 'react-dom', 'react-intl', 'react-intl/locale-data/en', 'react-intl/locale-data/zh', './workspace/js/dev/util/utilFun', './workspace/js/dev/modules/common/baseComponent.jsx', './workspace/scss/basic1.scss']
-var moduleJs = new Object({'vendor': vendorJs});
+var path = require('path');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+
+
+const vendorJs = ['react', 'react-dom', 'react-intl', 'react-intl/locale-data/en', 'react-intl/locale-data/zh', './js/util/utilFun', './js/modules/common/baseComponent.jsx', './scss/basic.scss']
+var moduleAll = new Object({'vendor': vendorJs});
 
 var walk = function (dir) {
     var results = []
@@ -17,45 +21,54 @@ var walk = function (dir) {
 }
 
 var regexp = /[/s/S]*(\/|\\)(common|include|data)(\/|\\)[/s/S]*/
-walk(__dirname + '/workspace/js/dev/modules').forEach(function (file) {
+walk(__dirname + '/workspace/js/modules').forEach(function (file) {
     if (!file.match(regexp) && (file.endsWith(".js") || file.endsWith(".jsx"))) {
         var arr = file.split(/(\/|\\)(modules)(\/|\\)/);
         file = arr[arr.length - 1];
         var moduleName = 'modules/' + file.replace(file.replace(/^.*[\\\/]/, ''), '');
         moduleName = moduleName.substring(0, moduleName.length - 1);
-        moduleJs[moduleName] = ( './workspace/js/dev/modules/' + file).replace(/[\\]/, '/');
+        moduleAll[moduleName] = ( './js/modules/' + file).replace(/[\\]/, '/');
+        console.log(moduleAll[moduleName]);
     }
 })
 
 module.exports = {
-    entry: moduleJs,
+    context: path.join(__dirname, 'workspace'),
+    entry: moduleAll,
     output: {
-        path: __dirname + '/build/js',
-        filename: "[name].js"
+        path: __dirname + '/build',
+        filename: "js/[name].js",
+        publicPath: "/"
+    },
+    devServer: {
+        contentBase:path.join(__dirname, 'build'),
+        outputPath:path.join(__dirname, 'build'),
+        hot: true
     },
     module: {
         loaders: [
             {
-                test: /(?!basic)\.scss$/,
+                test: /(?!basic|index)\.scss$/,
                 loaders: ["style", "css", "sass"]
             }, {
-                test: /basic1\.scss$/,
-                loader: ExtractTextPlugin.extract('css!sass')
+                test: /basic\.scss$/,
+                loader: ExtractTextPlugin.extract('css!sass',{publicPath: "../"})
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 exclude: /(node_modules|bower_components)/,
                 //loader: 'file'
-                loaders:[ 'file?name=../assets/images/[name].[ext]',
+                loaders: ['url-loader?limit=8192&name=[path][name]-[hash].[ext]&context=' + path.resolve(__dirname, "workspace"),
                     'image-webpack?{progressive:true, optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}}'
                 ]
-                //loader: 'url?name=assets/images/[name].[ext]'
             },
-            //{
-            //    test: /\.(jpe?g|png|gif|svg)$/i,
-            //    //loader: 'url?limit=8192'
-            //    loader: 'url'
-            //},
+            {
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'url-loader?limit=10000&minetype=application/font-woff&name=[path][name]-[hash].[ext]&context=' + path.resolve(__dirname, "workspace")
+            }, {
+                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'file-loader?name=[path][name]-[hash].[ext]&context=' + path.resolve(__dirname, "workspace")
+            },
             {
                 test: /\.jsx?$/,
                 exclude: /(node_modules|bower_components)/,
@@ -68,8 +81,11 @@ module.exports = {
             name: "vendor",
             minChunks: Infinity
         }),
-        new ExtractTextPlugin('../css/[name].css', {
+        new ExtractTextPlugin('./css/[name].css', {
             allChunks: true
-        })
-    ]
+        }),
+        new CopyWebpackPlugin(
+            [{from: 'html/**/*'},
+                {from: '*.html'}]
+        )]
 };
