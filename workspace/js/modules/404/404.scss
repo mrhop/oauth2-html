@@ -1,14 +1,13 @@
 /**
  * Created by Donghui Huo on 2016/5/6.
  */
-@import "../../../../bower_components/compass-mixins/lib/compass/support";
-@import "../../../../bower_components/compass-mixins/lib/compass/css3";
-@import "../../../../bower_components/compass-mixins/lib/animation/core";
+@import "../../../../bower_components/compass-sass-mixins/lib/compass/support";
+@import "../../../../bower_components/compass-sass-mixins/lib/compass/css3";
 html#page-404 {
   height: 100%;
   body {
-    display: flex;
-    @include box-align(center);
+    @include display-flex(flex);
+    @include align-items(center);
     width: 100%;
     margin: auto;
     height: 100%;

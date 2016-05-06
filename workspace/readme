@@ -9,6 +9,4 @@ https://github.com/akveo/blur-admin
 //for file url and fonts
 //also need file copy and env change
 //next copy to workspace and divide, finally delete the public folder and no need npm dependency
-
-
-    "webpack": "^1.13.0"
+//button install as common basic css

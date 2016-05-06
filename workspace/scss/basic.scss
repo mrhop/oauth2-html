@@ -1,9 +1,8 @@
 @import "googleFonts.scss";
 @import "icon.scss";
-@import "../../bower_components/compass-mixins/lib/compass/support";
-@import "../../bower_components/compass-mixins/lib/compass/css3";
-@import "../../bower_components/compass-mixins/lib/compass/css3";
-@import "../../bower_components/compass-mixins/lib/animation/core";
+@import "../../bower_components/compass-sass-mixins/lib/compass/support";
+@import "../../bower_components/compass-sass-mixins/lib/compass/css3";
+@import "../../bower_components/compass-sass-mixins/lib/animation/core";
 $brand-primary: darken(#0ca1fa, 5%) !default;
 // #337ab7
 $input-color: #fff !default;

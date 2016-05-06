@@ -19,7 +19,7 @@ class ErrorPage404 extends BaseComponent {
 
     render() {
         return (
-            <div class="page-not-found-modal">
+            <div className="page-not-found-modal">
                 <h1><FormattedMessage id='404.error'/></h1>
 
                 <p><FormattedMessage id='404.sorrySentence'/><a href='/'><FormattedMessage id='404.backHome'/></a></p>
