@@ -1,5 +1,5 @@
-require("./auth.scss");
-import data from './data/auth'
+require("../auth/auth.scss");
+import data from './data/reg'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {IntlProvider,injectIntl} from 'react-intl';
@@ -7,7 +7,7 @@ import utilFun from '../../util/utilFun';
 import BaseComponent from '../common/baseComponent.jsx';
 import AuthOneClick from '../include/authOneClick.jsx';
 
-class AuthBlock extends BaseComponent {
+class RegBlock extends BaseComponent {
     constructor(props) {
         super(props);
     }
@@ -15,25 +15,25 @@ class AuthBlock extends BaseComponent {
     render() {
         return (
             <div className='auth-block'>
-                <h1>{this.props.intl.formatMessage({id: 'auth.signIn'}, {
+                <h1>{this.props.intl.formatMessage({id: 'auth.signUp'}, {
                     appName: this.props.appPros['app.name'],
                     adminPlatform: this.props.appPros['app.adminPlatform']
                 })}
                 </h1>
                 <a className='auth-link'>
-                    {this.props.intl.formatMessage({id: 'auth.newUser'}, {
+                    {this.props.intl.formatMessage({id: 'auth.haveAccount'}, {
                         appName: this.props.appPros['app.name'],
                         adminPlatform: this.props.appPros['app.adminPlatform']
                     })}
                 </a>
-                <AuthForm {...this.props}/>
+                <RegForm {...this.props}/>
                 <AuthOneClick {...this.props}/>
             </div>
 
         );
     }
 }
-class AuthForm extends React.Component {
+class RegForm extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -41,6 +41,15 @@ class AuthForm extends React.Component {
     render() {
         return (
             <form className="form-horizontal">
+                <div className="form-group">
+                    <label for="input-name"
+                           className="col-sm-2 control-label">{this.props.appPros['app.username']}</label>
+
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" id="input-name"
+                               placeholder={this.props.appPros['app.fullName']}/>
+                    </div>
+                </div>
                 <div className="form-group">
                     <label for="input-email"
                            className="col-sm-2 control-label">{this.props.appPros['app.email']}</label>
@@ -61,9 +70,7 @@ class AuthForm extends React.Component {
                 <div className="form-group">
                     <div className="col-sm-offset-2 col-sm-10">
                         <button type="submit"
-                                className="a btn btn-primary btn-auth">{this.props.intl.formatMessage({id: 'auth.login'})}</button>
-                        <a href=""
-                           className="forgot-pass">{this.props.intl.formatMessage({id: 'auth.forgotPassword'})}</a>
+                                className="a btn btn-primary btn-auth">{this.props.intl.formatMessage({id: 'auth.register'})}</button>
                     </div>
                 </div>
             </form>
@@ -73,10 +80,10 @@ class AuthForm extends React.Component {
 
 utilFun.domReady(function () {
     var locale = utilFun.getLocale();
-    let AuthBlockWrapper = new injectIntl(AuthBlock);
+    let RegBlockWrapper = new injectIntl(RegBlock);
     ReactDOM.render(
         <IntlProvider locale={locale} messages={utilFun.getIntl('auth')}>
-            <AuthBlockWrapper />
+            <RegBlockWrapper />
         </IntlProvider>,
         document.getElementsByClassName('auth-main')[0]
     );

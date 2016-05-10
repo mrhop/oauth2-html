@@ -10,3 +10,5 @@ https://github.com/akveo/blur-admin
 //also need file copy and env change
 //next copy to workspace and divide, finally delete the public folder and no need npm dependency
 //button install as common basic css
+
+//another way of intl
