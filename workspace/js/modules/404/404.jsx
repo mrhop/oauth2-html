@@ -19,7 +19,7 @@ class ErrorPage404 extends BaseComponent {
 
     render() {
         return (
-            <div className="page-not-found-modal">
+            <div>
                 <h1><FormattedMessage id='404.error'/></h1>
 
                 <p><FormattedMessage id='404.sorrySentence'/><a href='/'><FormattedMessage id='404.backHome'/></a></p>
@@ -34,7 +34,7 @@ utilFun.domReady(function () {
         <IntlProvider locale={locale} messages={utilFun.getIntl('404')}>
             <ErrorPage404 />
         </IntlProvider>,
-        document.getElementsByTagName('body')[0]
+        document.getElementsByClassName('page-not-found-modal')[0]
     );
 })
 
