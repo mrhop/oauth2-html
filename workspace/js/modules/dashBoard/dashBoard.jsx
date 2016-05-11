@@ -16,17 +16,23 @@ class DashBoardBlock extends BaseComponent {
     }
 
     render() {
-        return <div><DashboardTop {...this.props}/></div>;
+        let ele =  React.createElement(this.props.mainBlock, Object.assign({}, this.props));
+
+        return <div><DashboardTop {...this.props}/>{ele}</div>;
     }
 }
+BaseComponent.propTypes = { mainBlock: React.PropTypes.any};
 
-utilFun.domReady(function () {
-    var locale = utilFun.getLocale();
-    let DashBoardBlockWrapper = new injectIntl(DashBoardBlock);
-    ReactDOM.render(
-        <IntlProvider locale={locale} messages={utilFun.getIntl('dashBoard')}>
-            <DashBoardBlockWrapper />
-        </IntlProvider>,
-        document.getElementsByTagName('main')[0]
-    );
-})
+export function DashBoardBlockCreate(mainBlock,extendVariables){
+    utilFun.domReady(function () {
+        var locale = utilFun.getLocale();
+        let DashBoardBlockWrapper = new injectIntl(DashBoardBlock);
+        ReactDOM.render(
+            <IntlProvider locale={locale} messages={utilFun.getIntl('dashBoard',extendVariables)}>
+                <DashBoardBlockWrapper mainBlock={mainBlock}/>
+            </IntlProvider>,
+            document.getElementsByTagName('main')[0]
+        );
+    });
+}
+

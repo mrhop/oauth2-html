@@ -22,5 +22,7 @@ export default{
     },dashBoard:{
         'dashBoard.searchPlaceHolder':'Search for...',
         'dashBoard.haveQuestions':'Have questions?'
+    },indexMainBlock:{
+
     }
 }
