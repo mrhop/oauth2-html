@@ -1,19 +1,14 @@
 @import "googleFonts.scss";
 @import "icon.scss";
-@import "compass/css3";
-
-$brand-primary: darken(#0ca1fa, 5%) !default;
-// #337ab7
-$input-color: #fff !default;
-$input-color-placeholder: #fff !default;
-$input-bg: rgba(0, 0, 0, .4) !default;
-$border-radius-base: 5px !default;
-$link-hover-color: darken($brand-primary, 6.5%) !default;
-$font-family-base: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$icon-font-path: "../assets/fonts/bootstrap/" !default;
-$link-hover-decoration: none !default;
-$screen-min-width: 320px;
-@import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "import";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/print";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/type";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/grid";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/forms";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/buttons";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/dropdowns";
 
 body, html {
   min-height: 100%;

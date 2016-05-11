@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "template": "webpack-dev-server  --config webpack.template.config.js --progress --colors",
     "dev": "webpack-dev-server --progress --colors",
     "build": "webpack -p"
   },
