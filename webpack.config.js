@@ -5,7 +5,7 @@ var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
-const vendorJs = ['react', 'react-dom', 'react-intl', 'react-intl/locale-data/en', 'react-intl/locale-data/zh', './js/util/utilFun', './js/modules/common/baseComponent.jsx', './scss/basic.scss']
+const vendorJs = ['react', 'react-dom', 'react-intl', 'react-intl/locale-data/en', 'react-intl/locale-data/zh', './js/util/utilFun', './js/modules/common/baseComponent.jsx','./js/modules/include/dashBoard/dashBoard.jsx', './scss/basic.scss']
 var moduleAll = new Object({'vendor': vendorJs});
 
 var walk = function (dir) {

@@ -6,9 +6,9 @@ import data from './data/dashBoard'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {IntlProvider,injectIntl} from 'react-intl';
-import utilFun from '../../util/utilFun';
-import BaseComponent from '../common/baseComponent.jsx';
-import DashboardTop from '../include/dashBoardTop/dashBoardTop.jsx';
+import utilFun from '../../../util/utilFun';
+import BaseComponent from '../../common/baseComponent.jsx';
+import DashboardTop from './dashBoardTop/dashBoardTop.jsx';
 
 class DashBoardBlock extends BaseComponent {
     constructor(props) {
