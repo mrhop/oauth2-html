@@ -1,7 +1,7 @@
 /**
  * Created by Donghui Huo on 2016/5/6.
  */
-require("./404.scss");
+require('./404.scss');
 
 
 ReactIntl.addLocaleData([...ReactIntlEn, ...ReactIntlZh]);

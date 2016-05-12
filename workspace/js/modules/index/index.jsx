@@ -1,8 +1,8 @@
 /**
  * Created by Donghui Huo on 2016/5/11.
  */
-require("./index.scss");
-import data from './data/index'
+require('./index.scss');
+import data from './data/index';
 import {DashBoardBlockCreate} from '../include/dashBoard/dashBoard.jsx';
 
 class MainBlock extends React.Component{

@@ -1,8 +1,6 @@
 /**
  * Created by Donghui Huo on 2016/5/10.
  */
-import React from 'react';
-
 class AuthOneClickBlock extends React.Component{
     constructor(props) {
         super(props);

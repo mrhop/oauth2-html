@@ -8,4 +8,4 @@ https://github.com/akveo/blur-admin
 //also
 //keep on doing another html.finally state data
 
-template 里面的插件整合 jquery是否还使用的问题，其plugin的重写或者使用问题
+//各种插件尽可能的使用react的

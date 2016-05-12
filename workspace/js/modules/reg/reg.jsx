@@ -1,5 +1,5 @@
-require("../auth/auth.scss");
-import data from './data/reg'
+require('../auth/auth.scss');
+import data from './data/reg';
 import AuthOneClick from '../include/authOneClick.jsx';
 
 class RegBlock extends BaseComponent {
@@ -82,5 +82,5 @@ UtilFun.domReady(function () {
         </ReactIntl.IntlProvider>,
         document.getElementsByClassName('auth-main')[0]
     );
-})
+});
 

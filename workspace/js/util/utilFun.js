@@ -6,17 +6,17 @@ import intl from '../intl/intl';
 
 let utilFun = function(){
 
-}
+};
 utilFun.prototype  =   {
     name: 'utilFun',
     getName: function () {
         return this.name;
     },
     domReady: function (callback) {
-        if (document.readyState == "complete" || document.readyState == "loaded" || document.readyState == "interactive") {
+        if (document.readyState == 'complete' || document.readyState == 'loaded' || document.readyState == 'interactive') {
             callback();
         } else {
-            document.addEventListener("DOMContentLoaded", callback);
+            document.addEventListener('DOMContentLoaded', callback);
         }
     },
     getLocale: function () {
@@ -31,12 +31,12 @@ utilFun.prototype  =   {
             for(var subKey of Object.keys(intl[locale][key])){
                 obj[subKey] = intl[locale][key][subKey];
             }
-        })
+        });
         return obj;
     },
     getGlobalProps:function(){
         return intl[this.getLocale()]['app'];
     }
-}
+};
 
 module.exports = new utilFun();

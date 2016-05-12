@@ -1,8 +1,8 @@
 /**
  * Created by Donghui Huo on 2016/5/10.
  */
-require("./dashBoard.scss");
-import data from './data/dashBoard'
+require('./dashBoard.scss');
+import data from './data/dashBoard';
 import DashboardTop from './dashBoardTop/dashBoardTop.jsx';
 
 class DashBoardBlock extends BaseComponent {

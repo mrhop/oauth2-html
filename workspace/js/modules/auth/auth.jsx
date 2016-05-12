@@ -1,5 +1,5 @@
-require("./auth.scss");
-import data from './data/auth'
+require('./auth.scss');
+import data from './data/auth';
 //import React from 'react';
 //import ReactDOM from 'react-dom';
 import {IntlProvider,injectIntl} from 'react-intl';
