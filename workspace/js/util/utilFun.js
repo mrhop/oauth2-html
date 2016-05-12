@@ -4,7 +4,10 @@
 import initial from '../env/initial';
 import intl from '../intl/intl';
 
-export default  {
+let utilFun = function(){
+
+}
+utilFun.prototype  =   {
     name: 'utilFun',
     getName: function () {
         return this.name;
@@ -35,3 +38,5 @@ export default  {
         return intl[this.getLocale()]['app'];
     }
 }
+
+module.exports = new utilFun();

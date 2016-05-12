@@ -5,7 +5,7 @@ var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
-const vendorJs = ['react', 'react-dom', 'react-intl', 'react-intl/locale-data/en', 'react-intl/locale-data/zh', './js/util/utilFun', './js/modules/common/baseComponent.jsx','./js/modules/include/dashBoard/dashBoard.jsx', './scss/basic.scss']
+const vendorJs = [  './js/modules/include/dashBoard/dashBoard.jsx', './scss/basic.scss']
 var moduleAll = new Object({'vendor': vendorJs});
 
 var walk = function (dir) {
@@ -80,6 +80,15 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: "vendor",
             minChunks: Infinity
+        }),
+        new webpack.ProvidePlugin({
+            "React": 'react',
+            "ReactDOM": 'react-dom',
+            "ReactIntl":'react-intl',
+            "ReactIntlEn":__dirname+'/node_modules/react-intl/locale-data/en',
+            "ReactIntlZh":__dirname+'/node_modules/react-intl/locale-data/zh',
+            "UtilFun":__dirname+'/workspace/js/util/utilFun',
+            "BaseComponent":__dirname+'/workspace/js/modules/common/baseComponent.jsx'
         }),
         new ExtractTextPlugin('./css/[name].css', {
             allChunks: true

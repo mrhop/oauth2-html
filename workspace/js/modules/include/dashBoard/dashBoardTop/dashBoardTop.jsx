@@ -2,7 +2,6 @@
  * Created by Donghui Huo on 2016/5/10.
  */
 require("./dashBoardTop.scss");
-import React from 'react';
 import data from './data/dashBoardTop'
 
 class DashboardTop extends React.Component {

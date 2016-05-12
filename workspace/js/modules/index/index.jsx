@@ -3,7 +3,6 @@
  */
 require("./index.scss");
 import data from './data/index'
-import React from 'react';
 import {DashBoardBlockCreate} from '../include/dashBoard/dashBoard.jsx';
 
 class MainBlock extends React.Component{

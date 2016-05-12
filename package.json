@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "template": "webpack-dev-server  --config webpack.template.config.js --progress --colors",
+    "temp": "webpack-dev-server --config webpack.template.config.js --progress --colors",
+    "temp-build": "webpack --config webpack.template.config.js --progress --colors",
     "dev": "webpack-dev-server --progress --colors",
     "build": "webpack -p"
   },
@@ -23,6 +24,7 @@
     "holderjs": "^2.9.3",
     "image-webpack-loader": "^1.8.0",
     "jquery": "^2.1.4",
+    "jquery-slimscroll": "^1.3.6",
     "node-sass": "^3.7.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",

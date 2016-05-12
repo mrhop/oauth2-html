@@ -1,10 +1,8 @@
 require("./auth.scss");
 import data from './data/auth'
-import React from 'react';
-import ReactDOM from 'react-dom';
+//import React from 'react';
+//import ReactDOM from 'react-dom';
 import {IntlProvider,injectIntl} from 'react-intl';
-import utilFun from '../../util/utilFun';
-import BaseComponent from '../common/baseComponent.jsx';
 import AuthOneClick from '../include/authOneClick.jsx';
 
 class AuthBlock extends BaseComponent {
@@ -71,13 +69,13 @@ class AuthForm extends React.Component {
     }
 }
 
-utilFun.domReady(function () {
-    var locale = utilFun.getLocale();
-    let AuthBlockWrapper = new injectIntl(AuthBlock);
+UtilFun.domReady(function () {
+    var locale = UtilFun.getLocale();
+    let AuthBlockWrapper = new ReactIntl.injectIntl(AuthBlock);
     ReactDOM.render(
-        <IntlProvider locale={locale} messages={utilFun.getIntl('auth')}>
+        <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('auth')}>
             <AuthBlockWrapper />
-        </IntlProvider>,
+        </ReactIntl.IntlProvider>,
         document.getElementsByClassName('auth-main')[0]
     );
 })

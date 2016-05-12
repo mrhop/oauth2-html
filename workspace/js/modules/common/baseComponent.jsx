@@ -1,9 +1,3 @@
-import React from 'react';
-import utilFun from '../../util/utilFun';
-import {intlShape, injectIntl} from 'react-intl';
-
-
-
 class BaseComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -13,6 +7,6 @@ class BaseComponent extends React.Component {
 
 //add app properties
 BaseComponent.propTypes = { appPros: React.PropTypes.object};
-BaseComponent.defaultProps = { appPros: utilFun.getGlobalProps() };
+BaseComponent.defaultProps = { appPros: UtilFun.getGlobalProps() };
 
-export default BaseComponent;
+module.exports = BaseComponent;
