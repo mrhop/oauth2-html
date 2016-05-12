@@ -1,6 +1,5 @@
 require('./auth.scss');
 import data from './data/auth';
-//import React from 'react';
 //import ReactDOM from 'react-dom';
 import {IntlProvider,injectIntl} from 'react-intl';
 import AuthOneClick from '../include/authOneClick.jsx';
@@ -78,5 +77,5 @@ UtilFun.domReady(function () {
         </ReactIntl.IntlProvider>,
         document.getElementsByClassName('auth-main')[0]
     );
-})
+});
 

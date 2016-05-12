@@ -29,5 +29,5 @@ UtilFun.domReady(function () {
         </ReactIntl.IntlProvider>,
         document.getElementsByClassName('page-not-found-modal')[0]
     );
-})
+});
 
