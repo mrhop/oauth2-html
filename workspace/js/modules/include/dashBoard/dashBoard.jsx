@@ -4,6 +4,7 @@
 require('./dashBoard.scss');
 import data from './data/dashBoard';
 import DashboardTop from './dashBoardTop/dashBoardTop.jsx';
+import DashboardLeft from './dashBoardLeftNav/dashBoardLeftNav.jsx';
 
 class DashBoardBlock extends BaseComponent {
     constructor(props) {
@@ -13,10 +14,15 @@ class DashBoardBlock extends BaseComponent {
     render() {
         let ele =  React.createElement(this.props.mainBlock, Object.assign({}, this.props));
 
-        return <div><DashboardTop {...this.props}/>{ele}</div>;
+        return
+        <div>
+            <DashboardLeft {...this.props}/>
+            <DashboardTop {...this.props}/>
+            {ele}
+        </div>;
     }
 }
-BaseComponent.propTypes = { mainBlock: React.PropTypes.any};
+DashBoardBlock.propTypes = { mainBlock: React.PropTypes.any};
 
 export function DashBoardBlockCreate(mainBlock,extendVariables){
     UtilFun.domReady(function () {
