@@ -1,6 +1,7 @@
 @import "../../bower_components/compass-sass-mixins/lib/compass/support";
 @import "../../bower_components/compass-sass-mixins/lib/compass/css3";
 @import "../../bower_components/compass-sass-mixins/lib/animation/core";
+
 $brand-primary: darken(#0ca1fa, 5%) !default;
 // #337ab7
 $input-color: #fff !default;
@@ -12,6 +13,9 @@ $font-family-base: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif !
 $icon-font-path: "../assets/fonts/bootstrap/" !default;
 $link-hover-decoration: none !default;
 $screen-min-width: 320px;
+
+$scroll-bar-width: 4px;
+$scroll-bar-height: $scroll-bar-width;
 
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";

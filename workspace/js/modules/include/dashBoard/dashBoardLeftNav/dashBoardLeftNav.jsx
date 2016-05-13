@@ -10,19 +10,51 @@ class DashboardTop extends React.Component {
     constructor(props) {
         super(props);
     }
-
     render() {
         return (
             <sidebar>
                 <aside className="al-sidebar">
-                    <Scrollbars style="{{heigh:100%}}">
-                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    </Scrollbars>
+                    <CustomScrollbar style={{'heigh':'100%'}}>
+                        <ul className="al-sidebar-list">
+                            <li className="al-sidebar-list-item selected">
+                                <a className="al-sidebar-list-link" href="#">
+                                    <i className="home"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+                            <li className="al-sidebar-list-item">
+                                <a className="al-sidebar-list-link" href="#">
+                                    <i className="cog"></i>
+                                    <span>Setting</span>
+                                    <b className="down"></b>
+                                </a>
+                                <ul className="al-sidebar-sublist">
+                                    <li className="al-sidebar-sublist-item selected">
+                                        <a className="al-sidebar-list-link">Personal information</a>
+                                    </li>
+                                    <li  className="al-sidebar-sublist-item">
+                                        <a className="al-sidebar-list-link">Other settings</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </CustomScrollbar>
                 </aside>
             </sidebar>
         );
     }
 }
-
+class DashboardTopLi extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return ( <li className="al-sidebar-list-item selected">
+            <a className="al-sidebar-list-link" href="#">
+                <i className="home"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>);
+    }
+}
 export default DashboardTop;

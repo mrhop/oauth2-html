@@ -75,7 +75,7 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 exclude: /(node_modules|bower_components)/,
-                loaders: ['react-hot', 'babel?presets[]=es2015,presets[]=react']
+                loaders: ['react-hot', 'babel?presets[]=es2015,presets[]=react,presets[]=stage-2']
             }
         ]
     },
@@ -91,7 +91,8 @@ module.exports = {
             'ReactIntlEn': __dirname + '/node_modules/react-intl/locale-data/en',
             'ReactIntlZh': __dirname + '/node_modules/react-intl/locale-data/zh',
             'UtilFun': __dirname + '/workspace/js/util/utilFun',
-            'BaseComponent': __dirname + '/workspace/js/modules/common/baseComponent.jsx'
+            'BaseComponent': __dirname + '/workspace/js/modules/common/baseComponent.jsx',
+            'CustomScrollbar': __dirname + '/workspace/js/modules/common/customScrollbar/customScrollbar.jsx'
         }),
         new ExtractTextPlugin('./css/[name].css', {
             allChunks: true
