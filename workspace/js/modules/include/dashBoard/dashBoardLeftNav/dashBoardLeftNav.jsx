@@ -12,6 +12,14 @@ class DashboardLeft extends React.Component {
     }
 
     render() {
+        var testData = {
+            items: {
+                url: '#',
+                selected: true,
+                iconClass:'home',
+                name:'Dashboard'
+            }
+        }
         return (
             <sidebar>
                 <aside className="al-sidebar">
@@ -51,16 +59,22 @@ class DashboardLeftList extends React.Component {
     }
 
     render() {
-        var items = this.props.items.map(function (item) {
+        var items = this.props.data.map(function (item) {
+            var subItems = null;
+            if (item.subItems) {
+                subItems = <DashboardLeftSubList data={item.subItems}/>;
+            }
             return (
                 <li className={"al-sidebar-list-item  ${item.selected?'selected':null}"}>
                     <a className={"al-sidebar-list-link"} href={item.url}>
                         <i className={item.iconClass}></i>
                         <span>{item.name}</span>
                     </a>
+                    {subItems}
                 </li>
             );
         });
+
         return (
             <ul className="al-sidebar-list">
                 {items}
@@ -74,7 +88,7 @@ class DashboardLeftSubList extends React.Component {
     }
 
     render() {
-        var subItems = this.props.subItems.map(function (subItem) {
+        var subItems = this.props.data.map(function (subItem) {
             return (
                 <li className={"al-sidebar-sublist-item ${subItem.selected?'selected':null}"}>
                     <a className="al-sidebar-list-link" href={subItem.url}>{subItem.name}</a>
