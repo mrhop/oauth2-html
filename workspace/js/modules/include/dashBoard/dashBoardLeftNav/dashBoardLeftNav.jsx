@@ -3,13 +3,14 @@
  */
 require('./dashBoardLeftNav.scss');
 import data from './data/dashBoardLeftNav';
-import { Scrollbars } from 'react-custom-scrollbars';
+import {Scrollbars} from 'react-custom-scrollbars';
 
 
-class DashboardTop extends React.Component {
+class DashboardLeft extends React.Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         return (
             <sidebar>
@@ -32,7 +33,7 @@ class DashboardTop extends React.Component {
                                     <li className="al-sidebar-sublist-item selected">
                                         <a className="al-sidebar-list-link">Personal information</a>
                                     </li>
-                                    <li  className="al-sidebar-sublist-item">
+                                    <li className="al-sidebar-sublist-item">
                                         <a className="al-sidebar-list-link">Other settings</a>
                                     </li>
                                 </ul>
@@ -44,17 +45,43 @@ class DashboardTop extends React.Component {
         );
     }
 }
-class DashboardTopLi extends React.Component {
+class DashboardLeftList extends React.Component {
     constructor(props) {
         super(props);
     }
+
     render() {
-        return ( <li className="al-sidebar-list-item selected">
-            <a className="al-sidebar-list-link" href="#">
-                <i className="home"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>);
+        var items = this.props.items.map(function (item) {
+            return (
+                <li className={"al-sidebar-list-item  ${item.selected?'selected':null}"}>
+                    <a className={"al-sidebar-list-link"} href={item.url}>
+                        <i className={item.iconClass}></i>
+                        <span>{item.name}</span>
+                    </a>
+                </li>
+            );
+        });
+        return (
+            <ul className="al-sidebar-list">
+                {items}
+            </ul>);
     }
 }
-export default DashboardTop;
+
+class DashboardLeftSubList extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        var subItems = this.props.subItems.map(function (subItem) {
+            return (
+                <li className={"al-sidebar-sublist-item ${subItem.selected?'selected':null}"}>
+                    <a className="al-sidebar-list-link" href={subItem.url}>{subItem.name}</a>
+                </li>
+            );
+        });
+        return (<ul className="al-sidebar-sublist">{subItems}</ul>);
+    }
+}
+export default DashboardLeft;
