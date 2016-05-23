@@ -35,7 +35,6 @@ export function DashBoardBlockCreate(mainBlock,extendVariables){
             document.getElementsByTagName('main')[0]
         );
         //click
-        document.getElementsByClassName("al-sidebar-list-item").forEach()
     });
 }
 
