@@ -190,11 +190,7 @@ a.collapse-menu-link {
     }
   }
 }
-.fa{
-  font-family: 'Icomoon Icon' !important;
-  font-style: normal;
-  @include  transition(all 0.2s ease);
-}
+
 .fa-bell-o:before{
   content:"\e907" ;
 }

@@ -3,8 +3,6 @@
  */
 require('./dashBoardLeftNav.scss');
 import data from './data/dashBoardLeftNav';
-import {Scrollbars} from 'react-custom-scrollbars';
-
 
 class DashboardLeft extends React.Component {
     constructor(props) {
@@ -70,7 +68,7 @@ class DashboardLeftList extends React.Component {
 
     onMouseOver(e) {
         var directLine = document.querySelector('.al-sidebar .direct-line');
-        directLine.style.top = e.currentTarget.offsetTop + 'px';
+        directLine.style.top = e.currentTarget.parentNode.offsetTop + 'px';
         directLine.style.height = e.currentTarget.clientHeight + 'px';
         e.stopPropagation();
         //height?? something wrong
@@ -80,6 +78,10 @@ class DashboardLeftList extends React.Component {
         var parentDom = e.currentTarget.parentElement;
         var subUl = parentDom.querySelector('.al-sidebar-sublist');
         if (subUl) {
+            var sidebar = document.querySelector('.al-sidebar.collapse');
+            if (sidebar) {
+                sidebar.classList.remove('collapse');
+            }
             if (!parentDom.classList.contains('opened')) {
                 var height = 0;
                 var liSubList = subUl.querySelectorAll('.al-sidebar-sublist-item');
@@ -89,7 +91,7 @@ class DashboardLeftList extends React.Component {
                 ;
                 subUl.style.height = height + 'px';
                 parentDom.classList.add('opened');
-            } else {
+            } else if (!sidebar) {
                 subUl.style.height = '0px';
                 parentDom.classList.remove('opened');
             }
@@ -112,8 +114,9 @@ class DashboardLeftList extends React.Component {
         var items = this.props.data.map(function (item) {
             var liClass = classNames('al-sidebar-list-item', {'selected': item.selected});
             return (
-                <li key={item.id} className={liClass} onMouseOver={this.onMouseOver}>
-                    <a className={"al-sidebar-list-link"} href={item.url} onClick={this.onClick}>
+                <li key={item.id} className={liClass}>
+                    <a className={"al-sidebar-list-link"} href={item.url} onMouseOver={this.onMouseOver}
+                       onClick={this.onClick}>
                         <i className={item.iconClass}></i>
                         <span>{item.name}</span>
                         {item.subItems ? (<b className="down"></b>) : null}
@@ -168,3 +171,5 @@ class DashboardLeftSubList extends React.Component {
     }
 }
 export default DashboardLeft;
+
+//how to change the window width, when change

@@ -5,6 +5,7 @@ require('./dashBoard.scss');
 import data from './data/dashBoard';
 import DashboardTop from './dashBoardTop/dashBoardTop.jsx';
 import DashBoardLeftNav from './dashBoardLeftNav/dashBoardLeftNav.jsx';
+import DashBoardMain from './dashBoardMain/dashBoardMain.jsx';
 
 class DashBoardBlock extends BaseComponent {
     constructor(props) {
@@ -12,13 +13,12 @@ class DashBoardBlock extends BaseComponent {
     }
 
     render() {
-        let ele =  React.createElement(this.props.mainBlock, Object.assign({}, this.props));
 
         return (
-        <div>
+        <div style={{'height' : '100%'}}>
             <DashBoardLeftNav {...this.props}/>
             <DashboardTop {...this.props}/>
-            {ele}
+            <DashBoardMain {...this.props}/>
         </div>);
     }
 }
@@ -32,7 +32,7 @@ export function DashBoardBlockCreate(mainBlock,extendVariables){
             <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoard',extendVariables)}>
                 <DashBoardBlockWrapper mainBlock={mainBlock}/>
             </ReactIntl.IntlProvider>,
-            document.getElementsByTagName('main')[0]
+            document.querySelector('#entirety')
         );
         //click
     });

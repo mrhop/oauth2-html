@@ -6,15 +6,48 @@
   left: 0;
   z-index: 904;
   display: block;
-  min-height: 100%;
+  min-height: 500px;
   background: rgba(0, 0, 0, .5);
   height: 100%;
   position: fixed;
+  @media (max-width: $screen-lg-min - 1) {
+    width: 52px;
+  }
+  @media (max-width: $screen-xs-min - 1) {
+    width: 0px;
+  }
+  &.collapse {
+    width: 52px !important;
+    @media (max-width: $screen-xs-min - 1) {
+      width: 0px !important;
+    }
+    .al-sidebar-list b {
+      @include opacity(0);
+    }
+    .al-sidebar-sublist {
+      position: absolute;
+      width: 0;
+      overflow: hidden;
+      left: 52px;
+      top: -1px;
+    }
+  }
+  &.un-collapse {
+    width: 180px !important;
+    .al-sidebar-list b {
+      @include opacity(1);
+    }
+    .al-sidebar-sublist {
+      position: static;
+      width: auto;
+    }
+  }
+  @include transition(all 400ms linear);
 }
 
 .al-sidebar .direct-line {
   position: absolute;
-  width: 4px;
+  width: 3px;
   right: 0px;
   top: -200px;
   height: 43px;
@@ -50,7 +83,7 @@
   line-height: 42px;
   cursor: pointer;
   text-transform: capitalize;
-  word-wrap: break-word;
+  white-space: nowrap;
 }
 
 .al-sidebar-list li:not(.selected) a:hover, .al-sidebar-list li:not(.selected) a:active {
@@ -96,6 +129,10 @@
   color: #ccc;
   font-weight: normal;
   font-family: "Icomoon Icon";
+  @include opacity(1);
+  @media (max-width: $screen-lg-min - 1) {
+    @include opacity(0);
+  }
 }
 
 .al-sidebar-list b.down:before {
@@ -112,6 +149,13 @@
   height: 0px;
   overflow: hidden;
   @include transition(all 400ms linear);
+  @media (max-width: $screen-lg-min - 1) {
+    position: absolute;
+    width: 0;
+    overflow: hidden;
+    left: 52px;
+    top: -1px;
+  }
 }
 
 .al-sidebar-list-item .down {

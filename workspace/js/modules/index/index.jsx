@@ -5,14 +5,15 @@ require('./index.scss');
 import data from './data/index';
 import {DashBoardBlockCreate} from '../include/dashBoard/dashBoard.jsx';
 
-class MainBlock extends React.Component{
+class MainBlock extends React.Component {
     constructor(props) {
         super(props);
     }
+
     render() {
-        return <div>123</div>;
+        return <div style={{'height' : '2000px'}}>123</div>;
     }
 }
-DashBoardBlockCreate(MainBlock,'indexMainBlock')
+DashBoardBlockCreate(MainBlock, 'indexMainBlock');
 //dashBoardCreate({},'indexMainBlock')
 
