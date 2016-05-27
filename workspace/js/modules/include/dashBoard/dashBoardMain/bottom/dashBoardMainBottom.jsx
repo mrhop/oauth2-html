@@ -17,7 +17,11 @@ class DashboardMainBottom extends React.Component {
                     <span className="al-copy">© <a href="#" target="_blank">Hope</a> 2016</span>
                     <ul className="al-share">
                         <li><a href="#" target="_blank"><i
-                            className="fa fa-bell-o"></i></a></li>
+                            className="fa fa-wechat"></i></a></li>
+                        <li><a href="#" target="_blank"><i
+                            className="fa fa-weibo"></i></a></li>
+                        <li><a href="#" target="_blank"><i
+                            className="fa fa-facebook"></i></a></li>
                     </ul>
                 </div>
             </footer>

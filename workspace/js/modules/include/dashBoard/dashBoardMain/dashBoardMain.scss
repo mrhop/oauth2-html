@@ -96,21 +96,42 @@ main, .al-main {
       margin: 0px 0 0 12px;
       padding: 0;
       list-style: none;
+      @media (max-width: $screen-xs-min - 1) {
+        margin-left: 0px;
+      }
       li {
         display: inline-block;
         margin-left: 16px;
         @media (max-width: $screen-xs-min - 1) {
-          margin-left: 0;
+          margin-left: 10px;
         }
         i {
           display: inline-block;
           cursor: pointer;
           color: #fff;
-          padding: 0 6px;
+          padding: 0 8px;
           box-sizing: content-box;
           font-size: 16px;
           &:hover{
             @include scale(1.2);
+          }
+        }
+        i.fa-wechat{
+          background: #2f9833;
+          &:before{
+            content: "\e908";
+          }
+        }
+        i.fa-weibo{
+          background: #f29809;
+          &:before{
+            content: "\e909";
+          }
+        }
+        i.fa-facebook{
+          background: #3b5998;
+          &:before{
+            content: "\e90a";
           }
         }
       }
@@ -121,7 +142,7 @@ main, .al-main {
 .al-content {
   padding: 8px 32px 8px 40px;
   @media (max-width: $screen-xs-min - 1) {
-    padding: 8px 20px;
+    padding: 8px 10px;
   }
   .content-top {
     padding-top: 13px;
@@ -136,6 +157,9 @@ main, .al-main {
     padding: 0;
     font-size: 24px;
     opacity: .9;
+    @media (max-width: $screen-xs-min - 1) {
+      font-size: 20px;
+    }
   }
   ul.al-breadcrumb {
     padding: 3px 0 0;
@@ -146,6 +170,9 @@ main, .al-main {
       font-size: 18px;
       font-weight: 400;
       display: inline-block;
+      @media (max-width: $screen-xs-min - 1) {
+        font-size: 15px;
+      }
     }
     > li + li:before {
       padding: 0 5px;
