@@ -41,7 +41,6 @@ class CustomScrollbar extends React.Component {
             return;
         }
         scrollbars.scrollTop(top);
-        console.log(val + '-----' + top);
     }
 
     onScroll(){

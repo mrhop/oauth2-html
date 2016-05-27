@@ -67,8 +67,9 @@ main, .al-main {
   }
   //footer
   .al-footer {
+    position: absolute;
     vertical-align: middle;
-    line-height: 34px;
+    line-height: 32px;
     width: 100%;
     display: block;
     bottom: 0;
@@ -109,7 +110,7 @@ main, .al-main {
           display: inline-block;
           cursor: pointer;
           color: #fff;
-          padding: 0 8px;
+          padding: 0 7px;
           box-sizing: content-box;
           font-size: 16px;
           &:hover{
@@ -140,9 +141,12 @@ main, .al-main {
 }
 
 .al-content {
-  padding: 8px 32px 8px 40px;
+  margin: 0 20px;
+  padding: 8px 0;
+  min-height: 100%;
+  position: relative;
   @media (max-width: $screen-xs-min - 1) {
-    padding: 8px 10px;
+    margin: 0 10px;
   }
   .content-top {
     padding-top: 13px;

@@ -11,7 +11,14 @@ class MainBlock extends React.Component {
     }
 
     render() {
-        return <div style={{'height' : '2000px'}}>123</div>;
+        var columns = [
+            <CustomScrollbar />,
+            456,
+            789,
+            101112
+        ];
+        return (<Layout.Columns4 columnValues={columns}/>);
+        //return <div style={{'height' : '2000px'}}>123</div>;
     }
 }
 DashBoardBlockCreate(MainBlock, 'indexMainBlock');

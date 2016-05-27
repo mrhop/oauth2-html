@@ -78,10 +78,8 @@ class DashboardLeftList extends React.Component {
         var parentDom = e.currentTarget.parentElement;
         var subUl = parentDom.querySelector('.al-sidebar-sublist');
         if (subUl) {
-            var sidebar = document.querySelector('.al-sidebar.collapse');
-            if (sidebar) {
-                sidebar.classList.remove('collapse');
-            }
+            var sidebar = document.querySelector('.al-sidebar');
+
             if (!parentDom.classList.contains('opened')) {
                 var height = 0;
                 var liSubList = subUl.querySelectorAll('.al-sidebar-sublist-item');
@@ -91,10 +89,16 @@ class DashboardLeftList extends React.Component {
                 ;
                 subUl.style.height = height + 'px';
                 parentDom.classList.add('opened');
-            } else if (!sidebar) {
-                subUl.style.height = '0px';
-                parentDom.classList.remove('opened');
+            } else {
+                if ((!sidebar || sidebar && sidebar.classList.contains('un-collapse')) && parentDom.classList.contains('opened')) {
+                    subUl.style.height = '0px';
+                    parentDom.classList.remove('opened');
+                }
             }
+            if (sidebar && !sidebar.classList.contains('un-collapse')) {
+                sidebar.classList.remove('collapse');
+                sidebar.classList.add('un-collapse');
+            } 
         } else {
             //do selected
             var node = document.querySelector('.al-sidebar .al-sidebar-list-item.selected');
