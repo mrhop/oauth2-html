@@ -16,3 +16,6 @@ https://github.com/akveo/blur-admin
 //now panel task
 then
 modal/tab/table
+
+
+//need to deal with the display:none cause no animation question??
