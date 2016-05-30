@@ -12,10 +12,18 @@ class MainBlock extends React.Component {
 
     render() {
         var columns = [
-            <CustomScrollbar />,
-            456,
-            789,
-            101112
+            <Panel.DefaultPanel>
+                <span>you shall know this is the basic default panel</span>
+            </Panel.DefaultPanel>,
+            <Panel.DefaultPanel>
+                <span>you shall know this is the basic default panel</span>
+            </Panel.DefaultPanel>,
+            <Panel.DefaultPanel>
+                <span>you shall know this is the basic default panel</span>
+            </Panel.DefaultPanel>,
+            <Panel.DefaultPanel>
+                <span>you shall know this is the basic default panel</span>
+            </Panel.DefaultPanel>
         ];
         return (<Layout.Columns4 columnValues={columns}/>);
         //return <div style={{'height' : '2000px'}}>123</div>;

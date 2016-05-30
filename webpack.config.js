@@ -93,7 +93,8 @@ module.exports = {
             'UtilFun': __dirname + '/workspace/js/util/utilFun',
             'BaseComponent': __dirname + '/workspace/js/modules/common/baseComponent.jsx',
             'CustomScrollbar': __dirname + '/workspace/js/modules/common/customScrollbar/customScrollbar.jsx',
-            'Layout': __dirname + '/workspace/js/modules/common/layout/layout.jsx'
+            'Layout': __dirname + '/workspace/js/modules/common/layout/layout.jsx',
+            'Panel': __dirname + '/workspace/js/modules/common/panel/panel.jsx'
         }),
         new ExtractTextPlugin('./css/[name].css', {
             allChunks: true

@@ -8,6 +8,9 @@ require('./panel.scss');
     render() {
         return (
             <div className="panel">
+                <div className="panel-body">
+                    {this.props.children}
+                </div>
             </div>
         );
     }

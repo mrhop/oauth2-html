@@ -58,6 +58,16 @@ a, .a {
   }
 }
 
+@include keyframes("zoomIn"){
+  from {
+    @include opacity(0);
+    @include scale3d(.3, .3, .3);
+  }
+  50% {
+    @include opacity(1);
+  }
+}
+
 .fa{
   font-family: 'Icomoon Icon' !important;
   font-style: normal;
