@@ -1,32 +1,48 @@
 @import "../../../../scss/import";
 
-.modal-bg,.modal{
+.modal-wrapper {
   display: none;
+  &.open, &.close {
+    display: block;
+  }
+}
+
+.modal-bg, .modal {
   position: fixed;
   overflow-x: hidden;
   overflow-y: auto;
-  opacity: 0;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  @include opacity(0);
-  @include transition( opacity .15s linear);
+  //@include transition( opacity .15s linear);
 }
-.modal-bg{
+
+.modal-bg {
+  @include opacity(.5);
+}
+
+.modal-bg {
   background-color: #000;
   z-index: 1040;
 }
-.modal-wrapper.open .modal-bg{
-  display: block;
-  @include opacity(.5);
+
+.modal-wrapper.open .modal-bg {
+  @include animation-fill-mode(both);
+  @include animation(modal-bg-show 300ms linear);
 }
-.modal{
+
+.modal-wrapper.close .modal-bg {
+  @include animation-fill-mode(both);
+  @include animation(modal-bg-hide 300ms linear);
+}
+
+.modal {
   z-index: 1050;
   outline: 0;
   text-align: center;
-  @include opacity(0);
-  @include transition( opacity .15s linear);
+  //@include opacity(0);
+  // @include transition( opacity .15s linear);
   @media (min-width: $screen-xs-min) {
     &:before {
       display: inline-block;
@@ -35,11 +51,11 @@
       height: 100%;
     }
   }
-  .modal-dialog{
+  .modal-dialog {
     display: inline-block;
     text-align: left;
     position: relative;
-    @include transform(translate(0,-25%));
+    @include transform(translate(0, -25%));
     @include transition(transform .3s ease-out);
     width: auto;
     margin: 10px;
@@ -51,7 +67,7 @@
       border-radius: 5px;
       border: none;
       color: #7d7d7d;
-      @include box-shadow(0 5px 15px rgba(0,0,0,.5));
+      @include box-shadow(0 5px 15px rgba(0, 0, 0, .5));
       position: relative;
       background-color: #fff;
       background-clip: padding-box;
@@ -61,35 +77,37 @@
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         padding: 15px;
-        .close{
+        background-color: $info-background;
+        .close {
           margin-top: -5px;
           padding: 0;
           cursor: pointer;
+          color: #fff;
           background: 0 0;
           border: 0;
-          outline: 0!important;
+          outline: 0 !important;
           opacity: 1;
           float: right;
           font-size: 21px;
           line-height: 1;
-          color: #000;
           text-shadow: 0 1px 0 #fff;
           font-weight: 700;
+          &:before{
+            content: '\e90b';
+          }
         }
         .modal-title {
           color: #fff;
           margin: 0;
-          line-height: 1.42857143;
-          font-size: 18px;
-          padding: 15px;
+          font-size: 16px;
           border: none;
         }
       }
-      .modal-body{
+      .modal-body {
         position: relative;
         padding: 15px;
       }
-      .modal-footer{
+      .modal-footer {
         padding: 0 15px 15px;
         text-align: right;
         border: none;
@@ -97,11 +115,76 @@
     }
   }
 }
-.modal-wrapper.open .modal{
-  display: block;
-  @include opacity(1);
-  .modal-dialog{
-    @include transform(translate(0,0));
+
+.modal .modal-dialog.modal-lg {
+  @media (min-width: $screen-md-min) {
+    width: 900px;
   }
 }
+
+
+.modal .modal-dialog.modal-sm {
+  @media (min-width: $screen-xs-min) {
+    width: 300px;
+  }
+}
+.modal-wrapper.open .modal {
+  @include animation-fill-mode(both);
+  @include animation(modal-content-show 300ms linear);
+}
+
+.modal-wrapper.close .modal {
+  @include animation-fill-mode(both);
+  @include animation(modal-content-hide 300ms linear);
+}
+
+.modal-dialog.message .modal-header {
+  i {
+    margin-right: 3px;
+    font-size: 16px;
+    display: inline-block;
+    &:before {
+      content: "\e90d";
+    }
+  }
+  h4{
+    display: inline-block;
+  }
+}
+.modal-dialog.message{
+  &.modal-success{
+    .modal-header{
+      background-color: $success-background;
+      i:before{
+        content: "\e90e";
+      }
+    }
+    .modal-footer{
+      background-color: $success-background;
+    }
+  }
+  &.modal-warning{
+    .modal-header{
+      background-color: $warning-background;
+      i:before{
+        content: "\e90c";
+      }
+    }
+    .modal-footer{
+      background-color: $warning-background;
+    }
+  }
+  &.modal-error{
+    .modal-header{
+      background-color: $error-background;
+      i:before{
+        content: "\e90f";
+      }
+    }
+    .modal-footer{
+      background-color: $error-background;
+    }
+  }
+}
+
 

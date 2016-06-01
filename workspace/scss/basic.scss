@@ -68,6 +68,46 @@ a, .a {
   }
 }
 
+
+@include keyframes("modal-bg-show"){
+  from {
+    @include opacity(0);
+  }
+  100% {
+    @include opacity(.5);
+  }
+}
+
+@include keyframes("modal-bg-hide"){
+  from {
+    @include opacity(.5);
+  }
+  100% {
+    @include opacity(0);
+  }
+}
+
+@include keyframes("modal-content-show"){
+  from {
+    @include opacity(0);
+    @include transform(translate(0,-25%));
+  }
+  100% {
+    @include opacity(1);
+    @include transform(translate(0,0));
+  }
+}
+@include keyframes("modal-content-hide"){
+  from {
+    @include opacity(1);
+    @include transform(translate(0,0));
+  }
+  100% {
+    @include opacity(0);
+    @include transform(translate(0,-25%));
+  }
+}
+
 .fa{
   font-family: 'Icomoon Icon' !important;
   font-style: normal;

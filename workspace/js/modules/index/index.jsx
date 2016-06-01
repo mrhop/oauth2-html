@@ -19,6 +19,7 @@ class MainBlock extends React.Component {
         var basicModalData = {
             content: <span>who know this is right or not?</span>,
             openDom: '.open-modal1',
+            title:'check you are?',
             closeFun: function () {
                 console.log('before close');
                 return true;
@@ -28,7 +29,6 @@ class MainBlock extends React.Component {
                 title: 'close',
             },
             footerContent: <span>test close</span>,
-
         };
         var columns = [
                 <Panel.DefaultPanel>
@@ -37,9 +37,9 @@ class MainBlock extends React.Component {
                 <Panel.PanelWithHeader panelValues={dataWithTitle}>
                     <span>you shall know this is the basic default panel</span>
                 </Panel.PanelWithHeader>,
-                < Modal.DefaultModal modalValues={basicModalData}>
+                < Modal.MessageDefaultModal modalValues={basicModalData}>
                     <span>you shall know this is the basic default panel</span>
-                </Modal.DefaultModal>,
+                </Modal.MessageDefaultModal>,
                 <Panel.DefaultPanel>
                     <button className="btn btn-primary open-modal1">open</button>
                 </Panel.DefaultPanel>
