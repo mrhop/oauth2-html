@@ -2,36 +2,37 @@
  * Created by Donghui Huo on 2016/6/2.
  */
 require('./toast.scss');
+let toastWrapper = null;
 function createToast(toastValues, type) {
+    if (!toastWrapper) {
+        var nodeDiv = document.createElement('div')
+        document.body.insertBefore(nodeDiv, document.body.children[0]);
+        toastWrapper = ReactDOM.render(<ToastWrapper />, nodeDiv);
+    }
     //NEED TO COMPONENT
-    let toastWrapper = ReactDOM.render(<ToastWrapper />, document.body.Element);
-
-    toastWrapper.addToast()
     if (!type || type == 'default') {
-        toastWrapper.addToast( <DefaultToast toastValues={toastValues}/>);
+        toastWrapper.addToast(<DefaultToast key={UtilFun.uuid()}  toastValues={toastValues}/>);
     } else {
         //other creation
     }
 }
-//now changes shall be state changes[]
 
 class ToastWrapper extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {data: []};
+        this.addToast = this.addToast.bind(this);
     }
 
-    addToast(toast){
+    addToast(toast) {
         this.state.data.push(toast);
+        this.forceUpdate();
+
     }
+
     render() {
-        var toasts = this.state.data.map(function (toast) {
-            return (
-            {toast}
-            );
-        });
-        return (<div id="toast-container" className="right-top">{toasts}</div> );
+        return (<div id="toast-container" className="right-top">{this.state.data}</div> );
     }
 }
 
@@ -54,8 +55,6 @@ class BasicToast extends React.Component {
 
 
     componentDidMount() {
-        //need a setInterval close this toast
-        //open trigger
         UtilFun.domReady(function () {
             this.toastDom.addEventListener('webkitAnimationEnd', function () {
                 if (this.toastDom.classList.contains('close')) {
@@ -99,7 +98,7 @@ class DefaultToast extends BasicToast {
 
     render() {
         if (this.state.alertVisible) {
-            return (super.renderBasic());
+            return (this.renderBasic());
         } else {
             return null;
         }
