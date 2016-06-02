@@ -108,6 +108,25 @@ a, .a {
   }
 }
 
+
+@include keyframes("toast-show"){
+  from {
+    @include opacity(0);
+  }
+  100% {
+    @include opacity(1);
+  }
+}
+
+@include keyframes("toast-hide"){
+  from {
+    @include opacity(1);
+  }
+  100% {
+    @include opacity(0);
+  }
+}
+
 .fa{
   font-family: 'Icomoon Icon' !important;
   font-style: normal;

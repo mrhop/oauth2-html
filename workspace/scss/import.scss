@@ -18,10 +18,5 @@ $scroll-bar-width: 4px;
 $scroll-bar-height: $scroll-bar-width;
 $grid-gutter-width: 20px !default;
 
-$info-background: darken($brand-primary, 10%) !default;
-$success-background: rgba(144, 185, 0, .85) !default;
-$warning-background: rgba(223,184,28,.85) !default;
-$error-background: rgba(232,86,86,.85) !default;
-
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";

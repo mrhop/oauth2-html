@@ -1,10 +1,13 @@
 /**
  * Created by Donghui Huo on 2016/5/13.
  */
-import {Scrollbars} from 'react-custom-scrollbars';
 require('./modal.scss');
 
 class BasicModal extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    
     closeModal(e) {
         var currentDom = e.currentTarget;
         if (!currentDom.classList.contains('modal-dialog')) {
@@ -75,9 +78,11 @@ class BasicModal extends React.Component {
         );
     }
 
-    renderMessageModal(dialogExtraClass) {
+    renderMessageModal(dialogExtraClass,btnClass) {
         var classNames = require('classnames');
         var dialogClass = classNames('modal-dialog message', dialogExtraClass);
+        var buttonClass = classNames('btn', btnClass);
+
         return (
             <div className="modal-wrapper" ref={(ref) => this.modalDom = ref}>
                 <div className="modal-bg"></div>
@@ -96,7 +101,7 @@ class BasicModal extends React.Component {
                             </div>
                             <div className="modal-footer">
                                 {(this.props.modalValues.footerCloseButton.visible == undefined || this.props.modalValues.footerCloseButton.visible) ? (
-                                    <button className="btn btn-primary"
+                                    <button className={buttonClass}
                                             onClick={this.closeModal.bind(this)}>{this.props.modalValues.footerCloseButton.title ? this.props.modalValues.footerCloseButton.title : 'OK'}</button>) : null}
 
                             </div>
@@ -143,7 +148,7 @@ class MessageDefaultModal extends BasicModal {
         super(props);
     }
     render() {
-        return (super.renderMessageModal());
+        return (super.renderMessageModal(null,'btn-primary'));
     }
 }
 
@@ -152,7 +157,25 @@ class MessageSuccessModal extends BasicModal {
         super(props);
     }
     render() {
-        return (super.renderMessageModal('modal-success'));
+        return (super.renderMessageModal('modal-success','btn-success'));
+    }
+}
+
+class MessageWarningModal extends BasicModal {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (super.renderMessageModal('modal-warning','btn-warning'));
+    }
+}
+
+class MessageErrorModal extends BasicModal {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (super.renderMessageModal('modal-error','btn-danger'));
     }
 }
 
@@ -160,6 +183,9 @@ DefaultModal.propTypes = {modalValues: React.PropTypes.object};
 DefaultLgModal.propTypes = {modalValues: React.PropTypes.object};
 DefaultSmModal.propTypes = {modalValues: React.PropTypes.object};
 MessageDefaultModal.propTypes = {modalValues: React.PropTypes.object};
+MessageSuccessModal.propTypes = {modalValues: React.PropTypes.object};
+MessageWarningModal.propTypes = {modalValues: React.PropTypes.object};
+MessageErrorModal.propTypes = {modalValues: React.PropTypes.object};
 
 //modalValues title,content,button-value
 //need to deal with the display:none cause no animation question
@@ -169,4 +195,7 @@ module.exports = {
     DefaultLgModal,
     DefaultSmModal,
     MessageDefaultModal,
+    MessageSuccessModal,
+    MessageWarningModal,
+    MessageErrorModal
 };

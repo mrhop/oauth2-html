@@ -55,7 +55,6 @@
     display: inline-block;
     text-align: left;
     position: relative;
-    @include transform(translate(0, -25%));
     @include transition(transform .3s ease-out);
     width: auto;
     margin: 10px;
@@ -77,7 +76,7 @@
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         padding: 15px;
-        background-color: $info-background;
+        background-color: $brand-primary;
         .close {
           margin-top: -5px;
           padding: 0;
@@ -92,6 +91,10 @@
           line-height: 1;
           text-shadow: 0 1px 0 #fff;
           font-weight: 700;
+          &:hover{
+            color: $brand-danger;
+            text-shadow: 0 1px 0 $brand-danger;
+          }
           &:before{
             content: '\e90b';
           }
@@ -154,35 +157,26 @@
 .modal-dialog.message{
   &.modal-success{
     .modal-header{
-      background-color: $success-background;
+      background-color: $brand-success;
       i:before{
         content: "\e90e";
       }
     }
-    .modal-footer{
-      background-color: $success-background;
-    }
   }
   &.modal-warning{
     .modal-header{
-      background-color: $warning-background;
+      background-color: $brand-warning;
       i:before{
         content: "\e90c";
       }
     }
-    .modal-footer{
-      background-color: $warning-background;
-    }
   }
   &.modal-error{
     .modal-header{
-      background-color: $error-background;
+      background-color: $brand-danger;
       i:before{
         content: "\e90f";
       }
-    }
-    .modal-footer{
-      background-color: $error-background;
     }
   }
 }

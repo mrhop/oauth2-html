@@ -16,6 +16,11 @@ class MainBlock extends React.Component {
             content: <span>who know this is right or not?</span>
         };
 
+        var basicToastData = {
+            content: <span>who know this is right or not?</span>,
+            title:'check you are?'
+        };
+
         var basicModalData = {
             content: <span>who know this is right or not?</span>,
             openDom: '.open-modal1',
@@ -32,14 +37,14 @@ class MainBlock extends React.Component {
         };
         var columns = [
                 <Panel.DefaultPanel>
+                    <button className="btn btn-primary open-toast1" onClick={Toast.createToast.bind(this,basicToastData,'')}>open</button>
+                </Panel.DefaultPanel>,
+                <Panel.DefaultPanel>
                     <span>you shall know this is the basic default panel</span>
                 </Panel.DefaultPanel>,
-                <Panel.PanelWithHeader panelValues={dataWithTitle}>
+                < Modal.DefaultModal modalValues={basicModalData}>
                     <span>you shall know this is the basic default panel</span>
-                </Panel.PanelWithHeader>,
-                < Modal.MessageDefaultModal modalValues={basicModalData}>
-                    <span>you shall know this is the basic default panel</span>
-                </Modal.MessageDefaultModal>,
+                </Modal.DefaultModal>,
                 <Panel.DefaultPanel>
                     <button className="btn btn-primary open-modal1">open</button>
                 </Panel.DefaultPanel>
