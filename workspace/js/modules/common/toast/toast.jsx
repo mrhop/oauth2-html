@@ -26,7 +26,7 @@ class ToastWrapper extends React.Component {
     }
 
     addToast(toast) {
-        this.state.data.push(toast);
+        this.state.data.unshift(toast);
         this.forceUpdate();
 
     }
