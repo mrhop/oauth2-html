@@ -96,7 +96,8 @@ module.exports = {
             'Layout': __dirname + '/workspace/js/modules/common/layout/layout.jsx',
             'Panel': __dirname + '/workspace/js/modules/common/panel/panel.jsx',
             'Modal': __dirname + '/workspace/js/modules/common/modal/modal.jsx',
-            'Toast': __dirname + '/workspace/js/modules/common/toast/toast.jsx'
+            'Toast': __dirname + '/workspace/js/modules/common/toast/toast.jsx',
+            'Tab': __dirname + '/workspace/js/modules/common/tab/tab.jsx'
         }),
         new ExtractTextPlugin('./css/[name].css', {
             allChunks: true
