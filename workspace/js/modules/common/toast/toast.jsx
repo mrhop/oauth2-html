@@ -12,8 +12,17 @@ function createToast(toastValues, type) {
     //NEED TO COMPONENT
     if (!type || type == 'default') {
         toastWrapper.addToast(<DefaultToast key={UtilFun.uuid()}  toastValues={toastValues}/>);
-    } else {
+    } else if(type == 'success') {
         //other creation
+        toastWrapper.addToast(<SuccessToast key={UtilFun.uuid()}  toastValues={toastValues}/>);
+    }else if(type == 'warning') {
+        //other creation
+        toastWrapper.addToast(<WarningToast key={UtilFun.uuid()}  toastValues={toastValues}/>);
+    }else if(type == 'error') {
+        //other creation
+        toastWrapper.addToast(<ErrorToast key={UtilFun.uuid()}  toastValues={toastValues}/>);
+    }else{
+        //do nothing
     }
 }
 
@@ -73,9 +82,9 @@ class BasicToast extends React.Component {
 
     renderBasic(dialogExtraClass) {
         var classNames = require('classnames');
-        var dialogClass = classNames('toast-dialog', dialogExtraClass);
+        var dialogClass = classNames('toast', dialogExtraClass);
         return (
-            <div className="toast" ref={(ref) => this.toastDom = ref}>
+            <div className={dialogClass} ref={(ref) => this.toastDom = ref}>
                 <div className="left-icon">
                     <i className="fa"/>
                 </div>
@@ -103,6 +112,48 @@ class DefaultToast extends BasicToast {
             return null;
         }
 
+    }
+}
+
+class SuccessToast extends BasicToast {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        if (this.state.alertVisible) {
+            return (this.renderBasic('toast-success'));
+        } else {
+            return null;
+        }
+    }
+}
+
+class WarningToast extends BasicToast {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        if (this.state.alertVisible) {
+            return (this.renderBasic('toast-warning'));
+        } else {
+            return null;
+        }
+    }
+}
+
+class ErrorToast extends BasicToast {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        if (this.state.alertVisible) {
+            return (this.renderBasic('toast-error'));
+        } else {
+            return null;
+        }
     }
 }
 

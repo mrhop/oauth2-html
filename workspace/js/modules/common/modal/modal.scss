@@ -92,8 +92,8 @@
           text-shadow: 0 1px 0 #fff;
           font-weight: 700;
           &:hover{
-            color: $brand-danger;
-            text-shadow: 0 1px 0 $brand-danger;
+            color: $gray;
+            text-shadow: 0 1px 0 $gray;
           }
           &:before{
             content: '\e90b';

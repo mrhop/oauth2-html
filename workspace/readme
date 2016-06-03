@@ -16,10 +16,5 @@ https://github.com/akveo/blur-admin
 //now panel task
 then
 modal/tab/table
-
-
-//need to deal with the display:none cause no animation question??
-
-//now changes shall be state changes,question1:create only one two create multi similar
-
-//js bind 部分需要仔细看一下onClick={Toast.createToast.bind(this,basicToastData,'')} in index.jsx
+//panel modal toast finished
+!tab + table need to do now

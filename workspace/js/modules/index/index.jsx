@@ -37,7 +37,7 @@ class MainBlock extends React.Component {
         };
         var columns = [
                 <Panel.DefaultPanel>
-                    <button className="btn btn-primary open-toast1" onClick={Toast.createToast.bind(this,basicToastData,'')}>open</button>
+                    <button className="btn btn-primary open-toast1" onClick={Toast.createToast.bind(this,basicToastData,'success')}>open</button>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     <span>you shall know this is the basic default panel</span>
