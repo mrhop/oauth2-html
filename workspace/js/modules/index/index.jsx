@@ -55,13 +55,23 @@ class MainBlock extends React.Component {
                     <Tab.DefaultTab />
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
-                    <span>you shall know this is the basic default panel</span>
+                    <Tab.LeftVerticalTab/>
+                </Panel.DefaultPanel>
+            ]
+            ;
+        var columnsThird = [
+                <Panel.DefaultPanel>
+                    <Tab.RightVerticalTab/>
+                </Panel.DefaultPanel>,
+                <Panel.DefaultPanel>
+                    test
                 </Panel.DefaultPanel>
             ]
             ;
         return (<div>
             <Layout.Columns4 columnValues={columns}/>
             <Layout.Columns2 columnValues={columnsSecond}/>
+            <Layout.Columns2 columnValues={columnsThird}/>
         </div>);
         //return <div style={{'height' : '2000px'}}>123</div>;
     }
