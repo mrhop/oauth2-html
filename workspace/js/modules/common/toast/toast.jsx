@@ -11,17 +11,17 @@ function createToast(toastValues, type) {
     }
     //NEED TO COMPONENT
     if (!type || type == 'default') {
-        toastWrapper.addToast(<DefaultToast key={UtilFun.uuid()}  toastValues={toastValues}/>);
-    } else if(type == 'success') {
+        toastWrapper.addToast(<DefaultToast key={UtilFun.uuid()} toastValues={toastValues}/>);
+    } else if (type == 'success') {
         //other creation
-        toastWrapper.addToast(<SuccessToast key={UtilFun.uuid()}  toastValues={toastValues}/>);
-    }else if(type == 'warning') {
+        toastWrapper.addToast(<SuccessToast key={UtilFun.uuid()} toastValues={toastValues}/>);
+    } else if (type == 'warning') {
         //other creation
-        toastWrapper.addToast(<WarningToast key={UtilFun.uuid()}  toastValues={toastValues}/>);
-    }else if(type == 'error') {
+        toastWrapper.addToast(<WarningToast key={UtilFun.uuid()} toastValues={toastValues}/>);
+    } else if (type == 'error') {
         //other creation
-        toastWrapper.addToast(<ErrorToast key={UtilFun.uuid()}  toastValues={toastValues}/>);
-    }else{
+        toastWrapper.addToast(<ErrorToast key={UtilFun.uuid()} toastValues={toastValues}/>);
+    } else {
         //do nothing
     }
 }
@@ -58,8 +58,10 @@ class BasicToast extends React.Component {
     }
 
     closeToast() {
-        this.toastDom.classList.remove('open');
-        this.toastDom.classList.add('close');
+        if (this.toastDom) {
+            this.toastDom.classList.remove('open');
+            this.toastDom.classList.add('close');
+        }
     }
 
 

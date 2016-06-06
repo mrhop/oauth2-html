@@ -1,7 +1,6 @@
 /**
  * Created by Donghui Huo on 2016/5/13.
  */
-import {Scrollbars} from 'react-custom-scrollbars';
 require('./tab.scss');
 
 class BasicTab extends React.Component {
@@ -12,81 +11,80 @@ class BasicTab extends React.Component {
     //need the basic functions to show and hide content
 
     componentDidMount() {
-        var nodeList = this.modalDom.querySelectorAll('.nav-tabs > li:not(.with-dropdown)');
-        for (var i = 0; i < nodeList.length; i++) {
-            nodeList[i].querySelector('a').addEventListener('click', function (index) {
-                var panelContentList = this.modalDom.querySelectorAll('.tab-content .tab-panel');
-                for (var i = 0; i < panelContentList.length; i++) {
-                    if (i != index) {
-                        panelContentList[i].style.display = 'none';
-                    } else {
-                        panelContentList[i].style.display = 'block';
+        var aList = this.modalDom.querySelectorAll('.nav-tabs li.tab-a');
+        for (var i = 0; i < aList.length; i++) {
+            if (!aList[i].classList.contains('with-dropdown')) {
+                aList[i].addEventListener('click', function (modalDom) {
+                    var panelContent = modalDom.querySelector('.tab-content ' + this.getAttribute('data-related'));
+                    var panelContentParent = null;
+                    var aParent = null;
+                    if (this.getAttribute('data-related-parent')) {
+                        panelContentParent = modalDom.querySelector('.tab-content ' + this.getAttribute('data-related-parent'));
+                        aParent = this.parentNode.parentNode.parentNode;
                     }
-                }
-                var navTabs = this.modalDom.querySelectorAll('.nav-tabs > li');
-                for (var j = 0; j < navTabs.length; j++) {
-                    navTabs[j].querySelector('a').classList.remove('active');
-                }
-                this.modalDom.querySelectorAll('.nav-tabs > li:not(.with-dropdown):nth-child(' + (index + 1) + ')').classList.add('active');
-            }.bind(this, i));
-        }
-        var nodeListWithDropDown = this.modalDom.querySelectorAll('.nav-tabs > li.with-dropdown');
-        for (var i = 0; i < nodeListWithDropDown.length; i++) {
-            var subAList = nodeListWithDropDown[i].querySelectorAll('.dropdown-menu > li > a');
-            for (var j = 0; j < subAList.length; j++) {
-                subAList[j].addEventListener('click', function (index1, index2) {
-                    var panelContentList = this.modalDom.querySelectorAll('.tab-content .tab-panel.with-sub');
-                    for (var i = 0; i < panelContentList.length; i++) {
-                        if (i != index1) {
-                            panelContentList[i].style.display = 'none';
-                        } else {
-                            panelContentList[i].style.display = 'block';
-                            var list = panelContentList[i].querySelectorAll('.sub-tab-panel');
-                            for (var j = 0; j < list.length; j++) {
-                                if (j != index2) {
-                                    list[j].style.display = 'none';
-                                } else {
-                                    list[j].style.display = 'block';
-                                }
+                    var panelContentList = modalDom.querySelectorAll('.tab-content .active');
+                    if (panelContentList) {
+                        for (var i = 0; i < panelContentList.length; i++) {
+                            if (panelContentList[i] !== panelContentParent && panelContentList[i] !== panelContent) {
+                                panelContentList[i].classList.remove('active');
                             }
                         }
                     }
-                }.bind(this, i, j));
+                    if (panelContentParent) {
+                        panelContentParent.classList.add('active');
+                    }
+                    panelContent.classList.add('active');
+                    //active the a tab
+                    var aList = modalDom.querySelectorAll('.tab-a.active');
+                    if (aList) {
+                        for (var j = 0; j < aList.length; j++) {
+                            if (aList[j] !== this && aList[j] !== aParent) {
+                                aList[j].classList.remove('active');
+                            }
+                        }
+                    }
+                    if (aParent) {
+                        aParent.classList.add('active');
+                    }
+                    this.classList.add('active');
+                }.bind(aList[i], this.modalDom));
             }
         }
-
     }
 
 
     renderBasic() {
         return (
+
             <div className="tab" ref={(ref) => this.modalDom = ref}>
                 <ul className="nav nav-tabs">
-                    <li>
-                        <a href="#" className="active">Tab1</a>
+                    <li className="tab-a active" data-related=".tab-panel-1">Tab1
                     </li>
-                    <li>
-                        <a href="#">Tab2</a>
+                    <li className="tab-a" data-related=".tab-panel-2">
+                        Tab2
                     </li>
-                    <li className="with-dropdown">
-                        <a href="#">Tab3
-                            <ul className="dropdown-menu">
-                                <li><a>SubTitle 1</a></li>
-                                <li><a className="active">SubTitle 2</a></li>
-                            </ul>
-                        </a>
+                    <li className="tab-a with-dropdown">
+                        Tab3
+                        <ul className="dropdown-menu">
+                            <li className="tab-a tab-sub-a" data-related-parent=".tab-panel-3"
+                                data-related=".tab-panel-3-1">SubTitle 1
+                            </li>
+                            <li className="tab-a tab-sub-a" data-related-parent=".tab-panel-3"
+                                data-related=".tab-panel-3-2">SubTitle 2
+                            </li>
+                        </ul>
                     </li>
                 </ul>
                 <div className="tab-content">
-                    <div className="tab-panel">
+                    <div className="tab-panel tab-panel-1 active">
                         Tab1
                     </div>
-                    <div className="tab-panel">
+                    <div className="tab-panel tab-panel-2">
                         Tab2
                     </div>
-                    <div className="tab-panel with-sub">
-                        <div className="sub-tab-panel">Sub Tab 3-1</div>
-                        <div className="sub-tab-panel">Sub Tab 3-2</div>
+                    <div className="tab-panel tab-panel-3">
+                        <div className="sub-tab-panel tab-panel-3-1">Sub Tab 3-1</div>
+                        <div className="sub-tab-panel tab-panel-3-2">Sub Tab 3-2</div>
                     </div>
                 </div>
             </div>
@@ -110,6 +108,7 @@ class DefaultTab extends BasicTab {
 
 DefaultTab.propTypes = {tabValues: React.PropTypes.array};
 //tabValues title\ & related-content multi- and sub title, sub content
+//hor, then ver then others
 
 module.exports = {
     DefaultTab
