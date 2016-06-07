@@ -84,8 +84,18 @@
             margin: 0 2px;
           }
         }
-        &:last-child{
+        &:last-child {
           @include border-radius(0px 0px 0px 5px/ 0px 0px 0px 5px);
+        }
+      }
+    }
+
+    &.with-minheight {
+      .nav-tabs {
+        height: 100%;
+        > li:last-child {
+          @include border-radius(0px 0px 0px 0px/ 0px 0px 0px 0px);
+          border-bottom: groove 1px #fff;
         }
       }
     }
@@ -113,8 +123,20 @@
             text-align: right;
           }
         }
-        &:last-child{
+        &:first-child {
+          @include border-radius(0px 5px 0px 0px/ 0px 5px 0px 0px);
+        }
+        &:last-child {
           @include border-radius(0px 0px 5px 0px/ 0px 0px 5px 0px);
+        }
+      }
+    }
+    &.with-minheight {
+      .nav-tabs {
+        height: 100%;
+        > li:last-child {
+          @include border-radius(0px 0px 0px 0px/ 0px 0px 0px 0px);
+          border-bottom: groove 1px #fff;
         }
       }
     }

@@ -55,41 +55,55 @@ class BasicTab extends React.Component {
 
     renderBasic(tabExtraClass) {
         var classNames = require('classnames');
-        var tabClass = classNames('tab', tabExtraClass);
-        var tab = <ul className="nav nav-tabs">
-            <li className="tab-a active" data-related=".tab-panel-1">Tab1
-            </li>
-            <li className="tab-a" data-related=".tab-panel-2">
-                Tab2
-            </li>
-            <li className="tab-a with-dropdown">
-                Tab3
-                <ul className="dropdown-menu">
-                    <li className="tab-a tab-sub-a" data-related-parent=".tab-panel-3"
-                        data-related=".tab-panel-3-1">SubTitle 1
-                    </li>
-                    <li className="tab-a tab-sub-a" data-related-parent=".tab-panel-3"
-                        data-related=".tab-panel-3-2">SubTitle 2
-                    </li>
-                </ul>
-            </li>
-        </ul>;
-        var content = <div className="tab-content">
-            <div className="tab-panel tab-panel-1 active">
-                Tab1
-            </div>
-            <div className="tab-panel tab-panel-2">
-                Tab2
-            </div>
-            <div className="tab-panel tab-panel-3">
-                <div className="sub-tab-panel tab-panel-3-1">Sub Tab 3-1</div>
-                <div className="sub-tab-panel tab-panel-3-2">Sub Tab 3-2</div>
-            </div>
-        </div>;
+        var tabClass = classNames('tab',{'with-minheight':this.props.minHeight}, tabExtraClass);
+        var tabItems = this.props.tabValues.map(function (subItem, index) {
+            var liClass = classNames('tab-a',{'with-dropdown':subItem.children}, {'active': subItem.active});
+            var subItems = null;
+            if (subItem.children) {
+                subItems = subItem.children.map(function (subItem, index) {
+                    var liClass = classNames('tab-a tab-sub-a', {'active': subItem.active});
+                    return (<li key={subItem.id} className={liClass} data-related-parent={ '.tab-panel-' + this.parentIndex}
+                                data-related={ '.tab-panel-' + this.parentIndex + '-' + index}>{subItem.title}
+                    </li>);
+                }.bind({parentIndex: index}));
+            }
+            return (
+                <li key={subItem.id} className={liClass} data-related={ '.tab-panel-' + index}>
+                    {subItem.title}
+                    {subItems ? <ul className="dropdown-menu">{subItems}</ul> : null}
+                </li>
+            );
+        }, this);
+        var contentItems = this.props.tabValues.map(function (subItem, index) {
+            var divClass = classNames('tab-panel', 'tab-panel-' + index, {'active': subItem.active});
+            var subItems = null;
+            if (subItem.children) {
+                subItems = subItem.children.map(function (subItem, index) {
+                    var divClass = classNames('sub-tab-panel', 'tab-panel-' + this.parentIndex + '-' + index, {'active': subItem.active});
+                    return (<div key={subItem.id} className={divClass}>{subItem.content}</div>);
+                }.bind({parentIndex: index}));
+            }
+            return (
+                <div key={subItem.id} className={divClass}>
+                    {subItems ? subItems : subItem.content}
+                </div>
+            );
+        }, this);
+        var style = null;
+        if(this.props.minHeight){
+            style = {height:1,
+                     minHeight:this.props.minHeight
+            };
+        }
+
         return (
-            <div className={tabClass} ref={(ref) => this.modalDom = ref}>
-                {tab}
-                {content}
+            <div className={tabClass} style={style} ref={(ref) => this.modalDom = ref}>
+                <ul className="nav nav-tabs">
+                    {tabItems}
+                </ul>
+                <div className="tab-content">
+                    {contentItems}
+                </div>
             </div>
         );
     }
@@ -135,9 +149,9 @@ class RightVerticalTab extends BasicTab {
     }
 }
 
-DefaultTab.propTypes = {tabValues: React.PropTypes.array};
-LeftVerticalTab.propTypes = {tabValues: React.PropTypes.array};
-RightVerticalTab.propTypes = {tabValues: React.PropTypes.array};
+DefaultTab.propTypes = {tabValues: React.PropTypes.array,minHeight:React.PropTypes.number};
+LeftVerticalTab.propTypes = {tabValues: React.PropTypes.array,minHeight:React.PropTypes.number};
+RightVerticalTab.propTypes = {tabValues: React.PropTypes.array,minHeight:React.PropTypes.number};
 //tabValues title\ & related-content multi- and sub title, sub content
 //hor, then ver then others
 

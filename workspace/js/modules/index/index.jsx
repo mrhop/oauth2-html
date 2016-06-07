@@ -18,13 +18,13 @@ class MainBlock extends React.Component {
 
         var basicToastData = {
             content: <span>who know this is right or not?</span>,
-            title:'check you are?'
+            title: 'check you are?'
         };
 
         var basicModalData = {
             content: <span>who know this is right or not?</span>,
             openDom: '.open-modal1',
-            title:'check you are?',
+            title: 'check you are?',
             closeFun: function () {
                 console.log('before close');
                 return true;
@@ -35,9 +35,40 @@ class MainBlock extends React.Component {
             },
             footerContent: <span>test close</span>,
         };
+
+        var basicTabData = [
+            {
+                id: 1,
+                active: true,
+                title: 'tab1',
+                content: 'content1'
+            }, {
+                id: 2,
+                title: 'tab2',
+                content: 'content2'
+            }, {
+                id: 3,
+                title: 'tab3',
+                children: [
+                    {
+                        id:'3-1',
+                        title: 'tab3-1',
+                        content: 'content3-1'
+                    },
+                    {
+                        id:'3-2',
+                        title: 'tab3-2',
+                        content: 'content3-2'
+                    }
+                ]
+            }
+        ];
+
         var columns = [
                 <Panel.DefaultPanel>
-                    <button className="btn btn-primary open-toast1" onClick={Toast.createToast.bind(this,basicToastData,'success')}>open</button>
+                    <button className="btn btn-primary open-toast1"
+                            onClick={Toast.createToast.bind(this,basicToastData,'success')}>open
+                    </button>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     <span>you shall know this is the basic default panel</span>
@@ -52,16 +83,16 @@ class MainBlock extends React.Component {
             ;
         var columnsSecond = [
                 <Panel.DefaultPanel>
-                    <Tab.DefaultTab />
+                    <Tab.DefaultTab tabValues={basicTabData} />
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
-                    <Tab.LeftVerticalTab/>
+                    <Tab.LeftVerticalTab tabValues={basicTabData}/>
                 </Panel.DefaultPanel>
             ]
             ;
         var columnsThird = [
                 <Panel.DefaultPanel>
-                    <Tab.RightVerticalTab/>
+                    <Tab.RightVerticalTab tabValues={basicTabData} minHeight={500} />
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     test
