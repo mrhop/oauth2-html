@@ -19,4 +19,10 @@ modal/tab/table
 //panel modal toast finished
 !tab + table need to do now
 
-now tab tabs click function is doing
+tab finished
+now tables
+//THEN forms and basic functions like mail,online talking and others,then cms/crm basic creation
+//add a click event when the screen is small and the left banner is show,then hide the left banner,需要消息推送机制（message），notification采用流程触发机制，在线交流im的话考虑云信
+mail另行考虑，mail涉及的操作太多
+
+学习一下java的流程化规范，任务链以及机制，如果要规范，就要从开始定义完备
