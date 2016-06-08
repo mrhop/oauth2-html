@@ -111,7 +111,7 @@ class DefaultToast extends BasicToast {
     }
 
     render() {
-            return (this.renderBasic());
+        return (this.renderBasic());
     }
 }
 
@@ -121,7 +121,7 @@ class SuccessToast extends BasicToast {
     }
 
     render() {
-            return (this.renderBasic('toast-success'));
+        return (this.renderBasic('toast-success'));
     }
 }
 
@@ -131,7 +131,7 @@ class WarningToast extends BasicToast {
     }
 
     render() {
-            return (this.renderBasic('toast-warning'));
+        return (this.renderBasic('toast-warning'));
     }
 }
 
@@ -141,7 +141,7 @@ class ErrorToast extends BasicToast {
     }
 
     render() {
-            return (this.renderBasic('toast-error'));
+        return (this.renderBasic('toast-error'));
     }
 }
 

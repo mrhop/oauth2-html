@@ -75,28 +75,7 @@ class MainBlock extends React.Component {
             tbody: [[{
                 className: 'td-id',
                 title: '1'
-            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
-                className: 'td-id',
-                title: '1'
-            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
-                className: 'td-id',
-                title: '1'
-            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
-                className: 'td-id',
-                title: '1'
-            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
-                className: 'td-id',
-                title: '1'
-            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
-                className: 'td-id',
-                title: '1'
-            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
-                className: 'td-id',
-                title: '1'
-            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
-                className: 'td-id',
-                title: '1'
-            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}]]
+            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'md@gmail.com'}, {title: '31'}]]
         };
 
         var columns = [
@@ -130,10 +109,10 @@ class MainBlock extends React.Component {
             ;
         var columnsThird = [
                 <Panel.PanelWithHeader panelValues={{title : 'default Table'}}>
-                    <Table.DefaultTable minHeight={426} tableValues={tableValues}/>
+                    <Table.StripedTable minHeight={426} tableValues={tableValues}/>
                 </Panel.PanelWithHeader>,
                 <Panel.DefaultPanel>
-                    <Tab.RightVerticalTab tabValues={basicTabData} minHeight={500}/>
+                    <Table.RowEditableTable tableValues={tableValues} additionalFeature = {{extraClass:'hover',pager:{pageSize:10}}} minHeight={426}/>
                 </Panel.DefaultPanel>
             ]
             ;

@@ -21,10 +21,12 @@ modal/tab/table
 
 tab finished
 now tables
+//考虑modal的创建以及生命周期介绍--done key的关键使用
 
 tables 的各种样式以及td的左右以及链接，比如email,and also smart tables
 //继续table的数据融入,数据ok，继续其他样式的table
-//考虑modal的创建以及生命周期介绍
+//then forms
+
 
 //THEN forms and basic functions like mail,online talking and others,then cms/crm basic creation
 //add a click event when the screen is small and the left banner is show,then hide the left banner,需要消息推送机制（message），notification采用流程触发机制，在线交流im的话考虑云信

@@ -1,14 +1,7 @@
 @import "../../../../scss/import";
 
-.table-root{
-  .view{
-    //position: relative!important;
-  }
-}
 .table {
-  //background-color: rgba(0, 0, 0, .2);
   margin-bottom: 0;
-
   thead {
     tr {
       th {
@@ -35,8 +28,78 @@
       }
     }
   }
+  &.hover {
+    thead {
+      tr {
+        background-color: rgba(0, 0, 0, .1);
+      }
+    }
+    tbody {
+      tr {
+        td {
+          border-top: 1px solid rgba(255, 255, 255, .2);
+        }
+        &:first-child {
+          td {
+            border-top: none;
+          }
+        }
+        &:hover {
+          background-color: rgba(0, 0, 0, .1);
+        }
+      }
+    }
+    tfoot {
+      tr {
+        background-color: rgba(0, 0, 0, .1);
+      }
+    }
+  }
+
+  &.border {
+    thead{
+      tr {
+        th {
+          border: 1px solid rgba(255, 255, 255, .2) !important;
+        }
+      }
+    }
+    tbody,tfoot {
+      tr {
+        td {
+          border: 1px solid rgba(255, 255, 255, .2) !important;
+        }
+      }
+    }
+  }
+  &.condensed {
+    thead{
+      tr {
+        th {
+          border-bottom: 1px solid rgba(255, 255, 255, .2) !important;
+        }
+      }
+    }
+    tbody,tfoot {
+      tr {
+        td {
+          border-bottom: 1px solid rgba(255, 255, 255, .2) !important;
+        }
+      }
+    }
+  }
+  &.striped {
+    tbody {
+      tr:nth-of-type(odd){
+        background-color: rgba(0, 0, 0, .1);
+      }
+    }
+  }
   .td-id {
     text-align: left !important;
     width: 40px;
+  }
+  .tr-deep{
+    background-color: rgba(0, 0, 0, .1);
   }
 }
