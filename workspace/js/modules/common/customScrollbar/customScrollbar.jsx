@@ -43,8 +43,10 @@ class CustomScrollbar extends React.Component {
         scrollbars.scrollTop(top);
     }
 
-    onScroll(){
-        this.props.scrollFun();
+    onScroll() {
+        if (this.props.scrollFun) {
+            this.props.scrollFun();
+        }
     }
 
     handleSpringUpdate(spring) {
@@ -56,19 +58,19 @@ class CustomScrollbar extends React.Component {
     render() {
         return (
             <Scrollbars {...this.props} onScroll={this.onScroll.bind(this)}
-                autoHide
-                autoHideTimeout={400}
-                autoHideDuration={400}
-                renderTrackHorizontal={({ style, ...props }) =><div {...props} style={{ ...style}} className="track-horizontal"/>}
-                renderTrackVertical={({ style, ...props })  => <div {...props} style={{ ...style}} className="track-vertical"/>}
-                renderThumbHorizontal={({ style, ...props })  => <div {...props} style={{ ...style}} className="thumb-horizontal"/>}
-                renderThumbVertical={({ style, ...props })  => <div {...props} style={{ ...style}} className="thumb-vertical"/>}
-                renderView={({ style, ...props })  => <div {...props} style={{ ...style}} className="view"/>}
-                ref="scrollbars">
+                                        autoHide
+                                        autoHideTimeout={400}
+                                        autoHideDuration={400}
+                                        renderTrackHorizontal={({ style, ...props }) =><div {...props} style={{ ...style}} className="track-horizontal"/>}
+                                        renderTrackVertical={({ style, ...props })  => <div {...props} style={{ ...style}} className="track-vertical"/>}
+                                        renderThumbHorizontal={({ style, ...props })  => <div {...props} style={{ ...style}} className="thumb-horizontal"/>}
+                                        renderThumbVertical={({ style, ...props })  => <div {...props} style={{ ...style}} className="thumb-vertical"/>}
+                                        renderView={({ style, ...props })  => <div {...props} style={{ ...style}} className="view"/>}
+                                        ref="scrollbars">
                 {this.props.children}
             </Scrollbars>
         );
     }
 }
-CustomScrollbar.propTypes = { scrollFun: React.PropTypes.func};
+CustomScrollbar.propTypes = {scrollFun: React.PropTypes.func};
 module.exports = CustomScrollbar;

@@ -37,7 +37,6 @@ class ToastWrapper extends React.Component {
     addToast(toast) {
         this.state.data.unshift(toast);
         this.forceUpdate();
-
     }
 
     render() {
@@ -83,22 +82,26 @@ class BasicToast extends React.Component {
     }
 
     renderBasic(dialogExtraClass) {
-        var classNames = require('classnames');
-        var dialogClass = classNames('toast', dialogExtraClass);
-        return (
-            <div className={dialogClass} ref={(ref) => this.toastDom = ref}>
-                <div className="left-icon">
-                    <i className="fa"/>
+        if (this.state.alertVisible) {
+            var classNames = require('classnames');
+            var dialogClass = classNames('toast', dialogExtraClass);
+            return (
+                <div className={dialogClass} ref={(ref) => this.toastDom = ref}>
+                    <div className="left-icon">
+                        <i className="fa"/>
+                    </div>
+                    <button type="button" className="close fa"
+                            onClick={this.closeToast.bind(this)}></button>
+                    {this.props.toastValues.title ? <h4 className="toast-title">
+                        {this.props.toastValues.title}
+                    </h4> : null}
+                    {this.props.toastValues.content}
+                    {this.props.children}
                 </div>
-                <button type="button" className="close fa"
-                        onClick={this.closeToast.bind(this)}></button>
-                {this.props.toastValues.title ? <h4 className="toast-title">
-                    {this.props.toastValues.title}
-                </h4> : null}
-                {this.props.toastValues.content}
-                {this.props.children}
-            </div>
-        );
+            );
+        } else {
+            return null;
+        }
     }
 }
 
@@ -108,12 +111,7 @@ class DefaultToast extends BasicToast {
     }
 
     render() {
-        if (this.state.alertVisible) {
             return (this.renderBasic());
-        } else {
-            return null;
-        }
-
     }
 }
 
@@ -123,11 +121,7 @@ class SuccessToast extends BasicToast {
     }
 
     render() {
-        if (this.state.alertVisible) {
             return (this.renderBasic('toast-success'));
-        } else {
-            return null;
-        }
     }
 }
 
@@ -137,11 +131,7 @@ class WarningToast extends BasicToast {
     }
 
     render() {
-        if (this.state.alertVisible) {
             return (this.renderBasic('toast-warning'));
-        } else {
-            return null;
-        }
     }
 }
 
@@ -151,11 +141,7 @@ class ErrorToast extends BasicToast {
     }
 
     render() {
-        if (this.state.alertVisible) {
             return (this.renderBasic('toast-error'));
-        } else {
-            return null;
-        }
     }
 }
 

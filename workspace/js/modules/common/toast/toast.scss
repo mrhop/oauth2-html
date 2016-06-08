@@ -18,6 +18,9 @@
   margin: 0 0 6px;
   padding: 15px 15px 15px 50px;
   width: 400px;
+  @media (max-width: $screen-xs-min - 1) {
+    width: 300px;
+  }
   font-size: 14px;
   @include border-radius(3px);
   @include box-shadow(0 0 12px #999);

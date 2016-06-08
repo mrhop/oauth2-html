@@ -4,7 +4,7 @@
 import {Scrollbars} from 'react-custom-scrollbars';
 require('./panel.scss');
 
- class DefaultPanel extends React.Component {
+class DefaultPanel extends React.Component {
     render() {
         return (
             <div className="panel">
@@ -32,8 +32,8 @@ class PanelWithHeader extends React.Component {
     }
 }
 
-DefaultPanel.propTypes = { panelValues: React.PropTypes.object};
-PanelWithHeader.propTypes = { panelValues: React.PropTypes.object};
+DefaultPanel.propTypes = {panelValues: React.PropTypes.object};
+PanelWithHeader.propTypes = {panelValues: React.PropTypes.object};
 //panelValues title,content,button-value
 
 module.exports = {

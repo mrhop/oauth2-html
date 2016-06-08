@@ -1,0 +1,42 @@
+@import "../../../../scss/import";
+
+.table-root{
+  .view{
+    //position: relative!important;
+  }
+}
+.table {
+  //background-color: rgba(0, 0, 0, .2);
+  margin-bottom: 0;
+
+  thead {
+    tr {
+      th {
+        white-space: nowrap;
+        border-bottom: none;
+        font-weight: normal;
+      }
+    }
+  }
+  tbody {
+    tr {
+      border-bottom: none;
+      td {
+        padding: 0 8px;
+        line-height: 35px;
+        border-top: none;
+      }
+    }
+  }
+  tfoot {
+    tr {
+      td {
+        border-top: none;
+      }
+    }
+  }
+  .td-id {
+    text-align: left !important;
+    width: 40px;
+  }
+}

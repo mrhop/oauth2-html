@@ -23,7 +23,6 @@ class MainBlock extends React.Component {
 
         var basicModalData = {
             content: <span>who know this is right or not?</span>,
-            openDom: '.open-modal1',
             title: 'check you are?',
             closeFun: function () {
                 console.log('before close');
@@ -51,18 +50,54 @@ class MainBlock extends React.Component {
                 title: 'tab3',
                 children: [
                     {
-                        id:'3-1',
+                        id: '3-1',
                         title: 'tab3-1',
                         content: 'content3-1'
                     },
                     {
-                        id:'3-2',
+                        id: '3-2',
                         title: 'tab3-2',
                         content: 'content3-2'
                     }
                 ]
             }
         ];
+        var tableValues = {
+            thead: [{
+                className: 'td-id',
+                title: '#'
+            }, {title: 'First Name'}, {title: 'Last Name'}, {title: 'Username'}, {title: 'Email'}, {title: 'Age'}],
+            tfoot: [{
+                className: 'td-foot',
+                colSpan: 6,
+                title: 'this is the footer for this table'
+            }],
+            tbody: [[{
+                className: 'td-id',
+                title: '1'
+            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
+                className: 'td-id',
+                title: '1'
+            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
+                className: 'td-id',
+                title: '1'
+            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
+                className: 'td-id',
+                title: '1'
+            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
+                className: 'td-id',
+                title: '1'
+            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
+                className: 'td-id',
+                title: '1'
+            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
+                className: 'td-id',
+                title: '1'
+            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}],[{
+                className: 'td-id',
+                title: '1'
+            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'mdo@gmail.com'}, {title: '31'}]]
+        };
 
         var columns = [
                 <Panel.DefaultPanel>
@@ -73,17 +108,20 @@ class MainBlock extends React.Component {
                 <Panel.DefaultPanel>
                     <span>you shall know this is the basic default panel</span>
                 </Panel.DefaultPanel>,
-                < Modal.DefaultModal modalValues={basicModalData}>
-                    <span>you shall know this is the basic default panel</span>
-                </Modal.DefaultModal>,
                 <Panel.DefaultPanel>
-                    <button className="btn btn-primary open-modal1">open</button>
+                    <span>you shall know this is the basic default panel</span>
+                </Panel.DefaultPanel>,
+                // < Modal.DefaultModal modalValues={basicModalData}>
+                //     <span>you shall know this is the basic default panel</span>
+                // </Modal.DefaultModal>,
+                <Panel.DefaultPanel>
+                    <button className="btn btn-primary open-modal1" onClick={Modal.createModal.bind(this,basicModalData,'messageError')}>open</button>
                 </Panel.DefaultPanel>
             ]
             ;
         var columnsSecond = [
                 <Panel.DefaultPanel>
-                    <Tab.DefaultTab tabValues={basicTabData} />
+                    <Tab.DefaultTab tabValues={basicTabData}/>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     <Tab.LeftVerticalTab tabValues={basicTabData}/>
@@ -91,11 +129,11 @@ class MainBlock extends React.Component {
             ]
             ;
         var columnsThird = [
+                <Panel.PanelWithHeader panelValues={{title : 'default Table'}}>
+                    <Table.DefaultTable minHeight={426} tableValues={tableValues}/>
+                </Panel.PanelWithHeader>,
                 <Panel.DefaultPanel>
-                    <Tab.RightVerticalTab tabValues={basicTabData} minHeight={500} />
-                </Panel.DefaultPanel>,
-                <Panel.DefaultPanel>
-                    test
+                    <Tab.RightVerticalTab tabValues={basicTabData} minHeight={500}/>
                 </Panel.DefaultPanel>
             ]
             ;

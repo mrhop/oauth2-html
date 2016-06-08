@@ -1,8 +1,10 @@
 @import "../../../../scss/import";
 
 .panel {
-  background-size: cover;
-  background: url(../../../../assets/images/bg.jpg) fixed -1920px -950px;
+ // background-size: cover;
+  background: url(../../../../assets/images/bg-panel.jpg) scroll ;
+  background-size: 1920px 1080px;
+  background-position: -525px 0px;
   @include animation(zoomIn 0.5s);
   @include animation-fill-mode(both);
   border: none;
