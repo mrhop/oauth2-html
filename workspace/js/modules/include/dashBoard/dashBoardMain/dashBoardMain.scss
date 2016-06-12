@@ -3,7 +3,7 @@
 main, .al-main {
   margin-left: 180px;
   padding: 66px 0 0;
-  min-height: 500px;
+ // min-height: 500px;
   height: 100%;
   @include transition(all 400ms linear);
   @media (max-width: $screen-lg-min - 1) {
@@ -11,17 +11,6 @@ main, .al-main {
   }
   @media (max-width: $screen-xs-min - 1) {
     margin-left: 0px;
-  }
-  .track-vertical {
-    top: 0;
-    bottom: 0;
-    border-radius: 0;
-    width: 4px;
-    opacity: 1 !important;
-  }
-
-  .thumb-vertical {
-    width: 4px;
   }
 
   &.collapse {
@@ -76,21 +65,21 @@ main, .al-main {
     font-size: 13px;
     color: #fff;
     @include clearfix;
-    .al-footer-right{
+    .al-footer-right {
       float: right;
       @media (max-width: $screen-xs-min - 1) {
         float: none;
         text-align: center;
       }
     }
-    .al-footer-left{
+    .al-footer-left {
       float: left;
       @media (max-width: $screen-xs-min - 1) {
         float: none;
         text-align: center;
       }
     }
-    .al-copy,.al-share{
+    .al-copy, .al-share {
       display: inline-block;
     }
     .al-share {
@@ -113,28 +102,40 @@ main, .al-main {
           padding: 0 7px;
           box-sizing: content-box;
           font-size: 16px;
-          &:hover{
+          &:hover {
             @include scale(1.2);
           }
         }
-        i.fa-wechat{
+        i.fa-wechat {
           background: #2f9833;
-          &:before{
+          &:before {
             content: "\e908";
           }
         }
-        i.fa-weibo{
+        i.fa-weibo {
           background: #f29809;
-          &:before{
+          &:before {
             content: "\e909";
           }
         }
-        i.fa-facebook{
+        i.fa-facebook {
           background: #3b5998;
-          &:before{
+          &:before {
             content: "\e90a";
           }
         }
+      }
+    }
+  }
+  > div {
+    > .track-vertical {
+      top: 0;
+      bottom: 0;
+      border-radius: 0;
+      width: 4px;
+      opacity: 1 !important;
+      > .thumb-vertical {
+        width: 4px;
       }
     }
   }

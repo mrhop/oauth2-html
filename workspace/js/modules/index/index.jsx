@@ -65,8 +65,13 @@ class MainBlock extends React.Component {
         var tableValues = {
             thead: [{
                 className: 'td-id',
-                title: '#'
-            }, {title: 'First Name'}, {title: 'Last Name'}, {title: 'Username'}, {title: 'Email'}, {title: 'Age'}],
+                title: '#',
+                value: 'id',
+                sort: 'asc'
+            }, {title: 'First Name', value: 'firstName'}, {title: 'Last Name', value: 'lastName'}, {
+                title: 'Username',
+                value: 'username'
+            }, {title: 'Email', value: 'email'}, {title: 'Age', value: 'age'}],
             tfoot: [{
                 className: 'td-foot',
                 colSpan: 6,
@@ -76,6 +81,17 @@ class MainBlock extends React.Component {
                 className: 'td-id',
                 title: '1'
             }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'md@gmail.com'}, {title: '31'}]]
+        };
+
+        var additionalFeature = {
+            extraClass: 'hover',
+            sortAvailable: true,
+            pager: {
+                show: true,
+                rowSize: {
+                    show: true
+                }
+            }
         };
 
         var columns = [
@@ -94,7 +110,9 @@ class MainBlock extends React.Component {
                 //     <span>you shall know this is the basic default panel</span>
                 // </Modal.DefaultModal>,
                 <Panel.DefaultPanel>
-                    <button className="btn btn-primary open-modal1" onClick={Modal.createModal.bind(this,basicModalData,'messageError')}>open</button>
+                    <button className="btn btn-primary open-modal1"
+                            onClick={Modal.createModal.bind(this,basicModalData,'messageError')}>open
+                    </button>
                 </Panel.DefaultPanel>
             ]
             ;
@@ -111,9 +129,10 @@ class MainBlock extends React.Component {
                 <Panel.PanelWithHeader panelValues={{title : 'default Table'}}>
                     <Table.StripedTable minHeight={426} tableValues={tableValues}/>
                 </Panel.PanelWithHeader>,
-                <Panel.DefaultPanel>
-                    <Table.RowEditableTable tableValues={tableValues} additionalFeature = {{extraClass:'hover',pager:{pageSize:10}}} minHeight={426}/>
-                </Panel.DefaultPanel>
+                <Panel.PanelWithHeader panelValues={{title : 'Row Editable Table'}}>
+                    <Table.RowEditableTable tableValues={tableValues}
+                                            additionalFeature={additionalFeature} minHeight={350}/>
+                </Panel.PanelWithHeader>
             ]
             ;
         return (<div>

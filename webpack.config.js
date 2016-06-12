@@ -90,6 +90,8 @@ module.exports = {
             'ReactIntl': 'react-intl',
             'ReactIntlEn': __dirname + '/node_modules/react-intl/locale-data/en',
             'ReactIntlZh': __dirname + '/node_modules/react-intl/locale-data/zh',
+            'Select': 'react-select',
+            'classNames': 'classnames',
             'UtilFun': __dirname + '/workspace/js/util/utilFun',
             'BaseComponent': __dirname + '/workspace/js/modules/common/baseComponent.jsx',
             'CustomScrollbar': __dirname + '/workspace/js/modules/common/customScrollbar/customScrollbar.jsx',

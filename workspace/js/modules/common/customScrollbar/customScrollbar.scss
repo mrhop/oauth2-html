@@ -7,6 +7,7 @@
   cursor: pointer;
 }
 
+
 .track-vertical {
   top: 2px;
   width: $scroll-bar-width !important;
@@ -17,9 +18,6 @@
   height: $scroll-bar-height !important;
 }
 
-.thumb-vertical{
-  width: 3px;
-}
 .thumb-vertical,.thumb-horizontal{
   background: rgb(0, 0, 0);
   @include opacity(0.4);
@@ -29,5 +27,4 @@
 }
 .thumb-horizontal{
   height: $scroll-bar-height!important;
-
 }

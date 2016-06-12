@@ -1,105 +1,150 @@
 @import "../../../../scss/import";
 
-.table {
-  margin-bottom: 0;
-  thead {
-    tr {
-      th {
-        white-space: nowrap;
-        border-bottom: none;
-        font-weight: normal;
-      }
-    }
-  }
-  tbody {
-    tr {
-      border-bottom: none;
-      td {
-        padding: 0 8px;
-        line-height: 35px;
-        border-top: none;
-      }
-    }
-  }
-  tfoot {
-    tr {
-      td {
-        border-top: none;
-      }
-    }
-  }
-  &.hover {
-    thead {
-      tr {
-        background-color: rgba(0, 0, 0, .1);
-      }
-    }
-    tbody {
-      tr {
-        td {
-          border-top: 1px solid rgba(255, 255, 255, .2);
+.table-root {
+  .table-content {
+    .table {
+      margin-bottom: 0;
+      thead {
+        tr {
+          th {
+            white-space: nowrap;
+            border-bottom: none;
+            font-weight: normal;
+            &.sortAvailable{
+              cursor: pointer;
+            }
+            span.th-sort{
+              display: inline-block;
+              margin-left: 5px;
+              @include transition(all 200ms linear);
+              &:before{
+                content: '\e903';
+              }
+              &.asc{
+                  @include rotate(0deg);
+              }
+              &.desc{
+                  @include rotate(180deg);
+              }
+            }
+
+          }
         }
-        &:first-child {
+      }
+      tbody {
+        tr {
+          border-bottom: none;
+          td {
+            padding: 0 8px;
+            line-height: 35px;
+            border-top: none;
+          }
+        }
+      }
+      tfoot {
+        tr {
           td {
             border-top: none;
           }
         }
-        &:hover {
-          background-color: rgba(0, 0, 0, .1);
+      }
+      &.hover {
+        thead {
+          tr {
+            background-color: rgba(0, 0, 0, .1);
+          }
+        }
+        tbody {
+          tr {
+            td {
+              border-top: 1px solid rgba(255, 255, 255, .2);
+            }
+            &:first-child {
+              td {
+                border-top: none;
+              }
+            }
+            &:hover {
+              background-color: rgba(0, 0, 0, .1);
+            }
+          }
+        }
+        tfoot {
+          tr {
+            background-color: rgba(0, 0, 0, .1);
+          }
         }
       }
-    }
-    tfoot {
-      tr {
+
+      &.border {
+        thead {
+          tr {
+            th {
+              border: 1px solid rgba(255, 255, 255, .2) !important;
+            }
+          }
+        }
+        tbody, tfoot {
+          tr {
+            td {
+              border: 1px solid rgba(255, 255, 255, .2) !important;
+            }
+          }
+        }
+      }
+      &.condensed {
+        thead {
+          tr {
+            th {
+              border-bottom: 1px solid rgba(255, 255, 255, .2) !important;
+            }
+          }
+        }
+        tbody, tfoot {
+          tr {
+            td {
+              border-bottom: 1px solid rgba(255, 255, 255, .2) !important;
+            }
+          }
+        }
+      }
+      &.striped {
+        tbody {
+          tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, .1);
+          }
+        }
+      }
+      .td-id {
+        text-align: left !important;
+        width: 40px;
+      }
+      .tr-deep {
         background-color: rgba(0, 0, 0, .1);
       }
+    }
+  }
+  .top-operations {
+    margin-bottom: 5px;
+    //overflow: hidden;
+    .btn-add-row {
+      float: right;
+    }
+    .select-row-size {
+      float: left;
+      width: 50%;
     }
   }
 
-  &.border {
-    thead{
-      tr {
-        th {
-          border: 1px solid rgba(255, 255, 255, .2) !important;
+  .bottom-operations {
+    margin-top: 5px;
+    .btn-pager {
+      .btn{
+        color: #000;
+        &:hover,&.active{
+          background-color: #aaa;
         }
       }
     }
-    tbody,tfoot {
-      tr {
-        td {
-          border: 1px solid rgba(255, 255, 255, .2) !important;
-        }
-      }
-    }
-  }
-  &.condensed {
-    thead{
-      tr {
-        th {
-          border-bottom: 1px solid rgba(255, 255, 255, .2) !important;
-        }
-      }
-    }
-    tbody,tfoot {
-      tr {
-        td {
-          border-bottom: 1px solid rgba(255, 255, 255, .2) !important;
-        }
-      }
-    }
-  }
-  &.striped {
-    tbody {
-      tr:nth-of-type(odd){
-        background-color: rgba(0, 0, 0, .1);
-      }
-    }
-  }
-  .td-id {
-    text-align: left !important;
-    width: 40px;
-  }
-  .tr-deep{
-    background-color: rgba(0, 0, 0, .1);
   }
 }
