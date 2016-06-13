@@ -10,24 +10,31 @@
             white-space: nowrap;
             border-bottom: none;
             font-weight: normal;
-            &.sortAvailable{
+            &.sortAvailable {
               cursor: pointer;
             }
-            span.th-sort{
+            span.th-sort {
               display: inline-block;
               margin-left: 5px;
               @include transition(all 200ms linear);
-              &:before{
+              &:before {
                 content: '\e903';
               }
-              &.asc{
-                  @include rotate(0deg);
+              &.asc {
+                @include rotate(0deg);
               }
-              &.desc{
-                  @include rotate(180deg);
+              &.desc {
+                @include rotate(180deg);
               }
             }
 
+          }
+          &.theadFilter {
+            input {
+              background-color: rgba(0, 0, 0, .3);
+              height: 25px;
+              border-color: rgba(0, 0, 0, .1);
+            }
           }
         }
       }
@@ -139,9 +146,9 @@
   .bottom-operations {
     margin-top: 5px;
     .btn-pager {
-      .btn{
+      .btn {
         color: #000;
-        &:hover,&.active{
+        &:hover, &.active {
           background-color: #aaa;
         }
       }

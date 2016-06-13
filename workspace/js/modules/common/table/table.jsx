@@ -14,6 +14,8 @@ const defaultRowSizeOptions = [
 class BasicTable extends React.Component {
     constructor(props) {
         super(props);
+        this.tableId = 'id-' + UtilFun.uuid();
+        //this.props.formId = UtilFun.uuid();
         this.state = {};
         //table values shall be get from url not props,but additionalFeature shall be at the props[for show features but not data]
         var additionalFeature = this.props.additionalFeature;
@@ -31,15 +33,19 @@ class BasicTable extends React.Component {
         if (additionalFeature && additionalFeature.sortAvailable) {
             this.state.sort = {available: true};
         }
-
+        if (additionalFeature && additionalFeature.filterAvailable) {
+            this.state.filter = {available: true};
+        }
         this.state.tableValues = this.props.tableValues;
-        if (this.state.tableValues && this.state.tableValues.thead && this.state.sort && this.state.sort.available) {
+        if (this.state.tableValues && this.state.tableValues.thead) {
             //sort init
             this.state.tableValues.thead.map(function (subItem, index) {
-                if (subItem.sort) {
-                    this.state.sort.currentTh = {sortName: subItem.value, sortDirection: subItem.sort};
+                if (this.state.sort && this.state.sort.available) {
+                    if (subItem.sort) {
+                        this.state.sort.currentTh = {sortName: subItem.value, sortDirection: subItem.sort};
+                    }
                 }
-            },this);
+            }, this);
         }
     }
 
@@ -68,6 +74,13 @@ class BasicTable extends React.Component {
         console.log('sort name ' + sortName);
     }
 
+    onFilterChange(filterName) {
+        //change the data relate and update
+        //ADD THE FILTERs to the state object as an array[{name:xxx,value:xxx}] then deal with the data and forceUpdate
+        //this.forceUpdate();
+        console.log('filter value ' + filterName + '  ' + document.querySelector('#' + this.tableId + ' input[name="' + filterName + '-filter-name' + '"]').value);
+    }
+
     renderBasic(tableExtraClass) {
         var additionalFeature = this.props.additionalFeature;
         var tableClass = classNames('table', tableExtraClass,
@@ -81,7 +94,6 @@ class BasicTable extends React.Component {
         }
         var thead = null;
         if (this.state.tableValues.thead) {
-
             thead = this.state.tableValues.thead.map(function (subItem, index) {
                 var sortItem = null;
                 var onclick = null;
@@ -99,6 +111,25 @@ class BasicTable extends React.Component {
                             data-value={subItem.value} onClick={onclick}>{subItem.title}{sortItem}</th>);
             }, this);
         }
+
+
+        var theadFilter = null;
+        if (this.state.tableValues.thead && this.state.filter && this.state.filter.available) {
+            theadFilter = this.state.tableValues.thead.map(function (subItem, index) {
+                var onFilter = this.onFilterChange.bind(this, subItem.value);
+                var input = null;
+                if(subItem.filter){
+                    input = <input className="form-control"
+                           name={subItem.value + '-filter-name'}
+                           onChange={onFilter}/>;
+                }
+
+                return (
+                    <th key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}>{input}
+                    </th>);
+            }, this);
+        }
+
         var tbody = null;
         if (this.props.tableValues.tbody) {
             tbody = this.props.tableValues.tbody.map(function (subItem, index) {
@@ -149,7 +180,7 @@ class BasicTable extends React.Component {
             );
         }
         return (
-            <div className="table-root">
+            <div className="table-root" id={this.tableId}>
                 {topOperations.length > 0 ?
                     <div className="top-operations">{topOperations}<br className="clearfix-bottom"/></div> : null }
                 <div className="table-content" style={style}>
@@ -159,6 +190,9 @@ class BasicTable extends React.Component {
                             <tr>
                                 {thead}
                             </tr>
+                            {theadFilter ? <tr className="theadFilter">
+                                {theadFilter}
+                            </tr> : null}
                             </thead>
                             <tfoot>
                             <tr className={(tableExtraClass == 'striped' || (additionalFeature && additionalFeature.extraClass == 'striped') ) && this.props.tableValues.tbody.length % 2 == 0 ? 'tr-deep' : null}>
@@ -223,37 +257,54 @@ class RowEditableTable extends BasicTable {
         );
     }
 }
-
+BasicTable.propTypes = {
+    tableValues: React.PropTypes.object,
+    minHeight: React.PropTypes.number,
+    additionalFeature: React.PropTypes.object,
+    formId: React.PropTypes.object
+};
 
 DefaultTable.propTypes = {
     tableValues: React.PropTypes.object,
     minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object
+    additionalFeature: React.PropTypes.object,
+    formId: React.PropTypes.object
+
 };
 HoverTable.propTypes = {
     tableValues: React.PropTypes.object,
     minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object
+    additionalFeature: React.PropTypes.object,
+    formId: React.PropTypes.object
+
 };
 BorderTable.propTypes = {
     tableValues: React.PropTypes.object,
     minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object
+    additionalFeature: React.PropTypes.object,
+    formId: React.PropTypes.object
+
 };
 CondensedTable.propTypes = {
     tableValues: React.PropTypes.object,
     minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object
+    additionalFeature: React.PropTypes.object,
+    formId: React.PropTypes.object
+
 };
 StripedTable.propTypes = {
     tableValues: React.PropTypes.object,
     minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object
+    additionalFeature: React.PropTypes.object,
+    formId: React.PropTypes.object
+
 };
 RowEditableTable.propTypes = {
     tableValues: React.PropTypes.object,
     minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object
+    additionalFeature: React.PropTypes.object,
+    formId: React.PropTypes.object
+
 };
 //tableValues  except the thead tbody tfoot,other features: sort(just add to the thead>th),extra class for editable table{extraClass:hover},pager{pageSize:10}
 //pay attention to the state data

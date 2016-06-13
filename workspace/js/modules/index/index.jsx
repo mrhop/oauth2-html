@@ -67,11 +67,13 @@ class MainBlock extends React.Component {
                 className: 'td-id',
                 title: '#',
                 value: 'id',
-                sort: 'asc'
-            }, {title: 'First Name', value: 'firstName'}, {title: 'Last Name', value: 'lastName'}, {
+                sort: 'asc',
+                filter:false
+            }, {title: 'First Name', value: 'firstName',filter:true}, {title: 'Last Name', value: 'lastName',filter:true}, {
                 title: 'Username',
-                value: 'username'
-            }, {title: 'Email', value: 'email'}, {title: 'Age', value: 'age'}],
+                value: 'username',
+                filter:true
+            }, {title: 'Email', value: 'email',filter:true}, {title: 'Age', value: 'age',filter:true}],
             tfoot: [{
                 className: 'td-foot',
                 colSpan: 6,
@@ -86,6 +88,7 @@ class MainBlock extends React.Component {
         var additionalFeature = {
             extraClass: 'hover',
             sortAvailable: true,
+            filterAvailable: true,
             pager: {
                 show: true,
                 rowSize: {
