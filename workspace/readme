@@ -25,10 +25,10 @@ now tables
 
 tables 的各种样式以及td的左右以及链接，比如email,and also smart tables
 //继续table的数据融入,数据ok，继续其他样式的table
-//table 的列过滤设置
-//table 的自动同步数据设置
+//table 的列过滤设置[DONE]
+//table 的自动同步数据设置[now 就是前后台的数据处理的同步性]------>
 //然后是table tableValues的data 后端获取，以及关联触发处理
-//
+//然后是reactjs的mvvm的处理模型
 //then forms 以及图表的处理
 
 
