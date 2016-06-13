@@ -108,6 +108,6 @@ module.exports = {
         }),
         new CopyWebpackPlugin(
             [{from: 'html/**/*'},
-                {from: '*.html'}]
+                {from: '*.html'},{from:'demoData/**/*'}]
         )]
 };
