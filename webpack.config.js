@@ -41,7 +41,7 @@ module.exports = {
     output: {
         path: __dirname + '/build',
         filename: 'js/[name].js',
-        publicPath: '/'
+       // publicPath: '/'
     },
     devServer: {
         contentBase: path.join(__dirname, 'build'),
@@ -51,26 +51,27 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /(?!basic|index)\.scss$/,
+                test: /(?!basic)\.scss$/,
                 loaders: ['style', 'css', 'sass']
             }, {
                 test: /basic\.scss$/,
-                loader: ExtractTextPlugin.extract('css!sass', {publicPath: '../'})
+                loader: ExtractTextPlugin.extract('css!sass', {publicPath: '../'
+                })
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 exclude: /(node_modules|bower_components)/,
                 //loader: 'file'
-                loaders: ['url-loader?limit=8192&name=[path][name]-[hash].[ext]&context=' + path.resolve(__dirname, 'workspace'),
+                loaders: ['url-loader?limit=8192&name=./[path][name]-[hash].[ext]&context=' + path.resolve(__dirname, 'workspace'),
                     'image-webpack?{progressive:true, optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}}'
                 ]
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'url-loader?limit=10000&minetype=application/font-woff&name=[path][name]-[hash].[ext]&context=' + path.resolve(__dirname, 'workspace')
+                loader: 'url-loader?limit=10000&minetype=application/font-woff&name=./[path][name]-[hash].[ext]&context=' + path.resolve(__dirname, 'workspace')
             }, {
                 test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'file-loader?name=[path][name]-[hash].[ext]&context=' + path.resolve(__dirname, 'workspace')
+                loader: 'file-loader?name=./[path][name]-[hash].[ext]&context=' + path.resolve(__dirname, 'workspace')
             },
             {
                 test: /\.jsx?$/,

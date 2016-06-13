@@ -21,10 +21,10 @@
                 content: '\e903';
               }
               &.asc {
-                @include rotate(0deg);
+                @include rotate(180deg);
               }
               &.desc {
-                @include rotate(180deg);
+                @include rotate(0deg);
               }
             }
 
