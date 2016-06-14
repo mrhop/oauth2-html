@@ -46,6 +46,17 @@
             padding: 0 8px;
             line-height: 35px;
             border-top: none;
+            &.td-row-actions {
+              div.btn-group {
+                width: 120px;
+              }
+            }
+            .td-value{
+              display: inline-block;
+            }
+            .editable{
+              display: none;
+            }
           }
         }
       }
@@ -140,7 +151,7 @@
     }
     .select-row-size {
       float: left;
-      width: 50%;
+      width: 200px;
     }
   }
 

@@ -36,10 +36,9 @@ class BasicTable extends React.Component {
         if (additionalFeature && additionalFeature.filterAvailable) {
             this.state.filter = {available: true};
         }
-        this.state.tableValues = this.props.tableValues;
-        if (this.state.tableValues && this.state.tableValues.thead) {
+        if (this.props.tableValues && this.props.tableValues.thead) {
             //sort init
-            this.state.tableValues.thead.map(function (subItem, index) {
+            this.props.tableValues.thead.map(function (subItem, index) {
                 if (this.state.sort && this.state.sort.available) {
                     if (subItem.sort) {
                         this.state.sort.currentTh = {sortName: subItem.value, sortDirection: subItem.sort};
@@ -47,6 +46,8 @@ class BasicTable extends React.Component {
                 }
             }, this);
         }
+        //需要创建search的字段，state的filter，sort，pager
+        //create。update 的链接地址
     }
 
     componentDidMount() {
@@ -74,6 +75,15 @@ class BasicTable extends React.Component {
         console.log('sort name ' + sortName);
     }
 
+    onRowEdit(rowKey) {
+        console.log('row key ' + rowKey);
+    }
+
+    onRowDelete(rowKey) {
+        console.log('row key ' + rowKey);
+    }
+
+
     onFilterChange(filterName) {
         //change the data relate and update
         //ADD THE FILTERs to the state object as an array[{name:xxx,value:xxx}] then deal with the data and forceUpdate
@@ -93,12 +103,12 @@ class BasicTable extends React.Component {
             };
         }
         var thead = null;
-        if (this.state.tableValues.thead) {
-            thead = this.state.tableValues.thead.map(function (subItem, index) {
+        if (this.props.tableValues.thead) {
+            thead = this.props.tableValues.thead.map(function (subItem, index) {
                 var sortItem = null;
                 var onclick = null;
                 var subItemClassName = subItem.className;
-                if (this.state.sort && this.state.sort.available) {
+                if (this.state.sort && this.state.sort.available && !subItem.virtual) {
                     onclick = this.onSortClick.bind(this, subItem.value);
                     subItemClassName = classNames(subItemClassName, 'sortAvailable');
                     if (this.state.sort.currentTh && this.state.sort.currentTh.sortName == subItem.value) {
@@ -114,16 +124,15 @@ class BasicTable extends React.Component {
 
 
         var theadFilter = null;
-        if (this.state.tableValues.thead && this.state.filter && this.state.filter.available) {
-            theadFilter = this.state.tableValues.thead.map(function (subItem, index) {
+        if (this.props.tableValues.thead && this.state.filter && this.state.filter.available) {
+            theadFilter = this.props.tableValues.thead.map(function (subItem, index) {
                 var onFilter = this.onFilterChange.bind(this, subItem.value);
                 var input = null;
-                if(subItem.filter){
+                if (subItem.filter) {
                     input = <input className="form-control"
-                           name={subItem.value + '-filter-name'}
-                           onChange={onFilter}/>;
+                                   name={subItem.value + '-filter-name'}
+                                   onChange={onFilter}/>;
                 }
-
                 return (
                     <th key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}>{input}
                     </th>);
@@ -133,11 +142,31 @@ class BasicTable extends React.Component {
         var tbody = null;
         if (this.props.tableValues.tbody) {
             tbody = this.props.tableValues.tbody.map(function (subItem, index) {
-                var tds = subItem.map(function (subItem, index) {
+                var tds = subItem.value.map(function (subItem, index) {
+                    var editContent = null;
+                    if (tableExtraClass == 'row-editable' && subItem.editable) {
+                        if (subItem.editType == 'text') {
+                            editContent = <input type="text" className="editable" data-value = {subItem.value}/>;
+                        }else if(subItem.editType == 'radio'){
+                            //now radio group
+                            //
+                            editContent = <radio type="text" className="editable" data-value = {subItem.value}/>;
+                        }else if(subItem.editType == 'select'){
+                            editContent = <radio type="text" className="editable" data-value = {subItem.value}/>;
+                        }
+                    }
                     return (<td key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}
-                                className={subItem.className}>{subItem.title}</td>);
+                                className={subItem.className}><span className="td-value">{subItem.title}</span>{editContent}</td>);
                 });
-                return (<tr key={index}>{tds}</tr>);
+                if (tableExtraClass == 'row-editable') {
+                    tds.push(<td key='row-actions' className="td-row-actions">
+                        <div className="btn-group btn-group-xs">
+                            <button className="btn btn-primary btn-xs" onClick={this.onRowEdit.bind(this,subItem.key)}>Edit</button>
+                            <button className="btn btn-danger btn-xs" onClick={this.onRowDelete.bind(this,subItem.key)}>Delete</button>
+                        </div>
+                    </td>);
+                }
+                return (<tr key={subItem.key} id = {'tr-' + subItem.key }>{tds}</tr>);
             }, this);
         }
         var tfoot = null;
@@ -251,6 +280,17 @@ class StripedTable extends BasicTable {
 
 //editable table with row or cell,different way
 class RowEditableTable extends BasicTable {
+    constructor(props) {
+        super(props);
+        if (this.props.tableValues.thead) {
+            this.props.tableValues.thead.push({
+                title: 'Actions',
+                virtual: true,
+                filter: false
+            });
+        }
+    }
+
     render() {
         return (
             this.renderBasic('row-editable')
@@ -263,49 +303,49 @@ BasicTable.propTypes = {
     additionalFeature: React.PropTypes.object,
     formId: React.PropTypes.object
 };
-
-DefaultTable.propTypes = {
-    tableValues: React.PropTypes.object,
-    minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object,
-    formId: React.PropTypes.object
-
-};
-HoverTable.propTypes = {
-    tableValues: React.PropTypes.object,
-    minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object,
-    formId: React.PropTypes.object
-
-};
-BorderTable.propTypes = {
-    tableValues: React.PropTypes.object,
-    minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object,
-    formId: React.PropTypes.object
-
-};
-CondensedTable.propTypes = {
-    tableValues: React.PropTypes.object,
-    minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object,
-    formId: React.PropTypes.object
-
-};
-StripedTable.propTypes = {
-    tableValues: React.PropTypes.object,
-    minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object,
-    formId: React.PropTypes.object
-
-};
-RowEditableTable.propTypes = {
-    tableValues: React.PropTypes.object,
-    minHeight: React.PropTypes.number,
-    additionalFeature: React.PropTypes.object,
-    formId: React.PropTypes.object
-
-};
+//
+// DefaultTable.propTypes = {
+//     tableValues: React.PropTypes.object,
+//     minHeight: React.PropTypes.number,
+//     additionalFeature: React.PropTypes.object,
+//     formId: React.PropTypes.object
+//
+// };
+// HoverTable.propTypes = {
+//     tableValues: React.PropTypes.object,
+//     minHeight: React.PropTypes.number,
+//     additionalFeature: React.PropTypes.object,
+//     formId: React.PropTypes.object
+//
+// };
+// BorderTable.propTypes = {
+//     tableValues: React.PropTypes.object,
+//     minHeight: React.PropTypes.number,
+//     additionalFeature: React.PropTypes.object,
+//     formId: React.PropTypes.object
+//
+// };
+// CondensedTable.propTypes = {
+//     tableValues: React.PropTypes.object,
+//     minHeight: React.PropTypes.number,
+//     additionalFeature: React.PropTypes.object,
+//     formId: React.PropTypes.object
+//
+// };
+// StripedTable.propTypes = {
+//     tableValues: React.PropTypes.object,
+//     minHeight: React.PropTypes.number,
+//     additionalFeature: React.PropTypes.object,
+//     formId: React.PropTypes.object
+//
+// };
+// RowEditableTable.propTypes = {
+//     tableValues: React.PropTypes.object,
+//     minHeight: React.PropTypes.number,
+//     additionalFeature: React.PropTypes.object,
+//     formId: React.PropTypes.object
+//
+// };
 //tableValues  except the thead tbody tfoot,other features: sort(just add to the thead>th),extra class for editable table{extraClass:hover},pager{pageSize:10}
 //pay attention to the state data
 

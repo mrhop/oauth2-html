@@ -45,6 +45,9 @@ a, .a {
   cursor: pointer;
   @include transition(all .2s ease);
 }
+button:focus{
+  outline: 0!important;
+}
 
 @include keyframes("pulsate"){
   30% {

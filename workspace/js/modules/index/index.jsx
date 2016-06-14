@@ -68,21 +68,35 @@ class MainBlock extends React.Component {
                 title: '#',
                 value: 'id',
                 sort: 'asc',
-                filter:false
-            }, {title: 'First Name', value: 'firstName',filter:true}, {title: 'Last Name', value: 'lastName',filter:true}, {
+                filter: false
+            }, {
+                title: 'First Name',
+                value: 'firstName',
+                filter: true,
+                editable: true,
+                editType: 'select',
+                editValue: [{label: 'select 1', value: 'select1'}, {label: 'select 2', value: 'select2'}]
+            }, {
+                title: 'Last Name', value: 'lastName', filter: true, editable: true,
+                editType: 'radio', editValue: [{label: 'type 1', value: 'value1'}, {label: 'type 2', value: 'value2'}]
+            }, {
                 title: 'Username',
                 value: 'username',
-                filter:true
-            }, {title: 'Email', value: 'email',filter:true}, {title: 'Age', value: 'age',filter:true}],
+                filter: true,
+                editable: true,
+                editType: 'text'
+            }, {title: 'Email', value: 'email', filter: true}, {title: 'Age', value: 'age', filter: true}],
             tfoot: [{
                 className: 'td-foot',
-                colSpan: 6,
+                colSpan: 7,
                 title: 'this is the footer for this table'
             }],
-            tbody: [[{
-                className: 'td-id',
-                title: '1'
-            }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'md@gmail.com'}, {title: '31'}]]
+            tbody: [{
+                key: 1, value: [{
+                    className: 'td-id',
+                    title: '1'
+                }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'md@gmail.com'}, {title: '31'}]
+            }]
         };
 
         var additionalFeature = {
@@ -131,10 +145,6 @@ class MainBlock extends React.Component {
         var columnsThird = [
                 <Panel.PanelWithHeader panelValues={{title : 'default Table'}}>
                     <Table.StripedTable minHeight={426} tableValues={tableValues}/>
-                </Panel.PanelWithHeader>,
-                <Panel.PanelWithHeader panelValues={{title : 'Row Editable Table'}}>
-                    <Table.RowEditableTable tableValues={tableValues}
-                                            additionalFeature={additionalFeature} minHeight={350}/>
                 </Panel.PanelWithHeader>
             ]
             ;
@@ -142,6 +152,10 @@ class MainBlock extends React.Component {
             <Layout.Columns4 columnValues={columns}/>
             <Layout.Columns2 columnValues={columnsSecond}/>
             <Layout.Columns2 columnValues={columnsThird}/>
+            <Panel.PanelWithHeader panelValues={{title : 'Row Editable Table'}}>
+                <Table.RowEditableTable tableValues={tableValues}
+                                        additionalFeature={additionalFeature} minHeight={350}/>
+            </Panel.PanelWithHeader>
         </div>);
         //return <div style={{'height' : '2000px'}}>123</div>;
     }
