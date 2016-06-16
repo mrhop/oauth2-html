@@ -28,9 +28,13 @@ tables 的各种样式以及td的左右以及链接，比如email,and also smart tables
 //table 的列过滤设置[DONE]
 [样例数据在webpack中的放置,CopyWebpackPlugin[done]]
 //table 的自动同步数据设置[now 就是前后台的数据处理的同步性，使用样例数据作为数据标本],------> operations rowedittable now input type section
+//开始做样式的调整 以及条件的触发
+tbody部分需要考虑一下单独作为一个组件实现--now doing
 //然后是table tableValues的data 后端获取，以及关联触发处理
 //然后是reactjs的mvvm的处理模型
 //then forms 以及图表的处理
+
+
 
 
 //THEN forms and basic functions like mail,online talking and others,then cms/crm basic creation

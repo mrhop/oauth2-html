@@ -75,17 +75,19 @@ class MainBlock extends React.Component {
                 filter: true,
                 editable: true,
                 editType: 'select',
-                editValue: [{label: 'select 1', value: 'select1'}, {label: 'select 2', value: 'select2'}]
+                editValue: [{label: 'select 1', value: 'Mark'}, {label: 'select 2', value: 'Mark1'}]
             }, {
                 title: 'Last Name', value: 'lastName', filter: true, editable: true,
-                editType: 'radio', editValue: [{label: 'type 1', value: 'value1'}, {label: 'type 2', value: 'value2'}]
+                editType: 'radio', editValue: [{label: 'type 1', value: 'Otto'}, {label: 'type 2', value: 'Otto1'}]
             }, {
                 title: 'Username',
                 value: 'username',
                 filter: true,
                 editable: true,
                 editType: 'text'
-            }, {title: 'Email', value: 'email', filter: true}, {title: 'Age', value: 'age', filter: true}],
+            }, {title: 'Email', value: 'email', filter: true}, {title: 'Age', value: 'age', filter: true,
+                editable: true, editType: 'checkbox', editValue: [{label: '31', value: '31'}, {label: '32', value: '32'}]
+            }],
             tfoot: [{
                 className: 'td-foot',
                 colSpan: 7,
@@ -94,8 +96,8 @@ class MainBlock extends React.Component {
             tbody: [{
                 key: 1, value: [{
                     className: 'td-id',
-                    title: '1'
-                }, {title: 'Mark'}, {title: 'Otto'}, {title: '@mdo'}, {title: 'md@gmail.com'}, {title: '31'}]
+                    value: '1'
+                }, {value: 'Mark'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
             }]
         };
 

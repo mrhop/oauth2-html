@@ -11,7 +11,7 @@
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/button-groups";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/dropdowns";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/tables";
-@import '../../node_modules/react-select/dist/react-select.css';
+@import '../../node_modules/react-select/scss/default';
 body, html {
   min-height: 100%;
   height: 100%;
@@ -146,13 +146,7 @@ h1, .h1, h2, .h2, h3, .h3{
 .clearfix-bottom{
   clear: both;
 }
-.Select-control{
-  height: 30px;
+.Select {
+  line-height: normal;
 }
-.Select-placeholder, .Select--single > .Select-control .Select-value{
-  color: #666;
-  line-height: 30px;
-}
-.Select-input{
-  height: 30px;
-}
+

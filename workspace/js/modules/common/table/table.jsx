@@ -46,6 +46,11 @@ class BasicTable extends React.Component {
                 }
             }, this);
         }
+
+        if (this.props.tableValues && this.props.tableValues.tbody) {
+            //this data shall be finally added from backend
+            this.state.tbody = this.props.tableValues.tbody;
+        }
         //需要创建search的字段，state的filter，sort，pager
         //create。update 的链接地址
     }
@@ -54,6 +59,13 @@ class BasicTable extends React.Component {
     }
 
     onRowSizeChange(value) {
+        this.state.pager.rowSize.value = value;
+        this.forceUpdate();
+        console.log('You\'ve selected:', value);
+    }
+
+    onRowEditSingleValueChange( rowIndex, columnIndex,e) {
+        console.log(e.target.value + '------' + rowIndex + '------' + columnIndex);
         this.state.pager.rowSize.value = value;
         this.forceUpdate();
         console.log('You\'ve selected:', value);
@@ -76,6 +88,15 @@ class BasicTable extends React.Component {
     }
 
     onRowEdit(rowKey) {
+        var tr = document.querySelector('#' + this.tableId + ' tbody tr#tr-' + rowKey);
+        if (tr.classList.contains('edit')) {
+            tr.classList.remove('edit');
+            tr.querySelector('.td-row-actions button.edit').innerText = 'Edit';
+        } else {
+            tr.classList.add('edit');
+            tr.querySelector('.td-row-actions button.edit').innerText = 'Save';
+        }
+
         console.log('row key ' + rowKey);
     }
 
@@ -140,33 +161,65 @@ class BasicTable extends React.Component {
         }
 
         var tbody = null;
-        if (this.props.tableValues.tbody) {
-            tbody = this.props.tableValues.tbody.map(function (subItem, index) {
+        if (this.state.tbody) {
+            tbody = this.state.tbody.map(function (subItem, index) {
+                var rowIndex = index;
                 var tds = subItem.value.map(function (subItem, index) {
+                    var tdSubItem = subItem;
                     var editContent = null;
-                    if (tableExtraClass == 'row-editable' && subItem.editable) {
-                        if (subItem.editType == 'text') {
-                            editContent = <input type="text" className="editable" data-value = {subItem.value}/>;
-                        }else if(subItem.editType == 'radio'){
-                            //now radio group
-                            //
-                            editContent = <radio type="text" className="editable" data-value = {subItem.value}/>;
-                        }else if(subItem.editType == 'select'){
-                            editContent = <radio type="text" className="editable" data-value = {subItem.value}/>;
+                    var theadItem = this.props.tableValues.thead ? this.props.tableValues.thead[index] : null;
+                    if (tableExtraClass == 'row-editable' && theadItem && theadItem.editable) {
+                        subItem.mutableValue = subItem.value;
+                        if (theadItem && theadItem.editType == 'text') {
+                            editContent = <input type="text" className="editable input-text" data-name={theadItem.value}
+                                                 name={theadItem.value} value={ subItem.mutableValue}
+                                                 onChange={this.onRowEditSingleValueChange.bind(this,rowIndex,index,event)}/>;
+                        } else if (theadItem && theadItem.editType == 'radio') {
+                            editContent = theadItem.editValue.map(function (subItem, index) {
+                                const checked = subItem.value == tdSubItem.value ? 'checked' : false;
+                                return <li key={index}><input type="radio" name={theadItem.value}
+                                                              data-name={theadItem.value}
+                                                              defaultValue={ subItem.mutableValue}
+                                                              defaultChecked={checked}/>
+                                    <span>{subItem.label}</span></li>;
+                            }, this);
+                            editContent = <ul className="editable ul-wrapper">{editContent}</ul>;
+                        } else if (theadItem && theadItem.editType == 'checkbox') {
+                            editContent = theadItem.editValue.map(function (subItem, index) {
+                                return <li key={index}><input type="checkbox" name={theadItem.value}
+                                                              data-name={theadItem.value}
+                                                              defaultValue={ subItem.mutableValue}
+                                                              defaultValue={tdSubItem.value.split(',').includes(subItem.value)  ? 'checked' : false}/>
+                                    <span>{subItem.label}</span></li>;
+                            }, this);
+                            editContent = <ul className="editable ul-wrapper">{editContent}</ul>;
+                        } else if (theadItem && theadItem.editType == 'select') {
+                            editContent =
+                                <Select className="editable" name={theadItem.value} data-name={theadItem.value}
+                                        value={ subItem.mutableValue}
+                                        options={theadItem.editValue}>
+                                </Select>;
                         }
                     }
                     return (<td key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}
-                                className={subItem.className}><span className="td-value">{subItem.title}</span>{editContent}</td>);
-                });
+                                className={subItem.className}><span
+                        className="td-value">{subItem.value}</span>{editContent}</td>);
+                }, this);
                 if (tableExtraClass == 'row-editable') {
                     tds.push(<td key='row-actions' className="td-row-actions">
                         <div className="btn-group btn-group-xs">
-                            <button className="btn btn-primary btn-xs" onClick={this.onRowEdit.bind(this,subItem.key)}>Edit</button>
-                            <button className="btn btn-danger btn-xs" onClick={this.onRowDelete.bind(this,subItem.key)}>Delete</button>
+                            <button className="btn btn-primary btn-xs edit"
+                                    onClick={this.onRowEdit.bind(this,subItem.key)}>
+                                Edit
+                            </button>
+                            <button className="btn btn-danger btn-xs delete"
+                                    onClick={this.onRowDelete.bind(this,subItem.key)}>
+                                Delete
+                            </button>
                         </div>
                     </td>);
                 }
-                return (<tr key={subItem.key} id = {'tr-' + subItem.key }>{tds}</tr>);
+                return (<tr key={subItem.key} id={'tr-' + subItem.key }>{tds}</tr>);
             }, this);
         }
         var tfoot = null;
@@ -303,51 +356,17 @@ BasicTable.propTypes = {
     additionalFeature: React.PropTypes.object,
     formId: React.PropTypes.object
 };
-//
-// DefaultTable.propTypes = {
-//     tableValues: React.PropTypes.object,
-//     minHeight: React.PropTypes.number,
-//     additionalFeature: React.PropTypes.object,
-//     formId: React.PropTypes.object
-//
-// };
-// HoverTable.propTypes = {
-//     tableValues: React.PropTypes.object,
-//     minHeight: React.PropTypes.number,
-//     additionalFeature: React.PropTypes.object,
-//     formId: React.PropTypes.object
-//
-// };
-// BorderTable.propTypes = {
-//     tableValues: React.PropTypes.object,
-//     minHeight: React.PropTypes.number,
-//     additionalFeature: React.PropTypes.object,
-//     formId: React.PropTypes.object
-//
-// };
-// CondensedTable.propTypes = {
-//     tableValues: React.PropTypes.object,
-//     minHeight: React.PropTypes.number,
-//     additionalFeature: React.PropTypes.object,
-//     formId: React.PropTypes.object
-//
-// };
-// StripedTable.propTypes = {
-//     tableValues: React.PropTypes.object,
-//     minHeight: React.PropTypes.number,
-//     additionalFeature: React.PropTypes.object,
-//     formId: React.PropTypes.object
-//
-// };
-// RowEditableTable.propTypes = {
-//     tableValues: React.PropTypes.object,
-//     minHeight: React.PropTypes.number,
-//     additionalFeature: React.PropTypes.object,
-//     formId: React.PropTypes.object
-//
-// };
+
 //tableValues  except the thead tbody tfoot,other features: sort(just add to the thead>th),extra class for editable table{extraClass:hover},pager{pageSize:10}
 //pay attention to the state data
+//begin to devide and wrapper like the demo little componentis the core
+class TableRowWrapper extends React.Component {
+
+}
+
+class TableRow extends React.Component {
+
+}
 
 module.exports = {
     DefaultTable,
