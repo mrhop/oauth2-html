@@ -35,6 +35,7 @@ function createModal(modalValues, type) {
 }
 
 
+
 class BasicModal extends React.Component {
     constructor(props) {
         super(props);
@@ -116,6 +117,7 @@ class BasicModal extends React.Component {
             var classNames = require('classnames');
             var dialogClass = classNames('modal-dialog message', dialogExtraClass);
             var buttonClass = classNames('btn', btnClass);
+            //confirmmodal
             return (
                 <div className="modal-wrapper" ref={(ref) => this.modalDom = ref}>
                     <div className="modal-bg"></div>
@@ -215,7 +217,17 @@ class MessageErrorModal extends BasicModal {
     }
 
     render() {
-        return (super.renderMessageModal('modal-error', 'btn-danger'));
+        return (super.renderMessageModal('modal-error modal-warning', 'btn-warning btn-warning'));
+    }
+}
+
+class MessageConfirmModal extends BasicModal {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (super.renderMessageModal('modal-confirm', 'btn-danger'));
     }
 }
 
