@@ -5,7 +5,14 @@ var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
-const vendorJs = ['./js/modules/include/dashBoard/dashBoard.jsx', './scss/basic.scss'];
+const vendorJs = ['./js/modules/include/dashBoard/dashBoard.jsx',
+    './js/modules/common/layout/layout.jsx',
+    './js/modules/common/panel/panel.jsx',
+    './js/modules/common/modal/modal.jsx',
+    './js/modules/common/toast/toast.jsx',
+    './js/modules/common/tab/tab.jsx',
+    './js/modules/common/table/table.jsx',
+    './scss/basic.scss'];
 var moduleAll = new Object({'vendor': vendorJs});
 
 var walk = function (dir) {

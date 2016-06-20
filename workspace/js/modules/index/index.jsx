@@ -63,10 +63,16 @@ class MainBlock extends React.Component {
             }
         ];
         var tableValues = {
+            dataUrls: {
+                list: 'http://localhost:8080/demoData/tableData.json',
+                add: 'http://localhost:8080/demoData/tableData.json',
+                update: 'http://localhost:8080/demoData/tableData.json',
+                delete: 'http://localhost:8080/demoData/tableData.json'
+            },
             thead: [{
                 className: 'td-id',
                 title: '#',
-                value: 'id',
+                value: 'serialNum',
                 sort: 'asc',
                 filter: false
             }, {
@@ -74,19 +80,27 @@ class MainBlock extends React.Component {
                 value: 'firstName',
                 filter: true,
                 editable: true,
+                addable: true,
                 editType: 'select',
                 editValue: [{label: 'select 1', value: 'Mark'}, {label: 'select 2', value: 'Mark1'}]
             }, {
-                title: 'Last Name', value: 'lastName', filter: true, editable: true,
+                title: 'Last Name', value: 'lastName', filter: true, editable: true,addable: true,
                 editType: 'radio', editValue: [{label: 'type 1', value: 'Otto'}, {label: 'type 2', value: 'Otto1'}]
             }, {
                 title: 'Username',
                 value: 'username',
                 filter: true,
                 editable: true,
+                addable: true,
                 editType: 'text'
-            }, {title: 'Email', value: 'email', filter: true}, {title: 'Age', value: 'age', filter: true,
-                editable: true, editType: 'checkbox', editValue: [{label: '31', value: '31'}, {label: '32', value: '32'}]
+            }, {title: 'Email', value: 'email',addable: true, filter: true}, {
+                title: 'Age',
+                value: 'age',
+                filter: true,
+                editable: true,
+                addable: true,
+                editType: 'checkbox',
+                editValue: [{label: '31', value: '31'}, {label: '32', value: '32'}]
             }],
             tfoot: [{
                 className: 'td-foot',
@@ -96,8 +110,11 @@ class MainBlock extends React.Component {
             tbody: [{
                 key: 1, value: [{
                     className: 'td-id',
-                    value: '1'
                 }, {value: 'Mark'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
+            }, {
+                key: 2, value: [{
+                    className: 'td-id',
+                }, {value: 'Mark1'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
             }]
         };
 
@@ -123,7 +140,9 @@ class MainBlock extends React.Component {
                     <span>you shall know this is the basic default panel</span>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
-                    <span>you shall know this is the basic default panel</span>
+                    <button className="btn btn-primary open-modal2"
+                            onClick={Modal.createModal.bind(this,basicModalData,'default')}>open
+                    </button>
                 </Panel.DefaultPanel>,
                 // < Modal.DefaultModal modalValues={basicModalData}>
                 //     <span>you shall know this is the basic default panel</span>

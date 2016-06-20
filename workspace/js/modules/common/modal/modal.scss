@@ -178,6 +178,9 @@
         content: "\e90f";
       }
     }
+    .btn-confirm.btn-danger:first-child{
+      margin-right: 10px;
+    }
   }
 }
 
