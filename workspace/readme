@@ -29,7 +29,7 @@ tables 的各种样式以及td的左右以及链接，比如email,and also smart tables
 [样例数据在webpack中的放置,CopyWebpackPlugin[done]]
 //table 的自动同步数据设置[now 就是前后台的数据处理的同步性，使用样例数据作为数据标本],------>
 //以及条件的触发,save cancel delete edit按钮的触发
-//过滤+分页
+//过滤+分页 shall be here
 server 排序，but each time get first 5 page records and save at client but give the total records number，（the biggest pagers）
 then when sort and filter update the data, delete ,when  the last page is 饱满的，do nothing, refresh base on the first total records number,and the total records number can be changed each refresh
 use this concept，server 排序
