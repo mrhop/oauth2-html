@@ -55,6 +55,7 @@ class BasicTable extends React.Component {
         }
         if (additionalFeature && additionalFeature.filterAvailable) {
             this.state.filter = {available: true};
+            this.state.filter.data = {};
         }
         if (this.props.tableValues && this.props.tableValues.thead) {
             //sort init
@@ -80,11 +81,11 @@ class BasicTable extends React.Component {
     }
 
     onRowSizeChange(value) {
-        this.state.pager.rowSize.value = value.value;
+        this.state.pager.rowSize.value = value ? value.value : null;
         this.state.pager.currentValue = 0;
         var data = tableDataFuncs.getList({
             dataUrl: this.props.tableValues.dataUrls.list,
-            filters: this.state.filterNames ? this.state.filterNames : null,
+            filters: this.state.filter ? this.state.filter.data : null,
             sort: this.state.sort ? this.state.sort.currentTh : null,
             rowSize: this.state.pager.rowSize.value,
             currentPage: this.state.pager.currentValue
@@ -99,7 +100,7 @@ class BasicTable extends React.Component {
         this.state.pager.currentValue = value;
         var data = tableDataFuncs.getList({
             dataUrl: this.props.tableValues.dataUrls.list,
-            filters: this.state.filterNames ? this.state.filterNames : null,
+            filters: this.state.filter ? this.state.filter.data : null,
             sort: this.state.sort ? this.state.sort.currentTh : null,
             rowSize: this.state.pager.rowSize ? this.state.pager.rowSize.value : null,
             currentPage: this.state.pager.currentValue
@@ -110,19 +111,20 @@ class BasicTable extends React.Component {
     }
 
     onSortClick(sortName) {
-        UtilFun.delay(this.sortClick.bind(this, sortName), 400);
-    }
-
-    sortClick(sortName) {
         if (this.state.sort.currentTh && this.state.sort.currentTh.sortName == sortName) {
             this.state.sort.currentTh.sortDirection = this.state.sort.currentTh.sortDirection == 'asc' ? 'desc' : 'asc';
         } else {
             this.state.sort.currentTh = {sortName: sortName, sortDirection: 'asc'};
         }
+        this.forceUpdate();
+        UtilFun.delay(this.sortClick.bind(this, sortName), 400);
+    }
+
+    sortClick(sortName) {
         this.state.pager.currentValue = 0;
         var data = tableDataFuncs.getList({
             dataUrl: this.props.tableValues.dataUrls.list,
-            filters: this.state.filterNames ? this.state.filterNames : null,
+            filters: this.state.filter ? this.state.filter.data : null,
             sort: this.state.sort.currentTh,
             rowSize: this.state.pager.rowSize ? this.state.pager.rowSize.value : null,
             currentPage: this.state.pager.currentValue
@@ -131,30 +133,36 @@ class BasicTable extends React.Component {
         this.forceUpdate();
     }
 
-    onFilterChange(filterName) {
+    onFilterChange(filterName, type, e) {
+        if (type == 'radio' || type == 'text') {
+            this.state.filter.data[filterName] = e.target.value;
+        } else if (type == 'checkbox') {
+            var value = this.state.filter.data[filterName];
+            if (e.target.checked) {
+                value = value ? value + ',' + e.target.value : e.target.value;
+            } else {
+                value = value ? value.replace(e.target.value, '') : null;
+            }
+            if (value && value.endsWith(',')) {
+                value = value.substring(0, value.length - 1);
+            }
+            if (value && value.startsWith(',')) {
+                value = value.substring(1);
+            }
+            this.state.filter.data[filterName] = value;
+        } else if (type == 'select') {
+            this.state.filter.data[filterName] = e ? e.value : null;
+        }
+        this.forceUpdate();
         UtilFun.delay(this.filterChange.bind(this, filterName), 400);
     }
 
     filterChange(filterName) {
         //change the data relate and update
-        //ADD THE FILTERs to the state object as an array[{name:xxx,value:xxx}] then deal with the data and forceUpdate
-        //this.forceUpdate();
-        //because of the delay
-        var filterNames = [];
-        var nodes = document.querySelectorAll('#' + this.tableId + ' thead tr.theadFilter input');
-        for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].value) {
-                filterNames.push({
-                    name: nodes[i].getAttribute('data-filter-name'),
-                    value: nodes[i].value
-                });
-            }
-        }
-        this.state.filterNames = filterNames.length > 0 ? filterNames : null;
         this.state.pager.currentValue = 0;
         var data = tableDataFuncs.getList({
             dataUrl: this.props.tableValues.dataUrls.list,
-            filters: this.state.filterNames,
+            filters: this.state.filter.data,
             sort: this.state.sort ? this.state.sort.currentTh : null,
             rowSize: this.state.pager.rowSize ? this.state.pager.rowSize.value : null,
             currentPage: this.state.pager.currentValue
@@ -177,7 +185,7 @@ class BasicTable extends React.Component {
         //then get List again
         var data = tableDataFuncs.delete({
             dataUrl: this.props.tableValues.dataUrls.delete,
-            filters: this.state.filterNames ? this.state.filterNames : null,
+            filters: this.state.filter ? this.state.filter.data : null,
             sort: this.state.sort ? this.state.sort.currentTh : null,
             rowSize: this.state.pager.rowSize ? this.state.pager.rowSize.value : null,
             currentPage: this.state.pager.currentValue ? this.state.pager.currentValue : 0,
@@ -188,22 +196,33 @@ class BasicTable extends React.Component {
         this.forceUpdate();
     }
 
+    onRowAddChange(name, type, e) {
+        if (type == 'radio' || type == 'text') {
+            this.state.addData[name] = e.target.value;
+        } else if (type == 'checkbox') {
+            var value = this.state.addData[name];
+            if (e.target.checked) {
+                value = value ? value + ',' + e.target.value : e.target.value;
+            } else {
+                value = value ? value.replace(e.target.value, '') : null;
+            }
+            if (value && value.endsWith(',')) {
+                value = value.substring(0, value.length - 1);
+            }
+            if (value && value.startsWith(',')) {
+                value = value.substring(1);
+            }
+            this.state.addData[name] = value;
+        } else if (type == 'select') {
+            this.state.addData[name] = e ? e.value : null;
+        }
+        //this.forceUpdate();
+    }
+
     onRowAdd() {
         //which shall be at top wrapper
-        if (this.props.tableValues.thead) {
-            theadAdd = this.props.tableValues.thead.map(function (subItem, index) {
-                var onFilter = this.onFilterChange.bind(this, subItem.value);
-                var input = null;
-                if (subItem.filter) {
-                    input = <input className="form-control"
-                                   name={subItem.value + '-add-name'} data-add-name={subItem.value}
-                                   onChange={onFilter}/>;
-                }
-                return (
-                    <th key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}>{input}
-                    </th>);
-            }, this);
-        }
+        this.state.addData = {};
+        this.tableRoot.querySelector('thead tr.theadRowAdd').style.display = 'table-row';
     }
 
 
@@ -242,15 +261,24 @@ class BasicTable extends React.Component {
         var theadFilter = null;
         if (this.props.tableValues.thead && this.state.filter && this.state.filter.available) {
             theadFilter = this.props.tableValues.thead.map(function (subItem, index) {
-                var onFilter = this.onFilterChange.bind(this, subItem.value);
-                var input = null;
+                var onFilter = this.onFilterChange.bind(this, subItem.value, subItem.editType);
+                var editContent = null;
+                var className = '';
+                if (subItem.editType == 'text') {
+                    className = 'form-control';
+                }
                 if (subItem.filter) {
-                    input = <input className="form-control"
-                                   name={subItem.value + '-filter-name'} data-filter-name={subItem.value}
-                                   onChange={onFilter}/>;
+                    editContent = UtilFun.formType({
+                        type: subItem.editType,
+                        name: subItem.value,
+                        value: this.state.filter.data[subItem.value] ? this.state.filter.data[subItem.value] : null,
+                        onChangeCallback: onFilter,
+                        options: subItem.editValue,
+                        className: className
+                    });
                 }
                 return (
-                    <th key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}>{input}
+                    <th key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}>{editContent}
                     </th>);
             }, this);
         }
@@ -271,6 +299,29 @@ class BasicTable extends React.Component {
             topOperations.push(<button key={topOperations.length} className="btn btn-primary btn-add-row"
                                        onClick={this.onRowAdd.bind(this)}>Add
                 row</button>);
+            if (this.props.tableValues.thead) {
+                this.state.theadRowAdd = this.props.tableValues.thead.map(function (subItem, index) {
+                    var onRowAddChange = this.onRowAddChange.bind(this, subItem.value, subItem.editType);
+                    var editContent = null;
+                    var className = '';
+                    if (subItem.editType == 'text') {
+                        className = 'form-control';
+                    }
+                    if (subItem.addable) {
+                        editContent = UtilFun.formType({
+                            type: subItem.editType,
+                            name: subItem.value + '-add',
+                            value: this.state.addData[subItem.value] ? this.state.addData[subItem.value] : null,
+                            onChangeCallback: onRowAddChange,
+                            options: subItem.editValue,
+                            className: className
+                        });
+                    }
+                    return (
+                        <th key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}>{editContent}
+                        </th>);
+                }, this);
+            }
         }
         if (this.state.pager && this.state.pager.rowSize && this.state.pager.rowSize.show) {
             topOperations.push(<Select key={topOperations.length}
@@ -299,7 +350,7 @@ class BasicTable extends React.Component {
             );
         }
         return (
-            <div className="table-root" id={this.tableId}>
+            <div className="table-root" ref={(ref) => this.tableRoot = ref} id={this.tableId}>
                 {topOperations.length > 0 ?
                     <div className="top-operations">{topOperations}<br className="clearfix-bottom"/></div> : null }
                 <div className="table-content" style={style}>
@@ -311,6 +362,9 @@ class BasicTable extends React.Component {
                             </tr>
                             {theadFilter ? <tr className="theadFilter">
                                 {theadFilter}
+                            </tr> : null}
+                            {this.state.theadRowAdd ? <tr className="theadRowAdd">
+                                {this.state.theadRowAdd}
                             </tr> : null}
                             </thead>
                             <tfoot>
@@ -329,9 +383,6 @@ class BasicTable extends React.Component {
 }
 
 
-//tableValues  except the thead tbody tfoot,other features: sort(just add to the thead>th),extra class for editable table{extraClass:hover},pager{pageSize:10}
-//pay attention to the state data
-//begin to devide and wrapper like the demo little componentis the core
 class TableRowWrapper extends React.Component {
     constructor(props) {
         super(props);
@@ -368,31 +419,26 @@ class TableRow extends React.Component {
         this.currentData = [];
     }
 
-    onRowEditSingleValueChange(rowIndex, columnIndex, e) {
-        this.props.rowData.value[columnIndex].value = e.target.value;
-        this.forceUpdate();
-    }
-
-    onRowEditMultiValueChange(rowIndex, columnIndex, e) {
-        var value = this.props.rowData.value[columnIndex].value;
-        if (e.target.checked) {
-            value = value ? value + ',' + e.target.value : e.target.value;
-        } else {
-            value = value ? value.replace(e.target.value, '') : null;
+    onTdEdit(rowIndex, columnIndex, type, e) {
+        if (type == 'text' || type == 'radio') {
+            this.props.rowData.value[columnIndex].value = e.target.value;
+        } else if (type == 'checkbox') {
+            var value = this.props.rowData.value[columnIndex].value;
+            if (e.target.checked) {
+                value = value ? value + ',' + e.target.value : e.target.value;
+            } else {
+                value = value ? value.replace(e.target.value, '') : null;
+            }
+            if (value && value.endsWith(',')) {
+                value = value.substring(0, value.length - 1);
+            }
+            if (value && value.startsWith(',')) {
+                value = value.substring(1);
+            }
+            this.props.rowData.value[columnIndex].value = value;
+        } else if (type == 'select') {
+            this.props.rowData.value[columnIndex].value = e ? e.value : null;
         }
-        if (value && value.endsWith(',')) {
-            value = value.substring(0, value.length - 1);
-        }
-        if (value && value.startsWith(',')) {
-            value = value.substring(1);
-        }
-        this.props.rowData.value[columnIndex].value = value;
-        this.forceUpdate();
-        // console.log('You\'ve selected:', value);
-    }
-
-    onRowEditSelectValueChange(rowIndex, columnIndex, e) {
-        this.props.rowData.value[columnIndex].value = e ? e.value : null;
         this.forceUpdate();
     }
 
@@ -439,39 +485,18 @@ class TableRow extends React.Component {
             subItem.name = theadItem.value;
             if (this.props.tableType == 'row-editable' && theadItem && theadItem.editable) {
                 var tdIndex = index;
-                if (theadItem && theadItem.editType == 'text') {
-                    editContent = <input type="text" className="editable input-text" data-name={theadItem.value}
-                                         name={theadItem.value} value={ subItem.value}
-                                         onChange={this.onRowEditSingleValueChange.bind(this,rowIndex,tdIndex)}/>;
-                } else if (theadItem && theadItem.editType == 'radio') {
-                    editContent = theadItem.editValue.map(function (subItem, index) {
-                        const checked = subItem.value == tdSubItem.value ? 'checked' : false;
-                        return <li key={index}><input type="radio" name={theadItem.value}
-                                                      data-name={theadItem.value}
-                                                      value={ subItem.value}
-                                                      checked={checked}
-                                                      onChange={this.onRowEditSingleValueChange.bind(this,rowIndex,tdIndex)}/>
-                            <span>{subItem.label}</span></li>;
-                    }, this);
-                    editContent = <ul className="editable ul-wrapper">{editContent}</ul>;
-                } else if (theadItem && theadItem.editType == 'checkbox') {
-                    editContent = theadItem.editValue.map(function (subItem, index) {
-                        return <li key={index}><input type="checkbox" name={theadItem.value}
-                                                      data-name={theadItem.value}
-                                                      value={ subItem.value}
-                                                      checked={tdSubItem.value.split(',').includes(subItem.value)  ? 'checked' : false}
-                                                      onChange={this.onRowEditMultiValueChange.bind(this,rowIndex,tdIndex)}/>
-                            <span>{subItem.label}</span></li>;
-                    }, this);
-                    editContent = <ul className="editable ul-wrapper">{editContent}</ul>;
-                } else if (theadItem && theadItem.editType == 'select') {
-                    editContent = UtilFun.formTypeSelect(theadItem.value, subItem.value, theadItem.editValue, this.onRowEditSelectValueChange.bind(this, rowIndex, tdIndex));
-                    // <Select className="editable" name={theadItem.value} data-name={theadItem.value}
-                    //         value={subItem.value ? subItem.value : null}
-                    //         options={theadItem.editValue}
-                    //         onChange={this.onRowEditSelectValueChange.bind(this,rowIndex,tdIndex)}>
-                    // </Select>;
+                var className = '';
+                if (theadItem.editType == 'text') {
+                    className = 'input-text';
                 }
+                editContent = UtilFun.formType({
+                    type: theadItem.editType,
+                    name: theadItem.value + '-' + rowIndex,
+                    value: subItem.value,
+                    onChangeCallback: this.onTdEdit.bind(this, rowIndex, tdIndex, theadItem.editType),
+                    options: theadItem.editValue,
+                    className: className
+                });
             }
             return (<td key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}
                         className={subItem.className}><span
@@ -564,6 +589,7 @@ class RowEditableTable extends BasicTable {
             });
         }
         this.tableType = 'row-editable';
+        this.state.addData = {};
     }
 
     render() {

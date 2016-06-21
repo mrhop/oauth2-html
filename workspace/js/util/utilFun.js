@@ -58,12 +58,89 @@ utilFun.prototype = {
         };
     })(),
     //form type from data --> dom
-    formTypeSelect: function (name, value, options, onChangeCallback) {
-        return <Select className="editable" name={name} data-name={name}
+    formType:function(parameters){
+        if(parameters.type == 'text'){
+            var value = parameters.value ? parameters.value : '';
+            var className = classNames('editable', parameters.className);
+            return <input type="text" className={className} data-name={parameters.name}
+                          name={parameters.name} value={value}
+                          onChange={parameters.onChangeCallback}/>;
+        }else if(parameters.type == 'select'){
+            var className = classNames('editable', parameters.className);
+            return <Select className={className} name={parameters.name} data-name={parameters.name}
+                           value={parameters.value ? parameters.value : null}
+                           options={parameters.options}
+                           onChange={parameters.onChangeCallback}>
+            </Select>;
+        }else if(parameters.type == 'radio'){
+            var className = classNames('editable ul-wrapper', parameters.className);
+            var editContent = parameters.options.map(function (subItem, index) {
+                const checked = subItem.value == parameters.value ? 'checked' : false;
+                return <li key={index}><input type="radio" name={parameters.name} id={parameters.name + '-' + index}
+                                              data-name={parameters.name}
+                                              value={ subItem.value}
+                                              checked={checked}
+                                              onChange={parameters.onChangeCallback}/>
+                    <label htmlFor={parameters.name + '-' + index}>{subItem.label}</label></li>;
+            }, this);
+            editContent = <ul className={className}>{editContent}</ul>;
+            return editContent;
+        }else if(parameters.type == 'checkbox'){
+            className = classNames('editable ul-wrapper', parameters.className);
+            var value = parameters.value ? parameters.value : '';
+            var editContent = parameters.options.map(function (subItem, index) {
+                return <li key={index}><input type="checkbox" name={parameters.name} id={parameters.name + '-' + index}
+                                              data-name={parameters.name}
+                                              value={ subItem.value}
+                                              checked={value.split(',').includes(subItem.value)  ? 'checked' : false}
+                                              onChange={parameters.onChangeCallback}/>
+                    <label htmlFor={parameters.name + '-' + index}>{subItem.label}</label></li>;
+            }, this);
+            editContent = <ul className={className}>{editContent}</ul>;
+            return editContent;
+        }
+    },
+    formTypeSelect: function (name, value, options, onChangeCallback, className) {
+        className = classNames('editable', className);
+        return <Select className={className} name={name} data-name={name}
                        value={value ? value : null}
                        options={options}
                        onChange={onChangeCallback}>
         </Select>;
+    },
+    formTypeText: function (name, value, onChangeCallback, className) {
+        className = classNames('editable', className);
+        return <input type="text" className={className} data-name={name}
+                      name={name} value={value}
+                      onChange={onChangeCallback}/>;
+    },
+    formTypeRadio: function (name, value, options, onChangeCallback, className) {
+        className = classNames('editable ul-wrapper', className);
+        var editContent = options.map(function (subItem, index) {
+            const checked = subItem.value == value ? 'checked' : false;
+            return <li key={index}><input type="radio" name={name} id={name + '-' + index}
+                                          data-name={name}
+                                          value={ subItem.value}
+                                          checked={checked}
+                                          onChange={onChangeCallback}/>
+                <label htmlFor={name + '-' + index}>{subItem.label}</label></li>;
+        }, this);
+        editContent = <ul className={className}>{editContent}</ul>;
+        return editContent;
+    },
+    formTypeCheckbox: function (name, value, options, onChangeCallback, className) {
+        className = classNames('editable ul-wrapper', className);
+        value = value ? value : '';
+        var editContent = options.map(function (subItem, index) {
+            return <li key={index}><input type="checkbox" name={name} id={name + '-' + index}
+                                          data-name={name}
+                                          value={ subItem.value}
+                                          checked={value.split(',').includes(subItem.value)  ? 'checked' : false}
+                                          onChange={onChangeCallback}/>
+                <label htmlFor={name + '-' + index}>{subItem.label}</label></li>;
+        }, this);
+        editContent = <ul className={className}>{editContent}</ul>;
+        return editContent;
     }
 };
 

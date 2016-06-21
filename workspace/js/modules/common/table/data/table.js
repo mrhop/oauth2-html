@@ -6,9 +6,9 @@ export default {
         //base on the columns, filters, pagers, sort
         console.log(parameters.dataUrl);
         if(parameters.filters){
-            parameters.filters.forEach(function(item){
-                console.log(item.name,item.value);
-            });
+            for(var key in parameters.filters){
+                console.log(key,parameters.filters[key]);
+            }
         }
         if(parameters.sort){
             console.log(parameters.sort.sortName,parameters.sort.sortDirection);

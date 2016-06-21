@@ -35,9 +35,10 @@ then when sort and filter update the data, delete ,when  the last page is 饱满的
 use this concept，server 排序
 return currentTbody and first 5 page data,when go to the 3 pages ,asychronized the next 6 7 page data, if exists, which shall be good to see and feel
 
+
 分页样式问题,分页过多时的持续增加，自适应页面时的处理
 filter部分和add部分共用一套代码，根据thead的type进行type的处理，最好可以和tbody edit部分的一起实现,utilFun 实现form元素的统一实现
-now add item,to the top line, then save, cancel button
+now add item,to the top line, then save, cancel button --->still add item!!!
 
 //然后是table tableValues的data 后端获取，以及关联触发处理
 //然后是reactjs的mvvm的处理模型
