@@ -103,9 +103,19 @@ class BasicTable extends React.Component {
     getTBodyByAllData() {
         var allData = this.state.allCachedData;
         if (this.state.pager.show) {
+            var totalCount = this.state.allCachedData.totalCount;
             var currentPage = this.state.pager.currentValue;
             var rowSize = this.state.pager.rowSize.value;
-            var beginIndex = (currentPage > 2 ? 2 : currentPage) * rowSize;
+            var totalPager = Math.ceil(totalCount / rowSize);
+            if (currentPage > 2) {
+                if ((currentPage + 2) < totalPager) {
+                    currentPage = 2;
+                } else {
+                    currentPage = 2 + (2 - (totalPager - 1 - currentPage));
+                }
+            }
+            var beginIndex = currentPage * rowSize;
+
             var endIndex = beginIndex + rowSize - 1;
             endIndex = endIndex <= allData.totalCount - 1 ? endIndex : allData.totalCount - 1;
             this.state.tbody = allData.data.slice(beginIndex, endIndex + 1);
@@ -122,10 +132,13 @@ class BasicTable extends React.Component {
             var totalPager = Math.ceil(totalCount / rowSize);
             this.state.pager.options = [];
             var beginIndex = currentPage > 1 ? currentPage - 2 : 0;
+            if (currentPage + 2 > totalPager - 1 && totalPager - 5 > -1) {
+                beginIndex = totalPager - 5;
+            }
             var endIndex = currentPage + 2;
             if (endIndex > totalPager - 1 || (endIndex < 4 && totalPager - 1 < 4)) {
                 endIndex = totalPager - 1;
-            } else if(endIndex < 4 && totalPager - 1 >= 4){
+            } else if (endIndex < 4 && totalPager - 1 >= 4) {
                 endIndex = 4;
             }
             for (var i = beginIndex; i <= endIndex; i++) {
@@ -427,6 +440,7 @@ class BasicTable extends React.Component {
                                        value={this.state.pager.rowSize.value ? this.state.pager.rowSize.value : null}
                                        className="select-row-size" name='rowSize'
                                        placeholder="Select your row size"
+                                       clearable = {false}
                                        options={this.state.pager.rowSize.options}
                                        onChange={this.onRowSizeChange.bind(this)}
             >

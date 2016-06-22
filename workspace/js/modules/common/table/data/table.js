@@ -1,7 +1,7 @@
 /**
  * Created by Donghui Huo on 2016/6/14.
  */
-const sampleData =[{
+const sampleData = [{
     key: 1, value: [{
         className: 'td-id',
     }, {value: 'Mark'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
@@ -44,7 +44,7 @@ const sampleData =[{
 },{
     key: 11, value: [{
         className: 'td-id',
-    }, {value: 'Mark'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
+    }, {value: 'Mark12333'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
 }, {
     key: 12, value: [{
         className: 'td-id',
@@ -64,7 +64,7 @@ const sampleData =[{
 },{
     key: 16, value: [{
         className: 'td-id',
-    }, {value: 'Mark1'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
+    }, {value: 'Mark1111999'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
 },{
     key: 17, value: [{
         className: 'td-id',
@@ -84,21 +84,13 @@ const sampleData =[{
 },{
     key: 21, value: [{
         className: 'td-id',
-    }, {value: 'Mark'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
+    }, {value: 'Mark10111'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
 }, {
     key: 22, value: [{
         className: 'td-id',
     }, {value: 'Mark1'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
 },{
     key: 23, value: [{
-        className: 'td-id',
-    }, {value: 'Mark1'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
-},{
-    key: 24, value: [{
-        className: 'td-id',
-    }, {value: 'Mark1'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
-},{
-    key: 25, value: [{
         className: 'td-id',
     }, {value: 'Mark1'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
 }];
