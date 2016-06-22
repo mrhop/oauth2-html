@@ -45,7 +45,7 @@ class BasicTable extends React.Component {
                 }
             },
             sort: {available: false},
-            filter: {available: false}
+            filter: {available: false},
         };
         //table values shall be get from url not props,but additionalFeature shall be at the props[for show features but not data]
         var additionalFeature = this.props.additionalFeature;
@@ -176,7 +176,7 @@ class BasicTable extends React.Component {
         this.getTBodyByAllData();
         this.getPagerOptionsByTotalCount();
         this.forceUpdate();
-        }
+    }
 
     onSortClick(sortName) {
         if (this.state.sort.currentTh && this.state.sort.currentTh.sortName == sortName) {
@@ -315,6 +315,14 @@ class BasicTable extends React.Component {
         this.tableRoot.querySelector('thead tr.theadRowAdd').style.display = 'none';
     }
 
+    onTableRootClick() {
+
+        var nodeList = this.tableRoot.querySelectorAll('.table tr td.td-editable');
+        for (var i = 0; i < nodeList.length; i++) {
+            nodeList[i].classList.remove('open');
+        }
+    }
+
     renderBasic(tableExtraClass) {
         var additionalFeature = this.props.additionalFeature;
         var tableClass = classNames('table', tableExtraClass,
@@ -431,7 +439,7 @@ class BasicTable extends React.Component {
                                        value={this.state.pager.rowSize.value ? this.state.pager.rowSize.value : null}
                                        className="select-row-size" name='rowSize'
                                        placeholder="Select your row size"
-                                       clearable = {false}
+                                       clearable={false}
                                        options={this.state.pager.rowSize.options}
                                        onChange={this.onRowSizeChange.bind(this)}
             >
@@ -454,7 +462,8 @@ class BasicTable extends React.Component {
             );
         }
         return (
-            <div className="table-root" ref={(ref) => this.tableRoot = ref} id={this.tableId}>
+            <div className="table-root" ref={(ref) => this.tableRoot = ref} id={this.tableId}
+                 onClick={this.onTableRootClick.bind(this)}>
                 {topOperations.length > 0 ?
                     <div className="top-operations">{topOperations}<br className="clearfix-bottom"/></div> : null }
                 <div className="table-content" style={style}>
@@ -521,6 +530,7 @@ class TableRow extends React.Component {
     constructor(props) {
         super(props);
         this.currentData = [];
+        this.currentTdData = {};
     }
 
     onTdEdit(rowIndex, columnIndex, type, e) {
@@ -580,15 +590,43 @@ class TableRow extends React.Component {
         tr.classList.remove('edit');
     }
 
+    onTdClick(columnIndex, name, e) {
+        if (e.currentTarget.classList.contains('td-editable') && !e.currentTarget.parentNode.classList.contains('edit')) {
+            e.currentTarget.classList.add('open');
+            this.currentTdData[name] = this.props.rowData.value[columnIndex].value;
+            e.stopPropagation();
+        }
+    }
+
+    onTdSave(rowKey, columnIndex, name, e) {
+        //if update false,do sth toast
+        tableDataFuncs.update({
+            key: rowKey, data: [{'name': name, value: this.props.rowData.value[columnIndex].value}]
+        });
+        e.currentTarget.parentNode.parentNode.classList.remove('open');
+        e.stopPropagation();
+    }
+
+    onTdCancel(columnIndex, name, e) {
+        //get current target,and getrevert value and name  and revert
+        this.props.rowData.value[columnIndex].value = this.currentTdData[name];
+        e.currentTarget.parentNode.parentNode.classList.remove('open');
+        this.forceUpdate();
+        e.stopPropagation();
+    }
+
     render() {
         var rowIndex = this.props.rowIndex;
         var tds = this.props.rowData.value.map(function (subItem, index) {
             var tdSubItem = subItem;
             var editContent = null;
+            var columnEditContent = null;
+            var columnEditContentAction = null;
             var theadItem = this.props.tableValues.thead ? this.props.tableValues.thead[index] : null;
+            var tdValueClassName = 'td-value';
             subItem.name = theadItem.value;
+            var tdIndex = index;
             if (this.props.tableType == 'row-editable' && theadItem && theadItem.editable) {
-                var tdIndex = index;
                 var className = '';
                 if (theadItem.editType == 'text') {
                     className = 'input-text';
@@ -602,9 +640,38 @@ class TableRow extends React.Component {
                     className: className
                 });
             }
+
+            if (theadItem && theadItem.columnEditable) {
+                tdValueClassName = tdValueClassName + ' column-edit';
+                var className = 'column-editable';
+                if (theadItem.editType == 'text') {
+                    className = className + ' input-text';
+                }
+                columnEditContent = UtilFun.formType({
+                    type: theadItem.editType,
+                    name: theadItem.value + '-' + rowIndex + '-' + index,
+                    value: subItem.value,
+                    onChangeCallback: this.onTdEdit.bind(this, rowIndex, tdIndex, theadItem.editType),
+                    options: theadItem.editValue,
+                    className: className
+                });
+                columnEditContentAction =
+                    <div key='td-actions' className="column-editable btn-group btn-group-xs edited">
+                        <button className="btn btn-primary btn-xs save"
+                                onClick={this.onTdSave.bind(this,this.props.rowData.key, tdIndex, theadItem.value)}>
+                            <i className="fa"></i>
+                        </button>
+                        <button className="btn btn-danger btn-xs cancel"
+                                onClick={this.onTdCancel.bind(this,tdIndex, theadItem.value)}>
+                            <i className="fa"></i>
+                        </button>
+                    </div>;
+
+            }
             return (<td key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}
-                        className={subItem.className}><span
-                className="td-value">{subItem.className == 'td-id' && !subItem.value ? rowIndex + 1 : subItem.value}</span>{editContent}
+                        className={ classNames(subItem.className, theadItem && theadItem.columnEditable ? 'td-editable' : null)}
+                        onClick={theadItem && theadItem.columnEditable ? this.onTdClick.bind(this,tdIndex,theadItem.value) : null}><span
+                className={tdValueClassName}>{subItem.className == 'td-id' && !subItem.value ? rowIndex + 1 : subItem.value}</span>{editContent}{columnEditContent}{columnEditContentAction}
             </td>);
         }, this);
         if (this.props.tableType == 'row-editable') {

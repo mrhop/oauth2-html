@@ -30,19 +30,19 @@
 
           }
 
-          &.theadFilter{
-            th{
+          &.theadFilter {
+            th {
               background-color: rgba(0, 0, 0, 0.2);
             }
           }
-          &.theadRowAdd{
+          &.theadRowAdd {
             display: none;
-            th{
+            th {
               background-color: rgba(0, 0, 0, 0.3);
             }
           }
-          &.theadFilter,&.theadRowAdd {
-            th{
+          &.theadFilter, &.theadRowAdd {
+            th {
               padding-top: 4px;
               padding-bottom: 4px;
             }
@@ -64,7 +64,7 @@
             vertical-align: middle;
             border-top: none;
             &.td-row-actions {
-              div.btn-group{
+              div.btn-group {
                 width: 120px;
                 &.edited {
                   display: block;
@@ -76,6 +76,9 @@
             }
             .td-value {
               display: inline-block;
+              &.column-edit {
+                text-decoration: underline;
+              }
             }
             .editable {
               display: none;
@@ -88,9 +91,12 @@
               }
               .editable {
                 display: block;
+                &.column-editable {
+                  display: none;
+                }
               }
               &.td-row-actions {
-                div.btn-group{
+                div.btn-group {
                   &.edited {
                     display: none;
                   }
@@ -184,7 +190,7 @@
       .tr-deep {
         background-color: rgba(0, 0, 0, .1);
       }
-      td,th {
+      td, th {
         .editable {
           line-height: 25px;
           display: block;
@@ -212,8 +218,46 @@
               }
             }
           }
-          label{
+          label {
             font-weight: normal;
+          }
+        }
+        .column-editable {
+          display: none;
+        }
+        &.td-editable {
+          cursor: pointer;
+          .column-editable {
+            &.btn-group {
+              margin-left: 5px;
+            }
+          }
+          .btn-group {
+            .save {
+              i:before {
+                content: "\e90e";
+              }
+            }
+            .cancel {
+              i:before {
+                content: "\e90b";
+              }
+            }
+          }
+          &.open {
+            .td-value {
+              display: none;
+            }
+            .editable {
+              display: none;
+              &.column-editable {
+                display: inline-block;
+                width: auto;
+              }
+            }
+            .column-editable {
+              display: inline-block;
+            }
           }
         }
       }

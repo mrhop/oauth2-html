@@ -92,8 +92,9 @@ class MainBlock extends React.Component {
                 filter: true,
                 editable: true,
                 addable: true,
+                columnEditable: true,//single column edit
                 editType: 'text'
-            }, {title: 'Email', value: 'email',addable: true, filter: true}, {
+            }, {title: 'Email', value: 'email',columnEditable: true,editType: 'text',addable: true, filter: true}, {
                 title: 'Age',
                 value: 'age',
                 filter: true,
