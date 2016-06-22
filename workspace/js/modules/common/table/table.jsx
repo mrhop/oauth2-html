@@ -79,11 +79,6 @@ class BasicTable extends React.Component {
             }, this);
         }
 
-        //here shall be changed,data request from 
-        if (this.props.tableValues && this.props.tableValues.tbody) {
-            //this data shall be finally added from backend
-            this.state.tbody = this.props.tableValues.tbody;
-        }
         this.state.allCachedData = tableDataFuncs.getList({
             dataUrl: this.props.tableValues.dataUrls.list,
             filters: this.state.filter.available ? this.state.filter.data : null,
@@ -93,8 +88,6 @@ class BasicTable extends React.Component {
         });
         this.getTBodyByAllData();
         this.getPagerOptionsByTotalCount();
-        //需要创建search的字段，state的filter，sort，pager
-        //create。update 的链接地址
     }
 
     componentDidMount() {
@@ -180,12 +173,10 @@ class BasicTable extends React.Component {
             rowSize: this.state.pager.rowSize.show ? this.state.pager.rowSize.value : null,
             currentPage: this.state.pager.currentValue
         });
-        //this.state.tbody = data;
         this.getTBodyByAllData();
         this.getPagerOptionsByTotalCount();
         this.forceUpdate();
-        //console.log('pager click! ' + value);
-    }
+        }
 
     onSortClick(sortName) {
         if (this.state.sort.currentTh && this.state.sort.currentTh.sortName == sortName) {
@@ -481,7 +472,7 @@ class BasicTable extends React.Component {
                             </tr> : null}
                             </thead>
                             <tfoot>
-                            <tr className={(tableExtraClass == 'striped' || (additionalFeature && additionalFeature.extraClass == 'striped') ) && this.props.tableValues.tbody.length % 2 == 0 ? 'tr-deep' : null}>
+                            <tr className={(tableExtraClass == 'striped' || (additionalFeature && additionalFeature.extraClass == 'striped') ) && this.state.tbody.length % 2 == 0 ? 'tr-deep' : null}>
                                 {tfoot}
                             </tr>
                             </tfoot>

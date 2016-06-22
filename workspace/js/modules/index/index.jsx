@@ -106,15 +106,6 @@ class MainBlock extends React.Component {
                 className: 'td-foot',
                 colSpan: 7,
                 title: 'this is the footer for this table'
-            }],
-            tbody: [{
-                key: 1, value: [{
-                    className: 'td-id',
-                }, {value: 'Mark'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
-            }, {
-                key: 2, value: [{
-                    className: 'td-id',
-                }, {value: 'Mark1'}, {value: 'Otto'}, {value: '@mdo'}, {value: 'md@gmail.com'}, {value: '31,32'}]
             }]
         };
 
