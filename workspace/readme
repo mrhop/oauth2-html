@@ -34,16 +34,20 @@ server 排序，but each time get first 5 page records and save at client but give 
 then when sort and filter update the data, delete ,when  the last page is 饱满的，do nothing, refresh base on the first total records number,and the total records number can be changed each refresh
 use this concept，server 排序
 return currentTbody and first 5 page data,when go to the 3 pages ,asychronized the next 6 7 page data, if exists, which shall be good to see and feel
-
+1,2,3,4,5......
+...2,3,4,5,6
+...3,4,5,6,7...
 
 分页样式问题,分页过多时的持续增加，自适应页面时的处理
 filter部分和add部分共用一套代码，根据thead的type进行type的处理，最好可以和tbody edit部分的一起实现,utilFun 实现form元素的统一实现
-now add item,to the top line, then save, cancel button --->still add item!!!
+now add item,to the top line, then save, cancel button --->add finished
+save finished
+
+
 
 //然后是table tableValues的data 后端获取，以及关联触发处理
 //然后是reactjs的mvvm的处理模型
 //then forms 以及图表的处理
-
 
 
 
@@ -52,3 +56,13 @@ now add item,to the top line, then save, cancel button --->still add item!!!
 mail另行考虑，mail涉及的操作太多
 
 学习一下java的流程化规范，任务链以及机制，如果要规范，就要从开始定义完备
+
+
+
+rowSize 不可以为未设
+
+
+
+
+遗留问题---》
+form表单元素的格式错误验证功能遗留

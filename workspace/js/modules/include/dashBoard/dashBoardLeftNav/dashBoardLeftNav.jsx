@@ -98,6 +98,7 @@ class DashboardLeftList extends React.Component {
             if (sidebar && !sidebar.classList.contains('un-collapse')) {
                 sidebar.classList.remove('collapse');
                 sidebar.classList.add('un-collapse');
+                document.querySelector('main.al-main').classList.remove('collapse').add('un-collapse');
             } 
         } else {
             //do selected
