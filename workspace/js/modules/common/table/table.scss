@@ -226,10 +226,13 @@
           display: none;
         }
         &.td-editable {
+          position: relative;
           cursor: pointer;
           .column-editable {
             &.btn-group {
-              margin-left: 5px;
+              position: absolute;
+              right: 0;
+              top: 8px;
             }
           }
           .btn-group {
@@ -251,12 +254,13 @@
             .editable {
               display: none;
               &.column-editable {
-                display: inline-block;
+                display: block;
                 width: auto;
+                margin-right: 40px;
               }
             }
-            .column-editable {
-              display: inline-block;
+            .column-editable.btn-group {
+              display: block;
             }
           }
         }

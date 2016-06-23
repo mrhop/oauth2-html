@@ -43,7 +43,10 @@ filter部分和add部分共用一套代码，根据thead的type进行type的处理，最好可以和tbody 
 now add item,to the top line, then save, cancel button --->add finished
 save finished
 
-table finished------------------->
+table finished-------------------> 存在性能问题 done
+now panel-->dom-->children
+
+
 now  redux study,then
 try it,then forms and chart
 

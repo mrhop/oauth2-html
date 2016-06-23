@@ -82,9 +82,10 @@ class MainBlock extends React.Component {
                 editable: true,
                 addable: true,
                 editType: 'select',
+                columnEditable: true,
                 editValue: [{label: 'select 1', value: 'Mark'}, {label: 'select 2', value: 'Mark1'}]
             }, {
-                title: 'Last Name', value: 'lastName', filter: true, editable: true,addable: true,
+                title: 'Last Name', value: 'lastName', filter: true, editable: true,addable: true,columnEditable: true,
                 editType: 'radio', editValue: [{label: 'type 1', value: 'Otto'}, {label: 'type 2', value: 'Otto1'}]
             }, {
                 title: 'Username',
@@ -101,6 +102,7 @@ class MainBlock extends React.Component {
                 editable: true,
                 addable: true,
                 editType: 'checkbox',
+                columnEditable: true,
                 editValue: [{label: '31', value: '31'}, {label: '32', value: '32'}]
             }],
             tfoot: [{
