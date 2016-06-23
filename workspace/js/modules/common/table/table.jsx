@@ -87,9 +87,17 @@ class BasicTable extends React.Component {
         });
         this.getTBodyByAllData();
         this.getPagerOptionsByTotalCount();
+        if (this.props.panelActionCallBack) {
+            this.props.panelActionCallBack.onClick = function () {
+                if (this.state.currentEditTdDom.dom) {
+                    this.state.currentEditTdDom.dom.classList.remove('open');
+                }
+            }.bind(this);
+        }
     }
 
     componentDidMount() {
+
     }
 
     getTBodyByAllData() {
@@ -304,13 +312,6 @@ class BasicTable extends React.Component {
         this.tableRoot.querySelector('thead tr.theadRowAdd').style.display = 'none';
     }
 
-    onTableRootClick() {
-
-        var nodeList = this.tableRoot.querySelectorAll('.table tr td.td-editable');
-        for (var i = 0; i < nodeList.length; i++) {
-            nodeList[i].classList.remove('open');
-        }
-    }
 
     renderBasic(tableExtraClass) {
         var additionalFeature = this.props.additionalFeature;
@@ -451,8 +452,7 @@ class BasicTable extends React.Component {
             );
         }
         return (
-            <div className="table-root" ref={(ref) => this.tableRoot = ref} id={this.tableId}
-                 onClick={this.onTableRootClick.bind(this)}>
+            <div className="table-root" ref={(ref) => this.tableRoot = ref} id={this.tableId}>
                 {topOperations.length > 0 ?
                     <div className="top-operations">{topOperations}<br className="clearfix-bottom"/></div> : null }
                 <div className="table-content" style={style}>

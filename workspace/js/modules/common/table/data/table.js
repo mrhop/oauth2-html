@@ -122,9 +122,9 @@ export default {
         //base on id,and update the state data
         console.log(parameters.dataUrl);
         if (parameters.filters) {
-            parameters.filters.forEach(function (item) {
-                console.log(item.name, item.value);
-            });
+            for (var key in parameters.filters) {
+                console.log(key, parameters.filters[key]);
+            }
         }
         if (parameters.sort) {
             console.log(parameters.sort.sortName, parameters.sort.sortDirection);
@@ -138,6 +138,10 @@ export default {
         if (parameters.key) {
             console.log(parameters.key);
         }
+        return {
+            data: sampleData,
+            totalCount: sampleTotalCount
+        };
         //do ajax delete and fetch
     },
     'update': function (parameters) {
