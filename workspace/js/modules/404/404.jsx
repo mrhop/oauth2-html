@@ -4,8 +4,7 @@
 require('./404.scss');
 
 
-ReactIntl.addLocaleData([...ReactIntlEn, ...ReactIntlZh]);
-class ErrorPage404 extends BaseComponent {
+class ErrorPage404 extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -22,12 +21,11 @@ class ErrorPage404 extends BaseComponent {
 }
 
 UtilFun.domReady(function () {
-    var locale = UtilFun.getLocale();
     ReactDOM.render(
         <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('404')}>
             <ErrorPage404 />
         </ReactIntl.IntlProvider>,
-        document.getElementsByClassName('page-not-found-modal')[0]
+        document.querySelector('.page-not-found-modal')
     );
 });
 

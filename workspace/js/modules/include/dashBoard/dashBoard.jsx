@@ -7,7 +7,7 @@ import DashboardTop from './dashBoardTop/dashBoardTop.jsx';
 import DashBoardLeftNav from './dashBoardLeftNav/dashBoardLeftNav.jsx';
 import DashBoardMain from './dashBoardMain/dashBoardMain.jsx';
 
-class DashBoardBlock extends BaseComponent {
+class DashBoardBlock extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -22,19 +22,9 @@ class DashBoardBlock extends BaseComponent {
         </div>);
     }
 }
-DashBoardBlock.propTypes = { mainBlock: React.PropTypes.any};
+  
+DashBoardBlock.propTypes = {
+    intl: ReactIntl.intlShape.isRequired,
+};
 
-export function DashBoardBlockCreate(mainBlock,extendVariables){
-    UtilFun.domReady(function () {
-        var locale = UtilFun.getLocale();
-        let DashBoardBlockWrapper = new ReactIntl.injectIntl(DashBoardBlock);
-        ReactDOM.render(
-            <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoard',extendVariables)}>
-                <DashBoardBlockWrapper mainBlock={mainBlock}/>
-            </ReactIntl.IntlProvider>,
-            document.querySelector('#entirety')
-        );
-        //click
-    });
-}
-
+export default ReactIntl.injectIntl(DashBoardBlock) ;

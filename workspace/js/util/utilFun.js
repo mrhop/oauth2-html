@@ -3,9 +3,11 @@
  */
 import initial from '../env/initial';
 import intl from '../intl/intl';
-
 let utilFun = function () {
-
+    var locale = navigator.language.split('-');
+    locale = locale[1] ? '${locale[0]}-${locale[1].toUpperCase()}' : navigator.language;
+    global.locale = intl[locale] ? locale : initial.locale;
+    global.globalProps = intl[global.locale]['app'];
 };
 utilFun.prototype = {
     name: 'utilFun',
@@ -19,23 +21,14 @@ utilFun.prototype = {
             document.addEventListener('DOMContentLoaded', callback);
         }
     },
-    getLocale: function () {
-        var locale = navigator.language.split('-');
-        locale = locale[1] ? '${locale[0]}-${locale[1].toUpperCase()}' : navigator.language;
-        return intl[locale] ? locale : initial.locale;
-    },
     getIntl: function (...pageKeys) {
         var obj = {};
-        var locale = this.getLocale();
         pageKeys.forEach(function (key) {
             for (var subKey of Object.keys(intl[locale][key])) {
                 obj[subKey] = intl[locale][key][subKey];
             }
         });
         return obj;
-    },
-    getGlobalProps: function () {
-        return intl[this.getLocale()]['app'];
     },
     uuid: function () {
         var s = [];

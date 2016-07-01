@@ -1,10 +1,7 @@
 require('./auth.scss');
 import data from './data/auth';
-//import ReactDOM from 'react-dom';
-import {IntlProvider,injectIntl} from 'react-intl';
 import AuthOneClick from '../include/authOneClick.jsx';
-
-class AuthBlock extends BaseComponent {
+class AuthBlock extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -12,19 +9,18 @@ class AuthBlock extends BaseComponent {
     render() {
         return (
             <div className='auth-block'>
-                <h1>{this.props.intl.formatMessage({id: 'auth.signIn'}, {
-                    appName: this.props.appPros['app.name'],
-                    adminPlatform: this.props.appPros['app.adminPlatform']
-                })}
+                <h1><ReactIntl.FormattedMessage id='auth.signIn'
+                                                values={{appName: globalProps['app.name'],adminPlatform: globalProps['app.adminPlatform']}} />
                 </h1>
-                <a className='auth-link'>
-                    {this.props.intl.formatMessage({id: 'auth.newUser'}, {
-                        appName: this.props.appPros['app.name'],
-                        adminPlatform: this.props.appPros['app.adminPlatform']
-                    })}
+                <a className='auth-link'>  
+                    <ReactIntl.FormattedMessage id='auth.newUser'
+                                                values={{
+                        appName: globalProps['app.name'],
+                        adminPlatform: globalProps['app.adminPlatform']
+                    }}/>
                 </a>
-                <AuthForm {...this.props}/>
-                <AuthOneClick {...this.props}/>
+                <AuthForm/>
+                <AuthOneClick/>
             </div>
 
         );
@@ -40,27 +36,28 @@ class AuthForm extends React.Component {
             <form className="form-horizontal">
                 <div className="form-group">
                     <label for="input-email"
-                           className="col-sm-2 control-label">{this.props.appPros['app.email']}</label>
+                           className="col-sm-2 control-label">{globalProps['app.email']}</label>
 
                     <div className="col-sm-10">
                         <input type="email" className="form-control" id="input-email"
-                               placeholder={this.props.appPros['app.email']}/>
+                               placeholder={globalProps['app.email']}/>
                     </div>
                 </div>
                 <div className="form-group">
                     <label for="input-password"
-                           className="col-sm-2 control-label">{this.props.appPros['app.password']}</label>
+                           className="col-sm-2 control-label">{globalProps['app.password']}</label>
 
                     <div className="col-sm-10"><input type="password" className="form-control" id="input-password"
-                                                      placeholder={this.props.appPros['app.password']}/>
+                                                      placeholder={globalProps['app.password']}/>
                     </div>
                 </div>
                 <div className="form-group">
                     <div className="col-sm-offset-2 col-sm-10">
                         <button type="submit"
-                                className="a btn btn-primary btn-auth">{this.props.intl.formatMessage({id: 'auth.login'})}</button>
+                                className="a btn btn-primary btn-auth"><ReactIntl.FormattedMessage id='auth.login'/>
+                        </button>
                         <a href=""
-                           className="forgot-pass">{this.props.intl.formatMessage({id: 'auth.forgotPassword'})}</a>
+                           className="forgot-pass"><ReactIntl.FormattedMessage id='auth.forgotPassword'/></a>
                     </div>
                 </div>
             </form>
@@ -69,13 +66,11 @@ class AuthForm extends React.Component {
 }
 
 UtilFun.domReady(function () {
-    var locale = UtilFun.getLocale();
-    let AuthBlockWrapper = new ReactIntl.injectIntl(AuthBlock);
     ReactDOM.render(
         <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('auth')}>
-            <AuthBlockWrapper />
+            <AuthBlock />
         </ReactIntl.IntlProvider>,
-        document.getElementsByClassName('auth-main')[0]
+        document.querySelector('.auth-main')
     );
 });
 

@@ -1,7 +1,7 @@
 /**
  * Created by Donghui Huo on 2016/5/10.
  */
-class AuthOneClickBlock extends React.Component{
+class AuthOneClickBlock extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -9,7 +9,8 @@ class AuthOneClickBlock extends React.Component{
     render() {
         return (
             <div>
-                <div className="auth-sep"><span><span>{this.props.intl.formatMessage({id: 'auth.oneClickLogin'})}</span></span></div>
+                <div className="auth-sep"><span style={{width : '150px'}}><span><ReactIntl.FormattedMessage
+                    id='auth.oneClickLogin'/></span></span></div>
                 <div className="al-share-auth">
                     <ul className="al-share clearfix">
                         <li><i className="a socicon socicon-wechat" title="Share on wechat"></i></li>

@@ -68,3 +68,6 @@ mail另行考虑，mail涉及的操作太多
 
 遗留问题---》
 form表单元素的格式错误验证功能遗留
+
+
+still need the baseComponent, just for inject the formatmessage use farther,shall be other injection!!!

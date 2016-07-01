@@ -5,10 +5,14 @@ var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
-const vendorJs = ['./js/modules/include/dashBoard/dashBoard.jsx',
+const vendorJs = [
+    './js/util/utilFun.js',
+    './js/modules/common/containers/Root.js',
+    './js/modules/common/customScrollbar/customScrollbar.jsx',
     './js/modules/common/layout/layout.jsx',
-    './js/modules/common/panel/panel.jsx',
     './js/modules/common/modal/modal.jsx',
+    './js/modules/common/panel/panel.jsx',
+    './js/modules/common/store/configureStore.js',
     './js/modules/common/toast/toast.jsx',
     './js/modules/common/tab/tab.jsx',
     './js/modules/common/table/table.jsx',
@@ -29,32 +33,36 @@ var walk = function (dir) {
     });
     return results;
 };
-
 var regexp = /[\s\S]*(\/|\\)(common|include|data)(\/|\\)[\s\S]*/;
 walk(__dirname + '/workspace/js/modules').forEach(function (file) {
     if (!file.match(regexp) && (file.endsWith('.js') || file.endsWith('.jsx'))) {
         var arr = file.split(/(\/|\\)(modules)(\/|\\)/);
         file = arr[arr.length - 1];
-        var moduleName = 'modules/' + file.replace(file.replace(/^.*[\\\/]/, ''), '');
-        moduleName = moduleName.substring(0, moduleName.length - 1);
-        moduleAll[moduleName] = ( './js/modules/' + file).replace(/[\\]/, '/');
-        console.log(moduleAll[moduleName]);
+        if (file.split(/(\/|\\)/).length <= 3) {
+            var moduleName = 'modules/' + file.replace(file.replace(/^.*[\\\/]/, ''), '');
+            moduleName = moduleName.substring(0, moduleName.length - 1);
+            moduleAll[moduleName] = ( './js/modules/' + file).replace(/[\\]/, '/');
+            console.log(moduleAll[moduleName]);
+        }
     }
 });
-
+console.log(process.env.NODE_ENV === 'production');
 module.exports = {
+    devtool: process.env.NODE_ENV === 'production' ? null : 'cheap-module-eval-source-map',
     context: path.join(__dirname, 'workspace'),
     entry: moduleAll,
     output: {
         path: __dirname + '/build',
         filename: 'js/[name].js',
-       // publicPath: '/'
-    },
+        // publicPath: '/'
+    }
+    ,
     devServer: {
         contentBase: path.join(__dirname, 'build'),
         outputPath: path.join(__dirname, 'build'),
         hot: true
-    },
+    }
+    ,
     module: {
         loaders: [
             {
@@ -62,7 +70,8 @@ module.exports = {
                 loaders: ['style', 'css', 'sass']
             }, {
                 test: /basic\.scss$/,
-                loader: ExtractTextPlugin.extract('css!sass', {publicPath: '../'
+                loader: ExtractTextPlugin.extract('css!sass', {
+                    publicPath: '../'
                 })
             },
             {
@@ -86,7 +95,8 @@ module.exports = {
                 loaders: ['react-hot', 'babel?presets[]=es2015,presets[]=react,presets[]=stage-2']
             }
         ]
-    },
+    }
+    ,
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
@@ -95,26 +105,39 @@ module.exports = {
         new webpack.ProvidePlugin({
             'React': 'react',
             'ReactDOM': 'react-dom',
+            'ReactRouter': 'react-router',
+            'ReactRouterRedux': 'react-router-redux',
+            'Redux': 'redux',
+            'ReactRedux': 'react-redux',
+            'ReduxThunk': 'redux-thunk',
             'ReactIntl': 'react-intl',
             'ReactIntlEn': __dirname + '/node_modules/react-intl/locale-data/en',
             'ReactIntlZh': __dirname + '/node_modules/react-intl/locale-data/zh',
             'Select': 'react-select',
             'classNames': 'classnames',
             'UtilFun': __dirname + '/workspace/js/util/utilFun',
-            'BaseComponent': __dirname + '/workspace/js/modules/common/baseComponent.jsx',
+            'RootContainer': __dirname + '/workspace/js/modules/common/containers/Root.js',
             'CustomScrollbar': __dirname + '/workspace/js/modules/common/customScrollbar/customScrollbar.jsx',
             'Layout': __dirname + '/workspace/js/modules/common/layout/layout.jsx',
-            'Panel': __dirname + '/workspace/js/modules/common/panel/panel.jsx',
             'Modal': __dirname + '/workspace/js/modules/common/modal/modal.jsx',
-            'Toast': __dirname + '/workspace/js/modules/common/toast/toast.jsx',
+            'Panel': __dirname + '/workspace/js/modules/common/panel/panel.jsx',
+            'ConfigureStore': __dirname + '/workspace/js/modules/common/store/configureStore.js',
             'Tab': __dirname + '/workspace/js/modules/common/tab/tab.jsx',
-            'Table': __dirname + '/workspace/js/modules/common/table/table.jsx'
+            'Table': __dirname + '/workspace/js/modules/common/table/table.jsx',
+            'Toast': __dirname + '/workspace/js/modules/common/toast/toast.jsx',
         }),
         new ExtractTextPlugin('./css/[name].css', {
             allChunks: true
         }),
         new CopyWebpackPlugin(
             [{from: 'html/**/*'},
-                {from: '*.html'},{from:'demoData/**/*'}]
-        )]
-};
+                {from: '*.html'}, {from: 'demoData/**/*'}]
+        ),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+            }
+        }),
+    ],
+}
+;

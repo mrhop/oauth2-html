@@ -27,13 +27,12 @@ class DashboardMain extends React.Component {
     }
 
     render() {
-        let ele = React.createElement(this.props.mainBlock, Object.assign({}, this.props));
         return (
             <main className="al-main">
                 <CustomScrollbar ref="scrollbars" scrollFun={this.scrollFun.bind(this)}>
                     <div className="al-content">
                         <DashBoardMainTop />
-                        {ele}
+                        {React.cloneElement(this.props.children, {...this.props})}
                         <DashBoardMainBottom />
                     </div>
                 </CustomScrollbar>

@@ -17,14 +17,14 @@ class DashboardTop extends React.Component {
             if (sidebar.classList.contains('collapse') || sidebar.clientWidth < 100) {
                 sidebar.classList.remove('collapse');
                 sidebar.classList.add('un-collapse');
-                if(mainContent){
+                if (mainContent) {
                     mainContent.classList.remove('collapse');
                     mainContent.classList.add('un-collapse');
                 }
             } else {
                 sidebar.classList.remove('un-collapse');
                 sidebar.classList.add('collapse');
-                if(mainContent){
+                if (mainContent) {
                     mainContent.classList.add('collapse');
                     mainContent.classList.remove('un-collapse');
                 }
@@ -37,14 +37,14 @@ class DashboardTop extends React.Component {
         return (
             <div className="page-top clearfix">
                 <a href="#" className="al-logo clearfix">
-                    <span>{this.props.appPros['app.name']}</span>{this.props.appPros['app.adminPlatform']}
+                    <span>{globalProps['app.name']}</span>{globalProps['app.adminPlatform']}
                 </a>
                 <a href="#" className="collapse-menu-link" onClick={this.onClick}></a>
 
                 <div className="search">
                     <i className="ion-ios-search-strong"></i>
                     <input id="searchInput" type="text"
-                           placeholder={this.props.intl.formatMessage({id: 'dashBoard.searchPlaceHolder'})}/>
+                           placeholder={this.props.intl.formatMessage({id:'dashBoard.searchPlaceHolder'})}/>
                 </div>
                 <div className="user-profile clearfix">
                     <div className="al-user-profile dropdown">
@@ -66,12 +66,12 @@ class DashboardTop extends React.Component {
                         </li>
                     </ul>
                 </div>
-                <div className="questions-section">{this.props.intl.formatMessage({id: 'dashBoard.haveQuestions'})} <a
+                <div className="questions-section"><ReactIntl.FormattedMessage
+                    id='dashBoard.haveQuestions'/><a
                     href="mailto:service@hhdd.com">service@hhdd.com</a>
                 </div>
             </div>
         );
     }
 }
-
-export default DashboardTop;
+export default DashboardTop
