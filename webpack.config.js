@@ -46,7 +46,6 @@ walk(__dirname + '/workspace/js/modules').forEach(function (file) {
         }
     }
 });
-console.log(process.env.NODE_ENV === 'production');
 module.exports = {
     devtool: process.env.NODE_ENV === 'production' ? null : 'cheap-module-eval-source-map',
     context: path.join(__dirname, 'workspace'),
