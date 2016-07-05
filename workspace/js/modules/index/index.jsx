@@ -3,7 +3,8 @@
  */
 import rootReducer from './reducers'
 import routes from './routes'
-import * as middleware from './middleware'
+import middleware from './middleware'
+import {dashBoard} from './middleware'
 
 
 

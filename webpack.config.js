@@ -16,7 +16,10 @@ const vendorJs = [
     './js/modules/common/toast/toast.jsx',
     './js/modules/common/tab/tab.jsx',
     './js/modules/common/table/table.jsx',
-    './scss/basic.scss'];
+    './scss/basic.scss',
+    'normalizr',
+    'humps',
+    'isomorphic-fetch'];
 var moduleAll = new Object({'vendor': vendorJs});
 
 var walk = function (dir) {
@@ -47,7 +50,7 @@ walk(__dirname + '/workspace/js/modules').forEach(function (file) {
     }
 });
 module.exports = {
-    devtool: process.env.NODE_ENV === 'production' ? null : 'cheap-module-eval-source-map',
+    //devtool: process.env.NODE_ENV === 'production' ? null : 'cheap-module-eval-source-map',
     context: path.join(__dirname, 'workspace'),
     entry: moduleAll,
     output: {
@@ -114,6 +117,8 @@ module.exports = {
             'ReactIntlZh': __dirname + '/node_modules/react-intl/locale-data/zh',
             'Select': 'react-select',
             'classNames': 'classnames',
+            'normalizr': 'normalizr',
+            'humps': 'humps',
             'UtilFun': __dirname + '/workspace/js/util/utilFun',
             'RootContainer': __dirname + '/workspace/js/modules/common/containers/Root.js',
             'CustomScrollbar': __dirname + '/workspace/js/modules/common/customScrollbar/customScrollbar.jsx',

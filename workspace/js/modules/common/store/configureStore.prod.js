@@ -7,7 +7,7 @@ ConfigureStore.prototype = {
         return Redux.createStore(
             reducer,
             preloadedState,
-            Redux.applyMiddleware(thunk, middleware)
+            Redux.applyMiddleware(thunk, ...middleware)
         )
     }
 }

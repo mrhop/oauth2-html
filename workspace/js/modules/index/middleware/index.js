@@ -1,1 +1,4 @@
-export  {default as dashBoard }  from './dashBoard'
+//export  {default as dashBoard }  from './dashBoard'
+
+import dashBoard from './dashBoard'
+export default [dashBoard]

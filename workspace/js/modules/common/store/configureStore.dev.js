@@ -10,7 +10,7 @@ ConfigureStore.prototype = {
             reducer,
             preloadedState,
             Redux.compose(
-                Redux.applyMiddleware(thunk, ...middleware, createLogger()),
+                Redux.applyMiddleware(thunk,...middleware, createLogger()),
                 DevTools.instrument()
             )
         )

@@ -2,9 +2,9 @@
  * Created by Donghui Huo on 2016/5/11.
  */
 require('./index.scss');
+
 import DashBoardBlock from '../../../include/dashBoard/dashBoard.jsx';
-
-
+import TestClick from '../../components/dashBoard/testClick';
 class MainBlock extends React.Component {
     constructor(props) {
         super(props);
@@ -123,7 +123,7 @@ class MainBlock extends React.Component {
                 }
             }
         };
-
+       
         var columns = [
                 <Panel.DefaultPanel>
                     <button className="btn btn-primary open-toast1"
@@ -131,16 +131,13 @@ class MainBlock extends React.Component {
                     </button>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
-                    <span>you shall know this is the basic default panel</span>
+                    <TestClick />
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     <button className="btn btn-primary open-modal2"
                             onClick={Modal.createModal.bind(this,basicModalData,'default')}>open
                     </button>
                 </Panel.DefaultPanel>,
-                // < Modal.DefaultModal modalValues={basicModalData}>
-                //     <span>you shall know this is the basic default panel</span>
-                // </Modal.DefaultModal>,
                 <Panel.DefaultPanel>
                     <button className="btn btn-primary open-modal1"
                             onClick={Modal.createModal.bind(this,basicModalData,'messageError')}>open
@@ -175,7 +172,9 @@ class MainBlock extends React.Component {
         //return <div style={{'height' : '2000px'}}>123</div>;
     }
 }
-export default class DashBoard extends React.Component{
+
+
+export  default class DashBoard extends React.Component{
     render(){
         return <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoard','indexMainBlock')}>
                    <DashBoardBlock>
@@ -184,3 +183,4 @@ export default class DashBoard extends React.Component{
                 </ReactIntl.IntlProvider>
     }
 }
+
