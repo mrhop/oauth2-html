@@ -2,7 +2,7 @@
  * Created by Donghui Huo on 2016/5/11.
  */
 require('./index.scss');
-import DashBoardBlock from '../../include/dashBoard/dashBoard.jsx';
+import DashBoardBlock from '../../../include/dashBoard/dashBoard.jsx';
 
 
 class MainBlock extends React.Component {
@@ -175,7 +175,7 @@ class MainBlock extends React.Component {
         //return <div style={{'height' : '2000px'}}>123</div>;
     }
 }
-export  default class Index extends React.Component{
+export default class DashBoard extends React.Component{
     render(){
         return <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoard','indexMainBlock')}>
                    <DashBoardBlock>

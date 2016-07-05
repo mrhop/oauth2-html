@@ -10,18 +10,18 @@ ConfigureStore.prototype = {
             reducer,
             preloadedState,
             Redux.compose(
-                Redux.applyMiddleware(thunk, middleware, createLogger()),
+                Redux.applyMiddleware(thunk, ...middleware, createLogger()),
                 DevTools.instrument()
             )
         )
 
-        if (module.hot) {
-            // Enable Webpack hot module replacement for reducers
-            module.hot.accept('../reducers', () => {
-                const nextRootReducer = require('../reducers').default
-                store.replaceReducer(nextRootReducer)
-            })
-        }
+        // if (module.hot) {
+        //     // Enable Webpack hot module replacement for reducers
+        //     module.hot.accept('../reducers', () => {
+        //         const nextRootReducer = require('../reducers').default
+        //         store.replaceReducer(nextRootReducer)
+        //     })
+        // }
 
         return store
     }

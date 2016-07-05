@@ -1,11 +1,8 @@
-function index(state = {}, action) {
-    return state
-}
+import * as dashBoard from './dashBoard'
 const routing = ReactRouterRedux.routerReducer;
 const rootReducer = Redux.combineReducers({
-    index,
+    dashBoard,
     routing
 })
-
 
 export default rootReducer; 
