@@ -93,47 +93,25 @@ utilFun.prototype = {
             return editContent;
         }
     },
-    formTypeSelect: function (name, value, options, onChangeCallback, className) {
-        className = classNames('editable', className);
-        return <Select className={className} name={name} data-name={name}
-                       value={value ? value : null}
-                       options={options}
-                       onChange={onChangeCallback}>
-        </Select>;
-    },
-    formTypeText: function (name, value, onChangeCallback, className) {
-        className = classNames('editable', className);
-        return <input type="text" className={className} data-name={name}
-                      name={name} value={value}
-                      onChange={onChangeCallback}/>;
-    },
-    formTypeRadio: function (name, value, options, onChangeCallback, className) {
-        className = classNames('editable ul-wrapper', className);
-        var editContent = options.map(function (subItem, index) {
-            const checked = subItem.value == value ? 'checked' : false;
-            return <li key={index}><input type="radio" name={name} id={name + '-' + index}
-                                          data-name={name}
-                                          value={ subItem.value}
-                                          checked={checked}
-                                          onChange={onChangeCallback}/>
-                <label htmlFor={name + '-' + index}>{subItem.label}</label></li>;
-        }, this);
-        editContent = <ul className={className}>{editContent}</ul>;
-        return editContent;
-    },
-    formTypeCheckbox: function (name, value, options, onChangeCallback, className) {
-        className = classNames('editable ul-wrapper', className);
-        value = value ? value : '';
-        var editContent = options.map(function (subItem, index) {
-            return <li key={index}><input type="checkbox" name={name} id={name + '-' + index}
-                                          data-name={name}
-                                          value={ subItem.value}
-                                          checked={value.split(',').includes(subItem.value)  ? 'checked' : false}
-                                          onChange={onChangeCallback}/>
-                <label htmlFor={name + '-' + index}>{subItem.label}</label></li>;
-        }, this);
-        editContent = <ul className={className}>{editContent}</ul>;
-        return editContent;
+    formTypeValue(type,e,value){
+        if (type == 'radio' || type == 'text') {
+            return e.target.value;
+        } else if (type == 'checkbox') {
+            if (e.target.checked) {
+                value = value ? value + ',' + e.target.value : e.target.value;
+            } else {
+                value = value ? value.replace(e.target.value, '') : null;
+            }
+            if (value && value.endsWith(',')) {
+                value = value.substring(0, value.length - 1);
+            }
+            if (value && value.startsWith(',')) {
+                value = value.substring(1);
+            }
+            return value;
+        } else if (type == 'select') {  
+            return e ? e.value : null;
+        }
     }
 };
 

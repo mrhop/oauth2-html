@@ -1,8 +1,3 @@
-//tablebody(data) shall be at backend,and base on the query params return different data
-//thead? how to set these data? client? I think so
-//tfoot? how to set these data? client? I think so
-//but not other features also client I think so
-//finally shall be rdbms or nosql
 [{
   "key": 1, "value": [{
     "className": "td-id"

@@ -1,8 +1,7 @@
-import * as dashBoard from './dashBoard'
+import dashBoard from './dashBoard'
 const routing = ReactRouterRedux.routerReducer;
 const rootReducer = Redux.combineReducers({
     dashBoard,
     routing
 })
-
-export default rootReducer; 
+export default rootReducer;

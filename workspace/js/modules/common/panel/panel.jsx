@@ -5,11 +5,28 @@ import {Scrollbars} from 'react-custom-scrollbars';
 require('./panel.scss');
 
 class DefaultPanel extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {panelActionCallBack: {}};
+    }
+
+    componentDidMount() {
+        if (this.state.panelActionCallBack.onClick) {
+            this.panelDom.addEventListener('click',function(){
+                this.state.panelActionCallBack.onClick();
+            }.bind(this));
+        }
+    }
     render() {
+        const childrenWithProps = React.Children.map(this.props.children,
+            (child) => React.cloneElement(child, {
+                panelActionCallBack: this.state.panelActionCallBack
+            })
+        );
         return (
             <div className="panel">
                 <div className="panel-body">
-                    {this.props.children}
+                    {childrenWithProps}
                 </div>
             </div>
         );

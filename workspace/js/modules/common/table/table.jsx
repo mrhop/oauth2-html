@@ -4,7 +4,6 @@
 import {Scrollbars} from 'react-custom-scrollbars';
 require('./table.scss');
 import tableDataFuncs from './data/table';
-// need to give the getList + updateList + deleteList + add url
 const defaultRowSizeOptions = [
     {value: 5, label: 5},
     {value: 10, label: 10},
@@ -36,7 +35,6 @@ class BasicTable extends React.Component {
         super(props);
         this.tableId = 'id-' + UtilFun.uuid();
         this.state = {
-            currentRow: {key: 0},
             pager: {
                 show: false,
                 currentValue: 0,
@@ -68,8 +66,8 @@ class BasicTable extends React.Component {
             this.state.filter.available = true;
             this.state.filter.data = {};
         }
-        if (this.props.tableValues && this.props.tableValues.thead) {
-            this.props.tableValues.thead.map(function (subItem, index) {
+        if (this.props.tableRules && this.props.tableRules.thead) {
+            this.props.tableRules.thead.map(function (subItem, index) {
                 if (this.state.sort.available) {
                     if (subItem.sort) {
                         this.state.sort.currentTh = {sortName: subItem.value, sortDirection: subItem.sort};
@@ -77,58 +75,41 @@ class BasicTable extends React.Component {
                 }
             }, this);
         }
-
-        this.state.allCachedData = tableDataFuncs.getList({
-            dataUrl: this.props.tableValues.dataUrls.list,
-            filters: this.state.filter.available ? this.state.filter.data : null,
-            sort: this.state.sort.available ? this.state.sort.currentTh : null,
-            rowSize: this.state.pager.rowSize.show ? this.state.pager.rowSize.value : null,
-            currentPage: this.state.pager.currentValue
-        });
-        this.getTBodyByAllData();
         this.getPagerOptionsByTotalCount();
         if (this.props.panelActionCallBack) {
             this.props.panelActionCallBack.onClick = function () {
-                if (this.state.currentEditTdDom.dom) {
+                if (this.state.currentEditTdDom.dom && this.state.currentEditTdDom.dom.classList.contains('open')) {
                     this.state.currentEditTdDom.dom.classList.remove('open');
+                    this.props.updateColumn && this.props.updateColumn({
+                        key: this.state.currentEditTdDom.rowKey,
+                        data: [{'name': this.state.currentEditTdDom.name, value: this.state.currentEditTdDom.value}]
+                    });
                 }
             }.bind(this);
         }
     }
 
-    componentDidMount() {
-
+    componentWillUpdate(nextProps, nextState) {
+        this.getPagerOptionsByTotalCount(nextProps.totalCount);
     }
 
-    getTBodyByAllData() {
-        var allData = this.state.allCachedData;
-        if (this.state.pager.show) {
-            var totalCount = this.state.allCachedData.totalCount;
-            var currentPage = this.state.pager.currentValue;
-            var rowSize = this.state.pager.rowSize.value;
-            var totalPager = Math.ceil(totalCount / rowSize);
-            if (currentPage > 2) {
-                if ((currentPage + 2) < totalPager) {
-                    currentPage = 2;
-                } else {
-                    currentPage = 2 + (2 - (totalPager - 1 - currentPage));
-                }
-            }
-            var beginIndex = currentPage * rowSize;
+    componentDidMount() {
+    }
 
-            var endIndex = beginIndex + rowSize - 1;
-            endIndex = endIndex <= allData.totalCount - 1 ? endIndex : allData.totalCount - 1;
-            this.state.tbody = allData.data.slice(beginIndex, endIndex + 1);
-        } else {
-            this.state.tbody = allData.data;
-        }
+    getList() {
+        this.props.getList && this.props.getList({
+            filters: this.state.filter.available ? this.state.filter.data : null,
+            sort: this.state.sort.available ? this.state.sort.currentTh : null,
+            rowSize: this.state.pager.rowSize.show ? this.state.pager.rowSize.value : null,
+            currentPage: this.state.pager.currentValue ? this.state.pager.currentValue : 0,
+        })
     }
 
     getPagerOptionsByTotalCount() {
         if (this.state.pager.show) {
             var currentPage = this.state.pager.currentValue;
             var rowSize = this.state.pager.rowSize.value;
-            var totalCount = this.state.allCachedData.totalCount;
+            var totalCount = this.props.totalCount;
             var totalPager = Math.ceil(totalCount / rowSize);
             this.state.pager.options = [];
             var beginIndex = currentPage > 1 ? currentPage - 2 : 0;
@@ -156,31 +137,14 @@ class BasicTable extends React.Component {
     onRowSizeChange(value) {
         this.state.pager.rowSize.value = value ? value.value : null;
         this.state.pager.currentValue = 0;
-        this.state.allCachedData = tableDataFuncs.getList({
-            dataUrl: this.props.tableValues.dataUrls.list,
-            filters: this.state.filter.available ? this.state.filter.data : null,
-            sort: this.state.sort.available ? this.state.sort.currentTh : null,
-            rowSize: this.state.pager.rowSize.value,
-            currentPage: this.state.pager.currentValue
-        });
-        this.getTBodyByAllData();
-        this.getPagerOptionsByTotalCount();
         this.forceUpdate();
-        console.log('You\'ve selected:', value);
+        this.getList();
     }
 
     onPagerClick(value) {
         this.state.pager.currentValue = value;
-        this.state.allCachedData = tableDataFuncs.getList({
-            dataUrl: this.props.tableValues.dataUrls.list,
-            filters: this.state.filter.available ? this.state.filter.data : null,
-            sort: this.state.sort.available ? this.state.sort.currentTh : null,
-            rowSize: this.state.pager.rowSize.show ? this.state.pager.rowSize.value : null,
-            currentPage: this.state.pager.currentValue
-        });
-        this.getTBodyByAllData();
-        this.getPagerOptionsByTotalCount();
         this.forceUpdate();
+        this.getList();
     }
 
     onSortClick(sortName) {
@@ -195,94 +159,23 @@ class BasicTable extends React.Component {
 
     sortClick(sortName) {
         this.state.pager.currentValue = 0;
-        this.state.allCachedData = tableDataFuncs.getList({
-            dataUrl: this.props.tableValues.dataUrls.list,
-            filters: this.state.filter.available ? this.state.filter.data : null,
-            sort: this.state.sort.currentTh,
-            rowSize: this.state.pager.rowSize.show ? this.state.pager.rowSize.value : null,
-            currentPage: this.state.pager.currentValue
-        });
-        this.getTBodyByAllData();
-        this.getPagerOptionsByTotalCount();
-        this.forceUpdate();
+        this.getList();
     }
 
     onFilterChange(filterName, type, e) {
-        if (type == 'radio' || type == 'text') {
-            this.state.filter.data[filterName] = e.target.value;
-        } else if (type == 'checkbox') {
-            var value = this.state.filter.data[filterName];
-            if (e.target.checked) {
-                value = value ? value + ',' + e.target.value : e.target.value;
-            } else {
-                value = value ? value.replace(e.target.value, '') : null;
-            }
-            if (value && value.endsWith(',')) {
-                value = value.substring(0, value.length - 1);
-            }
-            if (value && value.startsWith(',')) {
-                value = value.substring(1);
-            }
-            this.state.filter.data[filterName] = value;
-        } else if (type == 'select') {
-            this.state.filter.data[filterName] = e ? e.value : null;
-        }
+        this.state.filter.data[filterName] = UtilFun.formTypeValue(type, e, this.state.filter.data[filterName])
         this.forceUpdate();
         UtilFun.delay(this.filterChange.bind(this, filterName), 400);
     }
 
     filterChange(filterName) {
         this.state.pager.currentValue = 0;
-        this.state.allCachedData = tableDataFuncs.getList({
-            dataUrl: this.props.tableValues.dataUrls.list,
-            filters: this.state.filter.data,
-            sort: this.state.sort.available ? this.state.sort.currentTh : null,
-            rowSize: this.state.pager.rowSize.show ? this.state.pager.rowSize.value : null,
-            currentPage: this.state.pager.currentValue
-        });
-        this.getTBodyByAllData();
-        this.getPagerOptionsByTotalCount();
-        this.forceUpdate();
+        this.getList();
     }
 
-    onRowDelete() {
-        Modal.createModal.bind(this, deleteRowConfirmModalData, 'messageConfirm')();
-    }
-
-    deleteRow() {
-        this.state.allCachedData = tableDataFuncs.delete({
-            dataUrl: this.props.tableValues.dataUrls.delete,
-            filters: this.state.filter.available ? this.state.filter.data : null,
-            sort: this.state.sort.available ? this.state.sort.currentTh : null,
-            rowSize: this.state.pager.rowSize.show ? this.state.pager.rowSize.value : null,
-            currentPage: this.state.pager.currentValue,
-            key: this.state.currentRow.key
-        });
-        this.getTBodyByAllData();
-        this.getPagerOptionsByTotalCount();
-        this.forceUpdate();
-    }
 
     onRowAddChange(name, type, e) {
-        if (type == 'radio' || type == 'text') {
-            this.state.addData[name] = e.target.value;
-        } else if (type == 'checkbox') {
-            var value = this.state.addData[name];
-            if (e.target.checked) {
-                value = value ? value + ',' + e.target.value : e.target.value;
-            } else {
-                value = value ? value.replace(e.target.value, '') : null;
-            }
-            if (value && value.endsWith(',')) {
-                value = value.substring(0, value.length - 1);
-            }
-            if (value && value.startsWith(',')) {
-                value = value.substring(1);
-            }
-            this.state.addData[name] = value;
-        } else if (type == 'select') {
-            this.state.addData[name] = e ? e.value : null;
-        }
+        this.state.addData[name] = UtilFun.formTypeValue(type, e, this.state.addData[name])
         this.forceUpdate();
     }
 
@@ -293,18 +186,11 @@ class BasicTable extends React.Component {
 
 
     onRowSave() {
-        this.state.allCachedData = tableDataFuncs.add({
-            dataUrl: this.props.tableValues.dataUrls.add,
-            filters: this.state.filter.available ? this.state.filter.data : null,
-            sort: this.state.sort.available ? this.state.sort.currentTh : null,
-            rowSize: this.state.pager.rowSize.show ? this.state.pager.rowSize.value : null,
-            currentPage: this.state.pager.currentValue ? this.state.pager.currentValue : 0,
-            addData: this.state.addData
-        });
+        this.props.saveRow && this.props.saveRow({
+            data: this.state.addData
+        })
+        this.getList();
         this.state.addData = {};
-        this.getTBodyByAllData();
-        this.getPagerOptionsByTotalCount();
-        this.forceUpdate();
         this.tableRoot.querySelector('thead tr.theadRowAdd').style.display = 'none';
     }
 
@@ -325,8 +211,8 @@ class BasicTable extends React.Component {
             };
         }
         var thead = null;
-        if (this.props.tableValues.thead) {
-            thead = this.props.tableValues.thead.map(function (subItem, index) {
+        if (this.props.tableRules.thead) {
+            thead = this.props.tableRules.thead.map(function (subItem, index) {
                 var sortItem = null;
                 var onclick = null;
                 var subItemClassName = subItem.className;
@@ -342,12 +228,15 @@ class BasicTable extends React.Component {
                             colSpan={subItem.colSpan ? subItem.colSpan : null}
                             data-value={subItem.value} onClick={onclick}>{subItem.title}{sortItem}</th>);
             }, this);
+            if('row-editable' === tableExtraClass){
+                thead.push(<th key={thead.length}>Actions</th>);
+            }
         }
 
 
         var theadFilter = null;
-        if (this.props.tableValues.thead && this.state.filter && this.state.filter.available) {
-            theadFilter = this.props.tableValues.thead.map(function (subItem, index) {
+        if (this.props.tableRules.thead && this.state.filter && this.state.filter.available) {
+            theadFilter = this.props.tableRules.thead.map(function (subItem, index) {
                 var onFilter = this.onFilterChange.bind(this, subItem.value, subItem.editType);
                 var editContent = null;
                 var className = '';
@@ -368,15 +257,17 @@ class BasicTable extends React.Component {
                     <th key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}>{editContent}
                     </th>);
             }, this);
+            if('row-editable' === tableExtraClass){
+                theadFilter.push(<th key={thead.length}></th>);
+            }
         }
-
-        var tbody = <TableRowWrapper data={this.state.tbody} {...this.props} tableId={this.tableId}
-                                     tableType={this.tableType} onRowDelete={this.onRowDelete.bind(this)}
-                                     currentRow={this.state.currentRow}
-                                     currentEditTdDom={this.state.currentEditTdDom}/>;
+        var tbody = <TableRowWrapper {...this.props} tableId={this.tableId}
+                                                     tableType={this.tableType}
+                                                     getList={this.getList.bind(this)}
+                                                     currentEditTdDom={this.state.currentEditTdDom}/>;
         var tfoot = null;
-        if (this.props.tableValues.tfoot) {
-            tfoot = this.props.tableValues.tfoot.map(function (subItem, index) {
+        if (this.props.tableRules.tfoot) {
+            tfoot = this.props.tableRules.tfoot.map(function (subItem, index) {
                 return (<td key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}
                             className={subItem.className}>{subItem.title}</td>);
             }, this);
@@ -388,8 +279,8 @@ class BasicTable extends React.Component {
             topOperations.push(<button key={topOperations.length} className="btn btn-primary btn-add-row"
                                        onClick={this.onRowAdd.bind(this)}>Add
                 row</button>);
-            if (this.props.tableValues.thead) {
-                theadRowAdd = this.props.tableValues.thead.map(function (subItem, index) {
+            if (this.props.tableRules.thead) {
+                theadRowAdd = this.props.tableRules.thead.map(function (subItem, index) {
                     var onRowAddChange = this.onRowAddChange.bind(this, subItem.value, subItem.editType);
                     var editContent = null;
                     var className = '';
@@ -405,24 +296,25 @@ class BasicTable extends React.Component {
                             options: subItem.editValue,
                             className: className
                         });
-                    } else if (subItem.specialColumn) {
-                        return <th key='add-actions' className="td-row-actions">
-                            <div className="btn-group btn-group-xs editing">
-                                <button className="btn btn-primary btn-xs save"
-                                        onClick={this.onRowSave.bind(this)}>
-                                    Save
-                                </button>
-                                <button className="btn btn-danger btn-xs cancel"
-                                        onClick={this.onRowCancel.bind(this)}>
-                                    Cancel
-                                </button>
-                            </div>
-                        </th>;
                     }
                     return (
                         <th key={index} colSpan={subItem.colSpan ? subItem.colSpan : null}>{editContent}
                         </th>);
                 }, this);
+                if('row-editable' === tableExtraClass){
+                    theadRowAdd.push(<th key='add-actions' className="td-row-actions">
+                        <div className="btn-group btn-group-xs editing">
+                            <button className="btn btn-primary btn-xs save"
+                                    onClick={this.onRowSave.bind(this)}>
+                                Save
+                            </button>
+                            <button className="btn btn-danger btn-xs cancel"
+                                    onClick={this.onRowCancel.bind(this)}>
+                                Cancel
+                            </button>
+                        </div>
+                    </th>);
+                }
             }
         }
         if (this.state.pager && this.state.pager.rowSize && this.state.pager.rowSize.show) {
@@ -470,7 +362,7 @@ class BasicTable extends React.Component {
                             </tr> : null}
                             </thead>
                             <tfoot>
-                            <tr className={(tableExtraClass == 'striped' || (additionalFeature && additionalFeature.extraClass == 'striped') ) && this.state.tbody.length % 2 == 0 ? 'tr-deep' : null}>
+                            <tr className={(tableExtraClass == 'striped' || (additionalFeature && additionalFeature.extraClass == 'striped') ) && this.props.tableData.length % 2 == 0 ? 'tr-deep' : null}>
                                 {tfoot}
                             </tr>
                             </tfoot>
@@ -491,16 +383,10 @@ class TableRowWrapper extends React.Component {
         this.state = {};
     }
 
-    onRowDelete(rowKey, callback) {
-        this.props.currentRow.key = rowKey;
-        callback();
-    }
-
     render() {
-        var tableRows = this.props.data.map(function (row, index) {
+        var tableRows = this.props.tableData.map(function (row, index) {
             return (
-                <TableRow key={index} rowData={row} rowIndex={index}  {...this.props}
-                          onRowDelete={this.onRowDelete.bind(this,row.key,this.props.onRowDelete)}/>
+                <TableRow key={index} rowData={row} rowIndex={index}   {...this.props}  />
             );
         }, this);
         return (
@@ -520,40 +406,45 @@ class TableRow extends React.Component {
         this.state = {rowEditState: false};
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.rowEditState) {
+            this.trDom.classList.add('edit');
+        } else {
+            this.trDom.classList.remove('edit');
+        }
+    }
 
-    onRowEdit(rowKey) {
+    onRowDelete(key) {
+        Modal.createModal.bind(this, deleteRowConfirmModalData, 'messageConfirm')();
+    }
+
+    deleteRow() {
+        this.props.deleteRow && this.props.deleteRow({
+            key: this.props.rowData.key
+        })
+        this.props.getList();
+    }
+
+    onRowEdit() {
         this.props.rowData.value.map(function (subItem, index) {
             this.currentData[index] = subItem.value;
         }, this);
-        this.trDom.classList.add('edit');
         this.state.rowEditState = true;
         this.forceUpdate();
     }
 
     onRowSave(rowKey) {
-        var tr = document.querySelector('#' + this.props.tableId + ' tbody tr#tr-' + rowKey);
-        var result = tableDataFuncs.update({key: rowKey, data: this.props.rowData.value});
-        result.flag = true;
-        if (result.flag) {
-            this.trDom.classList.remove('edit');
-            this.state.rowEditState = false;
-            this.forceUpdate();
-        } else {
-            Toast.createToast.bind(this, {
-                content: <span>{result.message}</span>,
-                title: 'Check if the data is available?'
-            }, 'error');
-        }
-
+        this.props.updateRow && this.props.updateRow({key: this.props.rowData.key, data: this.props.rowData.value});
+        this.state.rowEditState = false;
+        this.forceUpdate();
     }
 
-    onRowCancel(rowKey) {
+    onRowCancel() {
         this.props.rowData.value.map(function (subItem, index) {
             subItem.value = this.currentData[index];
         }, this);
         this.state.rowEditState = false;
         this.forceUpdate();
-        this.trDom.classList.remove('edit');
     }
 
     render() {
@@ -561,28 +452,28 @@ class TableRow extends React.Component {
         var tds = this.props.rowData.value.map(function (subItem, index) {
             return <TableTd key={index} tdData={subItem} rowKey={this.props.rowData.key} rowIndex={rowIndex}
                             rowEditState={this.state.rowEditState}
-                            theadItem={ this.props.tableValues.thead ? this.props.tableValues.thead[index] : null}
-                            currentEditTdDom={this.props.currentEditTdDom}></TableTd>;
+                            theadItem={ this.props.tableRules.thead ? this.props.tableRules.thead[index] : null}
+                            currentEditTdDom={this.props.currentEditTdDom} {...this.props}></TableTd>;
         }, this);
         if (this.props.tableType == 'row-editable') {
             tds.push(<td key='row-actions' className="td-row-actions">
                 <div className="btn-group btn-group-xs edited">
                     <button className="btn btn-primary btn-xs edit"
-                            onClick={this.onRowEdit.bind(this,this.props.rowData.key)}>
+                            onClick={this.onRowEdit.bind(this)}>
                         Edit
                     </button>
                     <button className="btn btn-danger btn-xs delete"
-                            onClick={this.props.onRowDelete}>
+                            onClick={this.onRowDelete.bind(this)}>
                         Delete
                     </button>
                 </div>
                 <div className="btn-group btn-group-xs editing">
                     <button className="btn btn-primary btn-xs save"
-                            onClick={this.onRowSave.bind(this,this.props.rowData.key)}>
+                            onClick={this.onRowSave.bind(this)}>
                         Save
                     </button>
                     <button className="btn btn-danger btn-xs cancel"
-                            onClick={this.onRowCancel.bind(this,this.props.rowData.key)}>
+                            onClick={this.onRowCancel.bind(this)}>
                         Cancel
                     </button>
                 </div>
@@ -598,25 +489,7 @@ class TableTd extends React.Component {
     }
 
     onTdEdit(type, e) {
-        if (type == 'text' || type == 'radio') {
-            this.props.tdData.value = e.target.value;
-        } else if (type == 'checkbox') {
-            var value = this.props.tdData.value;
-            if (e.target.checked) {
-                value = value ? value + ',' + e.target.value : e.target.value;
-            } else {
-                value = value ? value.replace(e.target.value, '') : null;
-            }
-            if (value && value.endsWith(',')) {
-                value = value.substring(0, value.length - 1);
-            }
-            if (value && value.startsWith(',')) {
-                value = value.substring(1);
-            }
-            this.props.tdData.value = value;
-        } else if (type == 'select') {
-            this.props.tdData.value = e ? e.value : null;
-        }
+        this.props.tdData.value = UtilFun.formTypeValue(type, e, this.props.tdData.value)
         this.forceUpdate();
     }
 
@@ -627,6 +500,9 @@ class TableTd extends React.Component {
                 this.props.currentEditTdDom.dom.classList.remove('open');
             }
             this.props.currentEditTdDom.dom = this.tdDom;
+            this.props.currentEditTdDom.rowKey = this.props.rowKey;
+            this.props.currentEditTdDom.name = this.props.theadItem.value;
+            this.props.currentEditTdDom.value = this.props.tdData.value;
             this.tdDom.classList.add('open');
             this.currentData = this.props.tdData.value;
             this.forceUpdate();
@@ -635,7 +511,7 @@ class TableTd extends React.Component {
     }
 
     onTdSave(e) {
-        tableDataFuncs.update({
+        this.props.updateColumn && this.props.updateColumn({
             key: this.props.rowKey, data: [{'name': this.props.theadItem.value, value: this.props.tdData.value}]
         });
         this.tdDom.classList.remove('open');
@@ -706,16 +582,22 @@ class TableTd extends React.Component {
         }
         return (<td ref={(ref) => this.tdDom = ref} colSpan={theadItem.colSpan ? theadItem.colSpan : null}
                     className={ classNames(theadItem.className, theadItem && theadItem.columnEditable ? 'td-editable' : null)}
-                    onClick={theadItem && theadItem.columnEditable ? this.onTdClick.bind(this,theadItem.value) : null}><span
+                    onClick={theadItem && theadItem.columnEditable && this.onTdClick.bind(this,theadItem.value)}><span
             className={tdValueClassName}>{theadItem.className == 'td-id' && !tdItem.value ? rowIndex + 1 : tdItem.value}</span>{editContent}{columnEditContent}{columnEditContentAction}
         </td>);
     }
 }
 
 BasicTable.propTypes = {
-    tableValues: React.PropTypes.object,
+    tableRules: React.PropTypes.object,
     minHeight: React.PropTypes.number,
     additionalFeature: React.PropTypes.object,
+    totalCount: React.PropTypes.number,
+    getList: React.PropTypes.func,
+    deleteRow: React.PropTypes.func,
+    updateRow: React.PropTypes.func,
+    updateColumn: React.PropTypes.func,
+    saveRow: React.PropTypes.func,
 };
 
 
@@ -760,16 +642,6 @@ class StripedTable extends BasicTable {
 class RowEditableTable extends BasicTable {
     constructor(props) {
         super(props);
-        if (this.props.tableValues.thead) {
-            this.props.tableValues.thead.push({
-                title: 'Actions',
-                virtual: true,
-                filter: false,
-                editable: false,
-                addable: false,
-                specialColumn: true
-            });
-        }
         this.tableType = 'row-editable';
         this.state.addData = {};
     }

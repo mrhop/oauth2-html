@@ -60,7 +60,7 @@ try it,then forms and chart
 //add a click event when the screen is small and the left banner is show,then hide the left banner,需要消息推送机制（message），notification采用流程触发机制，在线交流im的话考虑云信
 mail另行考虑，mail涉及的操作太多
 
-学习一下java的流程化规范，任务链以及机制，如果要规范，就要从开始定义完备 state mechanism
+学习一下java的流程化规范，任务链以及机制，如果要规范，就要从开始定义完备 state mechanism spring web flow
 
 
 
@@ -68,6 +68,4 @@ mail另行考虑，mail涉及的操作太多
 
 遗留问题---》
 form表单元素的格式错误验证功能遗留
-
-
-still need the baseComponent, just for inject the formatmessage use farther,shall be other injection!!!
+need to see the table ,and finish it, also care about the react,see the doc to make everything easier!!!!!!

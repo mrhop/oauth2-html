@@ -1,9 +1,16 @@
-export function dashBoard(state = {}, action) {
-    console.log('test1');
+import merge from 'lodash/merge'
+import * as ActionTypes from '../actions/dashBoard'
+
+function example(state = {}, action) {
     return state
 }
 
-export function dashBoard1(state = {}, action) {
-    console.log('test2');
+function demoTable(state = {keys: [], demoTableData: {}}, action) {
+    if (action.type === ActionTypes.INDEX_DEMO_TABLE_SUCCESS) {
+        state.keys = action.response.result
+        return merge({}, state, action.response.entities, {totalCount: action.response.totalCount})
+    }
     return state
 }
+
+export default Redux.combineReducers({example, demoTable})
