@@ -75,7 +75,6 @@ class BasicTable extends React.Component {
                 }
             }, this);
         }
-        this.getPagerOptionsByTotalCount();
         if (this.props.panelActionCallBack) {
             this.props.panelActionCallBack.onClick = function () {
                 if (this.state.currentEditTdDom.dom && this.state.currentEditTdDom.dom.classList.contains('open')) {
@@ -89,8 +88,11 @@ class BasicTable extends React.Component {
         }
     }
 
+    componentWillMount(){
+        this.getPagerOptionsByTotalCount();
+    }
     componentWillUpdate(nextProps, nextState) {
-        this.getPagerOptionsByTotalCount(nextProps.totalCount);
+        this.getPagerOptionsByTotalCount();
     }
 
     componentDidMount() {

@@ -1,5 +1,10 @@
 export const CALL_API = Symbol('Call API')
-
+import {map} from 'lodash';
+const toQueryString = function (obj) {
+    return map(obj, function (v, k) {
+        return encodeURIComponent(k) + '=' + encodeURIComponent(v);
+    }).join('&');
+};
 //index demo table----------------------------------------------------------------------------
 
 //--schema
@@ -12,12 +17,6 @@ export const Schemas = {
 }
 //--DEMOtABLE STRUCTURE
 export const demoTableRules = {
-    dataUrls: {
-        list: 'http://localhost:8080/demoData/tableData.json',
-        add: 'http://localhost:8080/demoData/tableData.json',
-        update: 'http://localhost:8080/demoData/tableData.json',
-        delete: 'http://localhost:8080/demoData/tableData.json'
-    },
     thead: [{
         className: 'td-id',
         title: '#',
@@ -80,29 +79,34 @@ export const rowEditableAdditionalFeature = {
     }
 };
 
-function callApi(endpoint, schema, requestCondition) {
-
-    return fetch(endpoint, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: requestCondition
-
-    })
-        .then(response =>
+function callApi(endpoint, schema, httpType, requestCondition) {
+    httpType = httpType.toUpperCase();
+    var fetchObj = null;
+    if (httpType === 'POST' || httpType == 'PUT') {
+        fetchObj = fetch(endpoint, {
+            method: httpType,
+            body: requestCondition
+        });
+    } else if (httpType === 'GET' || httpType == 'DELETE') {
+        endpoint = endpoint + requestCondition ? '?' + toQueryString(requestCondition) : null;
+        fetchObj = fetch(endpoint, {
+            method: httpType
+        });
+    }
+    if (fetchObj) {
+        fetchObj.then(response =>
             response.json().then(json => ({json, response}))
         ).then(({json, response}) => {
             if (!response.ok) {
                 return Promise.reject(json)
             }
             const camelizedJson = humps.camelizeKeys(json)
-
-            //temp totalCount
-            return Object.assign({totalCount:23},
+            return Object.assign(
                 normalizr.normalize(camelizedJson, schema)
             )
         })
+    }
+    return null;
 }
 
 
@@ -114,7 +118,7 @@ export default store => next => action => {
         return next(action)
     }
     let {endpoint} = callAPI
-    const {schema, types} = callAPI
+    const {httpType = 'post', schema, types, requestCondition = null} = callAPI
     const [ requestType, successType, failureType ] = types;
 
     function actionWith(data) {
@@ -122,9 +126,8 @@ export default store => next => action => {
         delete finalAction[CALL_API]
         return finalAction
     }
-
     next(actionWith({type: requestType}))
-    return callApi(endpoint, schema).then(
+    return callApi(endpoint, schema, httpType, requestCondition).then(
         response => next(actionWith({
             response,
             type: successType
