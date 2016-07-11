@@ -6,7 +6,7 @@ require('./index.scss');
 import DashBoardBlock from '../../../include/dashBoard/dashBoard.jsx';
 import BaseTable from '../../components/dashBoard/baseTable';
 import RowEditableTable from '../../components/dashBoard/rowEditableTable';
-import {getIndexDemoTableDispatch} from '../../actions/dashBoard';
+import {getIndexDemoTableDispatch,refreshDemoTableDispatch} from '../../actions/dashBoard';
 class MainBlock extends React.Component {
     constructor(props) {
         super(props);
@@ -113,25 +113,36 @@ class MainBlock extends React.Component {
 }
 
 
-class DashBoard extends React.Component{
+class DashBoard extends React.Component {
     componentWillMount() {
         //data init
-        this.props.getIndexDemoTableDispatch({})
+        this.props.getIndexDemoTableDispatch()
     }
-    render(){
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.demoTableRefresh) {
+            this.props.refreshDemoTableDispatch();
+        }
+    }
+  
+    render() {
         return <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoard','indexMainBlock')}>
-                   <DashBoardBlock>
-                       <MainBlock/>
-                  </DashBoardBlock>
-                </ReactIntl.IntlProvider>
+            <DashBoardBlock>
+                <MainBlock />
+            </DashBoardBlock>
+        </ReactIntl.IntlProvider>
     }
 }
 
 DashBoard.propTypes = {
-    getIndexDemoTableDispatch: React.PropTypes.func.isRequired
+    getIndexDemoTableDispatch: React.PropTypes.func.isRequired,
+    demoTableRefresh: React.PropTypes.bool,
 }
 function mapStateToProps(state, ownProps) {
-  return {}
+    const {
+        demoTableRefresh
+    } = state.dashBoard.demoTable
+    return {demoTableRefresh};
 }
 
-export default ReactRedux.connect(mapStateToProps, {getIndexDemoTableDispatch})(DashBoard)
+export default ReactRedux.connect(mapStateToProps, {getIndexDemoTableDispatch,refreshDemoTableDispatch})(DashBoard)

@@ -1,4 +1,4 @@
-import {CALL_API, Schemas} from '../middleware/dashBoard'
+import {Schemas} from '../middleware/dashBoard'
 
 export const INDEX_DEMO_TABLE_REQUEST = 'INDEX_DEMO_TABLE_REQUEST'
 export const INDEX_DEMO_TABLE_SUCCESS = 'INDEX_DEMO_TABLE_SUCCESS'
@@ -8,16 +8,21 @@ export const INDEX_DEMO_TABLE_DELETE_REQUEST = 'INDEX_DEMO_TABLE_DELETE_REQUEST'
 export const INDEX_DEMO_TABLE_DELETE_SUCCESS = 'INDEX_DEMO_TABLE_DELETE_SUCCESS'
 export const INDEX_DEMO_TABLE_DELETE_FAILURE = 'INDEX_DEMO_TABLE_DELETE_FAILURE'
 
+
+export const INDEX_DEMO_TABLE_RE_REQUEST = 'INDEX_DEMO_TABLE_RE_REQUEST'
+export const INDEX_DEMO_TABLE_RE_SUCCESS = 'INDEX_DEMO_TABLE_RE_SUCCESS'
+export const INDEX_DEMO_TABLE_RE_FAILURE = 'INDEX_DEMO_TABLE_RE_FAILURE'
+
 // /index  &&/ demoTable  action
 function getIndexDemoTable(requestCondition) {
     return {
-        [CALL_API]: {
+        [MiddleWare.CALL_API]: {
             httpType: 'get',
             types: [INDEX_DEMO_TABLE_REQUEST, INDEX_DEMO_TABLE_SUCCESS, INDEX_DEMO_TABLE_FAILURE],
             schema: Schemas.DemoTable,
             endpoint: `demoData/tableData.json`,
-            requestCondition
-        }
+        },
+        requestCondition
     }
 }
 export function getIndexDemoTableDispatch(requestCondition = {
@@ -34,17 +39,30 @@ export function getIndexDemoTableDispatch(requestCondition = {
         return dispatch(getIndexDemoTable(requestCondition))
     }
 }
-function deleteDemoTable(requestCondition){
+function deleteDemoTable(requestCondition = {key: null}) {
     return {
-        [CALL_API]: {
+        [MiddleWare.CALL_API]: {
             httpType: 'delete',
             types: [INDEX_DEMO_TABLE_DELETE_REQUEST, INDEX_DEMO_TABLE_DELETE_SUCCESS, INDEX_DEMO_TABLE_DELETE_FAILURE],
             schema: Schemas.DemoTable,
             endpoint: `demoData/deleteData.json`,
-            requestCondition
-        }
+        },
+        requestCondition
+    }
+}
+export function deleteDemoTableDispatch(requestCondition = {key: null}) {
+    return (dispatch, getState) => {
+        return dispatch(deleteDemoTable(requestCondition))
     }
 }
 
-//init the data here
+//refresh
+export function refreshDemoTableDispatch() {
+    return (dispatch, getState) => {
+        const {
+            requestCondition
+        } = getState().dashBoard.demoTable
+        return dispatch(getIndexDemoTable(requestCondition))
+    }
+}
 

@@ -1,10 +1,3 @@
-export const CALL_API = Symbol('Call API')
-import {map} from 'lodash';
-const toQueryString = function (obj) {
-    return map(obj, function (v, k) {
-        return encodeURIComponent(k) + '=' + encodeURIComponent(v);
-    }).join('&');
-};
 //index demo table----------------------------------------------------------------------------
 
 //--schema
@@ -79,63 +72,9 @@ export const rowEditableAdditionalFeature = {
     }
 };
 
-function callApi(endpoint, schema, httpType, requestCondition) {
-    httpType = httpType.toUpperCase();
-    var fetchObj = null;
-    if (httpType === 'POST' || httpType == 'PUT') {
-        fetchObj = fetch(endpoint, {
-            method: httpType,
-            body: requestCondition
-        });
-    } else if (httpType === 'GET' || httpType == 'DELETE') {
-        endpoint = endpoint + requestCondition ? '?' + toQueryString(requestCondition) : null;
-        fetchObj = fetch(endpoint, {
-            method: httpType
-        });
-    }
-    if (fetchObj) {
-        fetchObj.then(response =>
-            response.json().then(json => ({json, response}))
-        ).then(({json, response}) => {
-            if (!response.ok) {
-                return Promise.reject(json)
-            }
-            const camelizedJson = humps.camelizeKeys(json)
-            return Object.assign(
-                normalizr.normalize(camelizedJson, schema)
-            )
-        })
-    }
-    return null;
-}
 
-
-// A Redux middleware that interprets actions with CALL_API info specified.
-// Performs the call and promises when such actions are dispatched.
-export default store => next => action => {
-    const callAPI = action[CALL_API]
-    if (typeof callAPI === 'undefined') {
+export default store=>
+    next => action => {
+        //now do nothing,just to the next layer
         return next(action)
     }
-    let {endpoint} = callAPI
-    const {httpType = 'post', schema, types, requestCondition = null} = callAPI
-    const [ requestType, successType, failureType ] = types;
-
-    function actionWith(data) {
-        const finalAction = Object.assign({}, action, data)
-        delete finalAction[CALL_API]
-        return finalAction
-    }
-    next(actionWith({type: requestType}))
-    return callApi(endpoint, schema, httpType, requestCondition).then(
-        response => next(actionWith({
-            response,
-            type: successType
-        })),
-        error => next(actionWith({
-            type: failureType,
-            error: error.message || 'Something bad happened'
-        }))
-    )
-} ;
-

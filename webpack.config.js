@@ -8,6 +8,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 const vendorJs = [
     './js/util/utilFun.js',
     './js/modules/common/containers/Root.js',
+    './js/modules/common/middleware/index.js',
     './js/modules/common/customScrollbar/customScrollbar.jsx',
     './js/modules/common/layout/layout.jsx',
     './js/modules/common/modal/modal.jsx',
@@ -121,6 +122,7 @@ module.exports = {
             'humps': 'humps',
             'UtilFun': __dirname + '/workspace/js/util/utilFun',
             'RootContainer': __dirname + '/workspace/js/modules/common/containers/Root.js',
+            'MiddleWare': __dirname + '/workspace/js/modules/common/middleware/index.js',
             'CustomScrollbar': __dirname + '/workspace/js/modules/common/customScrollbar/customScrollbar.jsx',
             'Layout': __dirname + '/workspace/js/modules/common/layout/layout.jsx',
             'Modal': __dirname + '/workspace/js/modules/common/modal/modal.jsx',

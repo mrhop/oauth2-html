@@ -3,7 +3,6 @@
  */
 import {Scrollbars} from 'react-custom-scrollbars';
 require('./table.scss');
-import tableDataFuncs from './data/table';
 const defaultRowSizeOptions = [
     {value: 5, label: 5},
     {value: 10, label: 10},
@@ -88,12 +87,7 @@ class BasicTable extends React.Component {
         }
     }
 
-    componentWillMount(){
-        this.getPagerOptionsByTotalCount();
-    }
-    componentWillUpdate(nextProps, nextState) {
-        this.getPagerOptionsByTotalCount();
-    }
+
 
     componentDidMount() {
     }
@@ -191,7 +185,6 @@ class BasicTable extends React.Component {
         this.props.saveRow && this.props.saveRow({
             data: this.state.addData
         })
-        this.getList();
         this.state.addData = {};
         this.tableRoot.querySelector('thead tr.theadRowAdd').style.display = 'none';
     }
@@ -202,6 +195,7 @@ class BasicTable extends React.Component {
 
 
     renderBasic(tableExtraClass) {
+        this.getPagerOptionsByTotalCount();
         var additionalFeature = this.props.additionalFeature;
         var tableClass = classNames('table', tableExtraClass,
             (additionalFeature && additionalFeature.extraClass ? additionalFeature.extraClass : null));
@@ -424,7 +418,6 @@ class TableRow extends React.Component {
         this.props.deleteRow && this.props.deleteRow({
             key: this.props.rowData.key
         })
-        this.props.getList();
     }
 
     onRowEdit() {
