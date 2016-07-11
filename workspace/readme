@@ -69,6 +69,10 @@ mail另行考虑，mail涉及的操作太多
 遗留问题---》
 form表单元素的格式错误验证功能遗留
 need to see the table ,and finish it, also care about the react,see the doc to make everything easier!!!!!!
-middleware 的部分实现 公共化查询部分，另外公共化以及标准化return type的json,like {result:[],status:true,errorMessage:''}
+middleware 的部分实现 公共化查询部分，另外公共化以及标准化return type的json,like {result:[],status:true,errorMessage:''}--done no need additional result success 画蛇添足，but error need,or use http error code
+
+now,table add, update and colum update need to be finished
+then chart, then form~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
+
 
 do all actions and remember the paramter transfer，and also remeber server is the basic
