@@ -96,8 +96,8 @@ class MainBlock extends React.Component {
             ]
             ;
         var columnsThird = [
-                <Panel.PanelWithHeader panelValues={{title : 'default Table'}}>
-                    <BaseTable />
+                <Panel.PanelWithHeader panelValues={{title : 'default Chart'}}>
+                    <div>chart to be continue...</div>
                 </Panel.PanelWithHeader>
             ]
             ;

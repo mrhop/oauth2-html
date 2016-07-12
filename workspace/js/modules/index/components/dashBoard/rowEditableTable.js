@@ -1,4 +1,4 @@
-import {getIndexDemoTableDispatch, deleteDemoTableDispatch} from '../../actions/dashBoard'
+import {getIndexDemoTableDispatch, deleteDemoTableDispatch, addDemoTableDispatch,updateDemoTableDispatch,updateColumnDemoTableDispatch} from '../../actions/dashBoard'
 import {demoTableRules, rowEditableAdditionalFeature} from '../../middleware/dashBoard'
 
 
@@ -12,11 +12,24 @@ class RowEditableTable extends React.Component {
         this.props.getIndexDemoTableDispatch(requestCondition);
     }
 
+    saveRow(requestCondition) {
+        this.props.addDemoTableDispatch(requestCondition);
+    }
+
+    updateRow(requestCondition) {
+        this.props.updateDemoTableDispatch(requestCondition);
+    }
+
+    updateColumn(requestCondition) {
+        this.props.updateColumnDemoTableDispatch(requestCondition);
+    }
+
     render() {
         return <Table.RowEditableTable {...this.props} tableRules={demoTableRules}
                                                        additionalFeature={rowEditableAdditionalFeature}
                                                        minHeight={350} deleteRow={this.deleteRow.bind(this)}
-                                                       getList={this.getList.bind(this)}/>
+                                                       getList={this.getList.bind(this)} saveRow ={this.saveRow.bind(this)}
+                                                       updateRow={this.updateRow.bind(this)} updateColumn ={this.updateColumn.bind(this)}/>
     }
 }
 
@@ -29,11 +42,6 @@ RowEditableTable.propTypes = {
 }
 function mapStateToProps(state, ownProps) {
     if (state && state.dashBoard && state.dashBoard.demoTable) {
-        // const {
-        //     demoTableData,
-        //     keys,
-        //     totalCount
-        // } = state.dashBoard.demoTable
         const {
             dashBoard: {
                 demoTable: {
@@ -52,5 +60,8 @@ function mapStateToProps(state, ownProps) {
 
 export default ReactRedux.connect(mapStateToProps, {
     getIndexDemoTableDispatch,
-    deleteDemoTableDispatch
+    deleteDemoTableDispatch,
+    addDemoTableDispatch,
+    updateDemoTableDispatch,
+    updateColumnDemoTableDispatch
 })(RowEditableTable)

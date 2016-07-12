@@ -75,7 +75,7 @@ class BasicTable extends React.Component {
             }, this);
         }
         if (this.props.panelActionCallBack) {
-            this.props.panelActionCallBack.onClick = function () {
+            this.props.panelActionCallBack.clickEvent = function () {
                 if (this.state.currentEditTdDom.dom && this.state.currentEditTdDom.dom.classList.contains('open')) {
                     this.state.currentEditTdDom.dom.classList.remove('open');
                     this.props.updateColumn && this.props.updateColumn({
@@ -182,9 +182,7 @@ class BasicTable extends React.Component {
 
 
     onRowSave() {
-        this.props.saveRow && this.props.saveRow({
-            data: this.state.addData
-        })
+        this.props.saveRow && this.props.saveRow(this.state.addData)
         this.state.addData = {};
         this.tableRoot.querySelector('thead tr.theadRowAdd').style.display = 'none';
     }
@@ -485,6 +483,7 @@ class TableTd extends React.Component {
 
     onTdEdit(type, e) {
         this.props.tdData.value = UtilFun.formTypeValue(type, e, this.props.tdData.value)
+        this.props.currentEditTdDom.value = this.props.tdData.value
         this.forceUpdate();
     }
 

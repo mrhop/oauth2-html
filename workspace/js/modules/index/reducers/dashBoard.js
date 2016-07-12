@@ -9,8 +9,9 @@ function demoTable(state = {keys: [], demoTableData: {}}, action) {
         state.demoTableRefresh = false;
         return merge({}, state, action.response.entities, {totalCount: 23})
     }
-    if (action.type === ActionTypes.INDEX_DEMO_TABLE_DELETE_SUCCESS) {
-        return merge({}, state, {demoTableRefresh:true})
+    if (action.type === ActionTypes.INDEX_DEMO_TABLE_DELETE_SUCCESS ||
+        action.type === ActionTypes.INDEX_DEMO_TABLE_ADD_SUCCESS) {
+        return merge({}, state, {demoTableRefresh: true})
     }
     return state
 }
@@ -27,4 +28,4 @@ function demoTableDelete(state = {}, action) {
     return state
 }
 
-export default Redux.combineReducers({demoTable,demoTableDelete})  
+export default Redux.combineReducers({demoTable, demoTableDelete})
