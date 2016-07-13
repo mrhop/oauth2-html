@@ -45,6 +45,6 @@ class DashboardMain extends React.Component {
     }
 }
 
-export default DashboardMain;
+export default ReactIntl.injectIntl(DashboardMain);
 
 //how to change the window width, when change

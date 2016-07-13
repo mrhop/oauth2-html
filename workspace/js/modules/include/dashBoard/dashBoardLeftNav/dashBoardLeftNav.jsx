@@ -175,6 +175,6 @@ class DashboardLeftSubList extends React.Component {
         return (<ul className="al-sidebar-sublist">{subItems}</ul>);
     }
 }
-export default DashboardLeft;
+export default ReactIntl.injectIntl(DashboardLeft);
 
 //how to change the window width, when change

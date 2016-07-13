@@ -6,11 +6,22 @@ require('./index.scss');
 import DashBoardBlock from '../../../include/dashBoard/dashBoard.jsx';
 import BaseTable from '../../components/dashBoard/baseTable';
 import RowEditableTable from '../../components/dashBoard/rowEditableTable';
-import {getIndexDemoTableDispatch,refreshDemoTableDispatch} from '../../actions/dashBoard';
-class MainBlock extends React.Component {
+import {getIndexDemoTableDispatch, refreshDemoTableDispatch} from '../../actions/dashBoard';
+class DashBoardMainBlock extends React.Component {
     constructor(props) {
         super(props);
 
+    }
+
+    componentWillMount() {
+        //data init
+        this.props.getIndexDemoTableDispatch()
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.demoTableRefresh) {
+            this.props.refreshDemoTableDispatch();
+        }
     }
 
     render() {
@@ -101,40 +112,42 @@ class MainBlock extends React.Component {
                 </Panel.PanelWithHeader>
             ]
             ;
-        return (<div>
-            <Layout.Columns4 columnValues={columns}/>
-            <Layout.Columns2 columnValues={columnsSecond}/>
-            <Layout.Columns2 columnValues={columnsThird}/>
-            <Panel.PanelWithHeader panelValues={{title : 'Row Editable Table'}}>
-                <RowEditableTable />
-            </Panel.PanelWithHeader>
-        </div>);
+        return (<ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoardMainBlock')}>
+            <div>
+                <Layout.Columns4 columnValues={columns}/>
+                <Layout.Columns2 columnValues={columnsSecond}/>
+                <Layout.Columns2 columnValues={columnsThird}/>
+                <Panel.PanelWithHeader panelValues={{title : 'Row Editable Table'}}>
+                    <RowEditableTable />
+                </Panel.PanelWithHeader>
+            </div>
+        </ReactIntl.IntlProvider>)
+        ;
     }
 }
 
 
-class DashBoard extends React.Component {
-    componentWillMount() {
-        //data init
-        this.props.getIndexDemoTableDispatch()
-    }
+// class DashBoard extends React.Component {
+//     componentWillMount() {
+//         //data init
+//         this.props.getIndexDemoTableDispatch()
+//     }
+//
+//     componentWillReceiveProps(nextProps) {
+//         if (nextProps.demoTableRefresh) {
+//             this.props.refreshDemoTableDispatch();
+//         }
+//     }
+//
+//     render() {
+//         return
+//         <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoardMainBlock')}>
+//             <MainBlock />
+//         </ReactIntl.IntlProvider>
+//     }
+// }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.demoTableRefresh) {
-            this.props.refreshDemoTableDispatch();
-        }
-    }
-  
-    render() {
-        return <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoard','indexMainBlock')}>
-            <DashBoardBlock>
-                <MainBlock />
-            </DashBoardBlock>
-        </ReactIntl.IntlProvider>
-    }
-}
-
-DashBoard.propTypes = {
+DashBoardMainBlock.propTypes = {
     getIndexDemoTableDispatch: React.PropTypes.func.isRequired,
     demoTableRefresh: React.PropTypes.bool,
 }
@@ -145,4 +158,4 @@ function mapStateToProps(state, ownProps) {
     return {demoTableRefresh};
 }
 
-export default ReactRedux.connect(mapStateToProps, {getIndexDemoTableDispatch,refreshDemoTableDispatch})(DashBoard)
+export default ReactRedux.connect(mapStateToProps, {getIndexDemoTableDispatch, refreshDemoTableDispatch})(DashBoardMainBlock)

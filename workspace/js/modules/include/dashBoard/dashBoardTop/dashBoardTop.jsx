@@ -74,4 +74,4 @@ class DashboardTop extends React.Component {
         );
     }
 }
-export default DashboardTop
+export default ReactIntl.injectIntl(DashboardTop)

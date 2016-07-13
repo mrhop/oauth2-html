@@ -15,16 +15,32 @@ class DashBoardBlock extends React.Component {
     render() {
 
         return (
-        <div style={{'height' : '100%'}}>
-            <DashBoardLeftNav {...this.props}/>
-            <DashboardTop {...this.props}/>
-            <DashBoardMain {...this.props}/>
-        </div>);
+            <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoard','dashBoardMainBlock')}>
+                <div style={{'height' : '100%'}}>
+                    <DashBoardLeftNav/>
+                    <DashboardTop/>
+                    <DashBoardMain {...this.props}/>
+                </div>
+            </ReactIntl.IntlProvider>
+         );
+        // return (
+        //     <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoard','dashBoardMainBlock')}>
+        //         <div style={{'height' : '100%'}}>
+        //             <DashBoardLeftNav/>
+        //             <DashboardTop/>
+        //             <DashBoardMain {...this.props}/>
+        //         </div>
+        //     </ReactIntl.IntlProvider>
+        // );
     }
 }
-  
-DashBoardBlock.propTypes = {
-    intl: ReactIntl.intlShape.isRequired,
-};
 
-export default ReactIntl.injectIntl(DashBoardBlock) ;
+
+
+function mapStateToProps(state, ownProps) {
+    return {};
+}
+
+export default ReactRedux.connect(mapStateToProps, {})(DashBoardBlock);
+
+//export default ReactIntl.injectIntl(DashBoardBlock);
