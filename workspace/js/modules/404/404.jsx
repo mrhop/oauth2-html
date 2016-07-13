@@ -14,18 +14,17 @@ class ErrorPage404 extends React.Component {
             <div>
                 <h1><ReactIntl.FormattedMessage id='404.error'/></h1>
 
-                <p><ReactIntl.FormattedMessage id='404.sorrySentence'/><a href='/'><ReactIntl.FormattedMessage id='404.backHome'/></a></p>
+                <p><ReactIntl.FormattedMessage id='404.sorrySentence'/><a href='/'><ReactIntl.FormattedMessage
+                    id='404.backHome'/></a></p>
             </div>
         );
     }
 }
 
-UtilFun.domReady(function () {
-    ReactDOM.render(
-        <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('404')}>
-            <ErrorPage404 />
-        </ReactIntl.IntlProvider>,
-        document.querySelector('.page-not-found-modal')
-    );
-});
+ReactDOM.render(
+    <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('404')}>
+        <ErrorPage404 />
+    </ReactIntl.IntlProvider>,
+    document.querySelector('.page-not-found-modal')
+);
 

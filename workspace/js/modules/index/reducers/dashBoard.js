@@ -1,17 +1,15 @@
-import merge from 'lodash/merge'
 import * as ActionTypes from '../actions/dashBoard'
-import {pull} from 'lodash'
 
 function demoTable(state = {keys: [], demoTableData: {}}, action) {
     if (action.type === ActionTypes.INDEX_DEMO_TABLE_SUCCESS) {
         state.keys = action.response.result
         state.requestCondition = action['requestCondition'];
         state.demoTableRefresh = false;
-        return merge({}, state, action.response.entities, {totalCount: 23})
+        return l_merge({}, state, action.response.entities, {totalCount: 23})
     }
     if (action.type === ActionTypes.INDEX_DEMO_TABLE_DELETE_SUCCESS ||
         action.type === ActionTypes.INDEX_DEMO_TABLE_ADD_SUCCESS) {
-        return merge({}, state, {demoTableRefresh: true})
+        return l_merge({}, state, {demoTableRefresh: true})
     }
     return state
 }

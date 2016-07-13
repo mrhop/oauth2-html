@@ -75,4 +75,5 @@ now,table add, update and colum update need to be finished  done
 now chart, then form~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
 
 
-do all actions and remember the paramter transfer£¬and also remeber server is the basic
+now the dashBoard click shall all in one page,but how asychnorize the other link js when click and refresh the MainBlock in react??????
+use redux, something need to change dashboard things

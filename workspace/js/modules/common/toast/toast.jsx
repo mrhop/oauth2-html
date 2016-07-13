@@ -13,7 +13,7 @@ function createToast(toastValues, type) {
     if (!type || type == 'default') {
         toastWrapper.addToast(<DefaultToast key={UtilFun.uuid()} toastValues={toastValues}/>);
     } else if (type == 'success') {
-        //other creation
+        //other creation  
         toastWrapper.addToast(<SuccessToast key={UtilFun.uuid()} toastValues={toastValues}/>);
     } else if (type == 'warning') {
         //other creation

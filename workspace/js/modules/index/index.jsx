@@ -4,7 +4,6 @@
 import rootReducer from './reducers'
 import routes from './routes'
 import middleware from './middleware'
-import {dashBoard} from './middleware'
 
 
 

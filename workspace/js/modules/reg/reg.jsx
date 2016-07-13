@@ -73,13 +73,11 @@ class RegForm extends React.Component {
     }
 }
 
-UtilFun.domReady(function () {
-    let RegBlockWrapper = new ReactIntl.injectIntl(RegBlock);
-    ReactDOM.render(
-        <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('auth')}>
-            <RegBlockWrapper />
-        </ReactIntl.IntlProvider>,
-        document.getElementsByClassName('auth-main')[0]
-    );
-});
+let RegBlockWrapper = new ReactIntl.injectIntl(RegBlock);
+ReactDOM.render(
+    <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('auth')}>
+        <RegBlockWrapper />
+    </ReactIntl.IntlProvider>,
+    document.getElementsByClassName('auth-main')[0]
+);
 

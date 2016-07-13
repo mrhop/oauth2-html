@@ -1,8 +1,7 @@
 const CALL_API = Symbol('Call API')
-import {map} from 'lodash';
 
 var toQueryString = function (obj) {
-    return map(obj, function (v, k) {
+    return l_map(obj, function (v, k) {
         return encodeURIComponent(k) + '=' + encodeURIComponent(v);
     }).join('&');
 };

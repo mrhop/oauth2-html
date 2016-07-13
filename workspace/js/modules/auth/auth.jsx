@@ -10,9 +10,9 @@ class AuthBlock extends React.Component {
         return (
             <div className='auth-block'>
                 <h1><ReactIntl.FormattedMessage id='auth.signIn'
-                                                values={{appName: globalProps['app.name'],adminPlatform: globalProps['app.adminPlatform']}} />
+                                                values={{appName: globalProps['app.name'],adminPlatform: globalProps['app.adminPlatform']}}/>
                 </h1>
-                <a className='auth-link'>  
+                <a className='auth-link'>
                     <ReactIntl.FormattedMessage id='auth.newUser'
                                                 values={{
                         appName: globalProps['app.name'],
@@ -64,13 +64,10 @@ class AuthForm extends React.Component {
         );
     }
 }
-
-UtilFun.domReady(function () {
-    ReactDOM.render(
-        <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('auth')}>
-            <AuthBlock />
-        </ReactIntl.IntlProvider>,
-        document.querySelector('.auth-main')
-    );
-});
+ReactDOM.render(
+    <ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('auth')}>
+        <AuthBlock />
+    </ReactIntl.IntlProvider>,
+    document.querySelector('.auth-main')
+);
 

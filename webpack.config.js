@@ -4,24 +4,43 @@ var fs = require('fs');
 var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
-
+//basic framework
 const vendorJs = [
-    './js/util/utilFun.js',
-    './js/modules/common/containers/Root.js',
-    './js/modules/common/middleware/index.js',
-    './js/modules/common/customScrollbar/customScrollbar.jsx',
-    './js/modules/common/layout/layout.jsx',
-    './js/modules/common/modal/modal.jsx',
-    './js/modules/common/panel/panel.jsx',
-    './js/modules/common/store/configureStore.js',
-    './js/modules/common/toast/toast.jsx',
-    './js/modules/common/tab/tab.jsx',
-    './js/modules/common/table/table.jsx',
-    './scss/basic.scss',
+    'react',
+    'react-dom',
+    'react-router',
+    'react-router-redux',
+    'redux',
+    'react-redux',
+    'redux-thunk',
+    'react-intl',
+    __dirname + '/node_modules/react-intl/locale-data/en',
+    __dirname + '/node_modules/react-intl/locale-data/zh',
+    __dirname + '/workspace/js/modules/common/containers/Root.js',
+    __dirname + '/workspace/js/modules/common/middleware/index.js',
+    __dirname + '/workspace/js/modules/common/store/configureStore.js',
+];
+//tools like utilfun,lodash
+const toolsJs = [
+    'classnames',
     'normalizr',
     'humps',
-    'isomorphic-fetch'];
-var moduleAll = new Object({'vendor': vendorJs});
+    //__dirname + '/node_modules/isomorphic-fetch/fetch-npm-node.js',
+    'lodash/merge',
+    'lodash/map',
+    __dirname + '/workspace/js/util/utilFun',
+];
+const commonComponentsJs = [
+    'react-select',
+    __dirname + '/workspace/js/modules/common/customScrollbar/customScrollbar.jsx',
+    __dirname + '/workspace/js/modules/common/layout/layout.jsx',
+    __dirname + '/workspace/js/modules/common/modal/modal.jsx',
+    __dirname + '/workspace/js/modules/common/panel/panel.jsx',
+    __dirname + '/workspace/js/modules/common/tab/tab.jsx',
+    __dirname + '/workspace/js/modules/common/table/table.jsx',
+    __dirname + '/workspace/js/modules/common/toast/toast.jsx',
+    './scss/basic.scss'];
+var moduleAll = new Object({'vendor': vendorJs, 'tools': toolsJs, 'common-components': commonComponentsJs});
 
 var walk = function (dir) {
     var results = [];
@@ -101,8 +120,9 @@ module.exports = {
     }
     ,
     plugins: [
+        //basic framework
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
+            names: ['common-components', 'tools', 'vendor'],
             minChunks: Infinity
         }),
         new webpack.ProvidePlugin({
@@ -119,6 +139,8 @@ module.exports = {
             'Select': 'react-select',
             'classNames': 'classnames',
             'normalizr': 'normalizr',
+            'l_merge': 'lodash/merge',
+            'l_map': 'lodash/map',
             'humps': 'humps',
             'UtilFun': __dirname + '/workspace/js/util/utilFun',
             'RootContainer': __dirname + '/workspace/js/modules/common/containers/Root.js',
