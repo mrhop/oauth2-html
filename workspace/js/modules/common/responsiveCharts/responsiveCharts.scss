@@ -1,0 +1,27 @@
+@import "../../../../scss/import";
+
+.chart-wrapper {
+  height: 300px;
+  width: 100%;
+  color: #000;
+  position: relative;
+  .rd3-legend-item span{
+    color: #fff!important;
+  }
+  .rd3-linechart-xaxis,.rd3-linechart-yaxis{
+    path{
+      stroke: #fff!important;
+    }
+    text{
+      fill: #fff;
+    }
+    .tick{
+      line{
+        stroke: #fff!important;
+      }
+      text{
+        fill: #fff;
+      }
+    }
+  }
+}

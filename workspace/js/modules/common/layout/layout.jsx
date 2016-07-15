@@ -1,7 +1,6 @@
 /**
  * Created by Donghui Huo on 2016/5/13.
  */
-import {Scrollbars} from 'react-custom-scrollbars';
 require('./layout.scss');
 
  class Columns4 extends React.Component {

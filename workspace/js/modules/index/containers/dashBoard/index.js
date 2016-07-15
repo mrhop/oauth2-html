@@ -3,10 +3,9 @@
  */
 require('./index.scss');
 
-import DashBoardBlock from '../../../include/dashBoard/dashBoard.jsx';
-import BaseTable from '../../components/dashBoard/baseTable';
 import RowEditableTable from '../../components/dashBoard/rowEditableTable';
-import {getIndexDemoTableDispatch, refreshDemoTableDispatch} from '../../actions/dashBoard';
+import {getIndexDemoTableDispatch, refreshDemoTableDispatch,getIndexDemoChartDispatch} from '../../actions/dashBoard';
+import LineTooltipChart from '../../components/dashBoard/LineTooltipChart';
 class DashBoardMainBlock extends React.Component {
     constructor(props) {
         super(props);
@@ -16,6 +15,7 @@ class DashBoardMainBlock extends React.Component {
     componentWillMount() {
         //data init
         this.props.getIndexDemoTableDispatch()
+        this.props.getIndexDemoChartDispatch()
     }
 
     componentWillReceiveProps(nextProps) {
@@ -106,9 +106,11 @@ class DashBoardMainBlock extends React.Component {
                 </Panel.DefaultPanel>
             ]
             ;
+
+        //<LineTooltipChart />
         var columnsThird = [
-                <Panel.PanelWithHeader panelValues={{title : 'default Chart'}}>
-                    <div>chart to be continue...</div>
+                <Panel.PanelWithHeader panelValues={{title : 'Default Line Chart'}}>
+                    <LineTooltipChart />
                 </Panel.PanelWithHeader>
             ]
             ;
@@ -122,7 +124,7 @@ class DashBoardMainBlock extends React.Component {
                 </Panel.PanelWithHeader>
             </div>
         </ReactIntl.IntlProvider>)
-        ;
+            ;
     }
 }
 
@@ -149,6 +151,8 @@ class DashBoardMainBlock extends React.Component {
 
 DashBoardMainBlock.propTypes = {
     getIndexDemoTableDispatch: React.PropTypes.func.isRequired,
+    refreshDemoTableDispatch: React.PropTypes.func.isRequired,
+    getIndexDemoChartDispatch: React.PropTypes.func.isRequired,
     demoTableRefresh: React.PropTypes.bool,
 }
 function mapStateToProps(state, ownProps) {
@@ -158,4 +162,8 @@ function mapStateToProps(state, ownProps) {
     return {demoTableRefresh};
 }
 
-export default ReactRedux.connect(mapStateToProps, {getIndexDemoTableDispatch, refreshDemoTableDispatch})(DashBoardMainBlock)
+export default ReactRedux.connect(mapStateToProps, {
+    getIndexDemoTableDispatch,
+    refreshDemoTableDispatch,
+    getIndexDemoChartDispatch
+})(DashBoardMainBlock)

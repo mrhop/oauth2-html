@@ -26,10 +26,14 @@ var callApi = function (endpoint, schema, httpType, requestCondition) {
                 return Promise.reject(json)
             }
             if (json) {
-                const camelizedJson = humps.camelizeKeys(json)
-                return Object.assign(
-                    normalizr.normalize(camelizedJson, schema)
-                )
+                if(schema){
+                    const camelizedJson = humps.camelizeKeys(json)
+                    return Object.assign(
+                        normalizr.normalize(camelizedJson, schema)
+                    )
+                }else{
+                    return json
+                }
             } else {
                 return {};
             }
@@ -51,10 +55,14 @@ var callApi = function (endpoint, schema, httpType, requestCondition) {
                 return Promise.reject(json)
             }
             if (json) {
-                const camelizedJson = humps.camelizeKeys(json)
-                return Object.assign(
-                    normalizr.normalize(camelizedJson, schema)
-                )
+                if(schema){
+                    const camelizedJson = humps.camelizeKeys(json)
+                    return Object.assign(
+                        normalizr.normalize(camelizedJson, schema)
+                    )
+                }else{
+                    return json
+                }
             } else {
                 return {};
             }

@@ -19,6 +19,7 @@ const vendorJs = [
     __dirname + '/workspace/js/modules/common/containers/Root.js',
     __dirname + '/workspace/js/modules/common/middleware/index.js',
     __dirname + '/workspace/js/modules/common/store/configureStore.js',
+    './scss/basic.scss'
 ];
 //tools like utilfun,lodash
 const toolsJs = [
@@ -28,18 +29,20 @@ const toolsJs = [
     //__dirname + '/node_modules/isomorphic-fetch/fetch-npm-node.js',
     'lodash/merge',
     'lodash/map',
+    'lodash/assign',
     __dirname + '/workspace/js/util/utilFun',
 ];
 const commonComponentsJs = [
     'react-select',
+    'rd3',
     __dirname + '/workspace/js/modules/common/customScrollbar/customScrollbar.jsx',
     __dirname + '/workspace/js/modules/common/layout/layout.jsx',
     __dirname + '/workspace/js/modules/common/modal/modal.jsx',
     __dirname + '/workspace/js/modules/common/panel/panel.jsx',
+    __dirname + '/workspace/js/modules/common/responsiveCharts/responsiveCharts.jsx',
     __dirname + '/workspace/js/modules/common/tab/tab.jsx',
     __dirname + '/workspace/js/modules/common/table/table.jsx',
-    __dirname + '/workspace/js/modules/common/toast/toast.jsx',
-    './scss/basic.scss'];
+    __dirname + '/workspace/js/modules/common/toast/toast.jsx'];
 var moduleAll = new Object({'vendor': vendorJs, 'tools': toolsJs, 'common-components': commonComponentsJs});
 
 var walk = function (dir) {
@@ -137,10 +140,12 @@ module.exports = {
             'ReactIntlEn': __dirname + '/node_modules/react-intl/locale-data/en',
             'ReactIntlZh': __dirname + '/node_modules/react-intl/locale-data/zh',
             'Select': 'react-select',
+            'rd3': 'rd3',
             'classNames': 'classnames',
             'normalizr': 'normalizr',
             'l_merge': 'lodash/merge',
             'l_map': 'lodash/map',
+            'l_assign': 'lodash/assign',
             'humps': 'humps',
             'UtilFun': __dirname + '/workspace/js/util/utilFun',
             'RootContainer': __dirname + '/workspace/js/modules/common/containers/Root.js',
@@ -149,6 +154,7 @@ module.exports = {
             'Layout': __dirname + '/workspace/js/modules/common/layout/layout.jsx',
             'Modal': __dirname + '/workspace/js/modules/common/modal/modal.jsx',
             'Panel': __dirname + '/workspace/js/modules/common/panel/panel.jsx',
+            'ResponsiveCharts': __dirname + '/workspace/js/modules/common/responsiveCharts/responsiveCharts.jsx',
             'ConfigureStore': __dirname + '/workspace/js/modules/common/store/configureStore.js',
             'Tab': __dirname + '/workspace/js/modules/common/tab/tab.jsx',
             'Table': __dirname + '/workspace/js/modules/common/table/table.jsx',

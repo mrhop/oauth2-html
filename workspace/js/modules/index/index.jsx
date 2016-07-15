@@ -12,5 +12,5 @@ const history = ReactRouterRedux.syncHistoryWithStore(ReactRouter.browserHistory
 
 ReactDOM.render(
     <RootContainer store={store} history={history} routes={routes}/>,
-    document.querySelector('#entirety')
+    document.querySelector('#entirety')  
 )

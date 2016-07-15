@@ -78,3 +78,8 @@ now chart, then form~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!!!!!!
 now the dashBoard click shall all in one page,but how asychnorize the other link js when click and refresh the MainBlock in react??????
 use redux, something need to change dashboard things
 rebuild the dashboard basic
+
+use https://github.com/yang-wei/rd3 as a choice,now the color need to be change, do it
+and also read the d3 doc
+https://github.com/d3/d3
+
