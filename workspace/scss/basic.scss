@@ -70,10 +70,11 @@ button:focus{
 @include keyframes("zoomIn"){
   from {
     @include opacity(0);
-    @include scale3d(.3, .3, .3);
+    @include scale(.3, .3);
   }
-  50% {
+  100% {
     @include opacity(1);
+    @include scale(1, 1);
   }
 }
 
