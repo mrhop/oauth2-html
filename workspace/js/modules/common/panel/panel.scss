@@ -6,7 +6,7 @@
   background-size: 1920px 1080px;
   background-position: 0px 0px;
   @include animation(zoomIn 0.5s);
-  //@include animation-fill-mode(both);
+  @include animation-fill-mode(none);
   border: none;
   border-radius: 5px;
   position: relative;
