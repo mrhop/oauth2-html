@@ -5,22 +5,32 @@
   width: 100%;
   color: #000;
   position: relative;
-  .rd3-legend-item span{
-    color: #fff!important;
+  .rd3-legend-item span {
+    color: #fff !important;
   }
-  .rd3-linechart-xaxis,.rd3-linechart-yaxis,.rd3-areachart-xaxis,.rd3-areachart-yaxis{
-    path{
-      stroke: #fff!important;
+  .rd3-linechart-xaxis, .rd3-linechart-yaxis, .rd3-areachart-xaxis, .rd3-areachart-yaxis {
+    path {
+      stroke: #fff !important;
     }
-    text{
+    text {
       fill: #fff;
     }
-    .tick{
-      line{
-        stroke: #fff!important;
+    .tick {
+      line {
+        stroke: #fff !important;
       }
-      text{
+      text {
         fill: #fff;
+      }
+    }
+  }
+  .rd3-piechart-arc {
+    g {
+      line {
+        stroke: #fff !important;
+      }
+      text {
+        fill: #fff !important;
       }
     }
   }

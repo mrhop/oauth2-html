@@ -17,7 +17,6 @@ class AreaChart extends React.Component {
              }
             yAccessor={(d)=>d[1]}
             domain={{ y: [,60]}}
-            gridHorizontal={true}
         /> : null;
     }
 }

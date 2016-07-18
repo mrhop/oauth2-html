@@ -35,7 +35,7 @@ const createClass = (chartType) => {
             }
         }
 
-        setTimeOutFitToParentSize(){
+        setTimeOutFitToParentSize() {
             clearTimeout(resizeId);
             resizeId = setTimeout(this.fitToParentSize.bind(this), 200);
         }
@@ -72,7 +72,7 @@ const createClass = (chartType) => {
         }
 
         componentDidMount() {
-            elementResizeEvent(this.refs.wrapper,this.fitToParentSize.bind(this));
+            elementResizeEvent(this.refs.wrapper, this.fitToParentSize.bind(this));
             this.fitToParentSize();
         }
 
@@ -88,15 +88,19 @@ const createClass = (chartType) => {
             width = this.state.size.w || 100;
             height = this.state.size.h || 100;
             if (chartType == 'LineChart') {
-                let viewBoxObject =
-                    l_assign(others, {
-                        viewBoxObject: {
-                            x: 0,
-                            y: 0,
-                            width: (width > 100 ? width - 100 : width),
-                            height: height
-                        }
-                    })
+                l_assign(others, {
+                    viewBoxObject: {
+                        x: 0,
+                        y: 0,
+                        width: (width > 100 ? width - 100 : width),
+                        height: height
+                    }
+                })
+            } else if (chartType == 'PieChart') {
+                l_assign(others, {
+                    radius: ((width > height) ? (height / 3) : (width / 3)),
+                    innerRadius: 20
+                })
             }
             return (
                 <div className="chart-wrapper" ref="wrapper">
