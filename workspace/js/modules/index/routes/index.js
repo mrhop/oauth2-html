@@ -3,17 +3,15 @@ import DashBoardContainer from '../../include/dashBoard/dashBoard.jsx'
 
 export default [
         //<ReactRouter.IndexRoute component={Index.dashBoard} />
-        <ReactRouter.Route path="/" component={DashBoardContainer}>
+        <ReactRouter.Route path="/(index.html)" component={DashBoardContainer}>
                 <ReactRouter.IndexRoute component={Index.dashBoard} />
+                <ReactRouter.Route path="dashboard" component={Index.dashBoard} />
+                <ReactRouter.Route path="chart" component={Index.chart} />
         </ReactRouter.Route>,
-        <ReactRouter.Route path="(**)/" component={DashBoardContainer}>
+        <ReactRouter.Route path="(**)/(index.html)" component={DashBoardContainer}>
                 <ReactRouter.IndexRoute component={Index.dashBoard} />
-        </ReactRouter.Route>,
-        <ReactRouter.Route path="/index.html" component={DashBoardContainer}>
-                <ReactRouter.IndexRoute component={Index.dashBoard} />
-        </ReactRouter.Route>,
-        <ReactRouter.Route path="(**)/index.html" component={DashBoardContainer}>
-                <ReactRouter.IndexRoute component={Index.dashBoard} />
+                <ReactRouter.Route path="dashboard" component={Index.dashBoard} />
+                <ReactRouter.Route path="chart" component={Index.chart} />
         </ReactRouter.Route>
 ]
 

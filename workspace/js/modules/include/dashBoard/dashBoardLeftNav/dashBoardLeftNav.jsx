@@ -18,24 +18,22 @@ class DashboardLeft extends React.Component {
         var testData = {
             items: [{
                 id: '1',
-                url: '#',
-                selected: true,
+                url: 'dashboard',
                 iconClass: 'home',
                 name: 'Dashboard'
             },
                 {
                     id: '2',
-                    url: '#',
                     iconClass: 'cog',
-                    name: 'Setting',
+                    name: 'Modules',
                     subItems: [{
                         id: '3',
-                        url: '#',
-                        name: 'User Info'
+                        url: 'table',
+                        name: 'Tables'
                     }, {
                         id: '4',
-                        url: '#',
-                        name: 'Others'
+                        url: 'chart',
+                        name: 'Charts'
                     }]
                 }, {
                     id: '5',
@@ -64,18 +62,18 @@ class DashboardLeftList extends React.Component {
     }
 
     componentDidMount() {
+        //first init do something change
     }
 
     onMouseOver(e) {
         var directLine = document.querySelector('.al-sidebar .direct-line');
-        directLine.style.top = e.currentTarget.parentNode.offsetTop + 'px';
+        directLine.style.top = e.currentTarget.parentElement.offsetTop + 'px';
         directLine.style.height = e.currentTarget.clientHeight + 'px';
         e.stopPropagation();
-        //height?? something wrong
     }
 
     onClick(e) {
-        var parentDom = e.currentTarget.parentElement;
+        var parentDom = e.currentTarget;
         var subUl = parentDom.querySelector('.al-sidebar-sublist');
         if (subUl) {
             var sidebar = document.querySelector('.al-sidebar');
@@ -98,8 +96,10 @@ class DashboardLeftList extends React.Component {
             if (sidebar && !sidebar.classList.contains('un-collapse')) {
                 sidebar.classList.remove('collapse');
                 sidebar.classList.add('un-collapse');
-                document.querySelector('main.al-main').classList.remove('collapse').add('un-collapse');
-            } 
+                document.querySelector('main.al-main').classList.remove('collapse');
+                document.querySelector('main.al-main').classList.add('un-collapse');
+            }
+            e.preventDefault();
         } else {
             //do selected
             var node = document.querySelector('.al-sidebar .al-sidebar-list-item.selected');
@@ -119,13 +119,15 @@ class DashboardLeftList extends React.Component {
         var items = this.props.data.map(function (item) {
             var liClass = classNames('al-sidebar-list-item', {'selected': item.selected});
             return (
-                <li key={item.id} className={liClass}>
-                    <a className={"al-sidebar-list-link"} href={item.url} onMouseOver={this.onMouseOver}
-                       onClick={this.onClick}>
+                <li key={item.id} className={liClass}
+                    onClick={this.onClick}>
+                    <ReactRouter.Link className={"al-sidebar-list-link"} to={ item.url ? item.url : '#'}
+                                      onMouseOver={this.onMouseOver}
+                                      onClick={!item.url ? e => e.preventDefault() : null}>
                         <i className={item.iconClass}></i>
                         <span>{item.name}</span>
                         {item.subItems ? (<b className="down"></b>) : null}
-                    </a>
+                    </ReactRouter.Link>
                     {item.subItems ? (<DashboardLeftSubList data={item.subItems}/>) : null}
                 </li>
             );
@@ -168,7 +170,9 @@ class DashboardLeftSubList extends React.Component {
             var liClass = classNames('al-sidebar-sublist-item', {'selected': subItem.selected});
             return (
                 <li key={subItem.id} className={liClass} onClick={this.onClick} onMouseOver={this.onMouseOver}>
-                    <a className="al-sidebar-list-link" href={subItem.url}>{subItem.name}</a>
+                    <ReactRouter.Link className={"al-sidebar-list-link"} to={subItem.url}>
+                        <span>{subItem.name}</span>
+                    </ReactRouter.Link>
                 </li>
             );
         }, this);
