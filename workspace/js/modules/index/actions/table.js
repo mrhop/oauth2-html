@@ -30,7 +30,7 @@ function getIndexDemoTable(requestCondition) {
             httpType: 'get',
             types: [INDEX_DEMO_TABLE_REQUEST, INDEX_DEMO_TABLE_SUCCESS, INDEX_DEMO_TABLE_FAILURE],
             schema: Schemas.DemoTable,
-            endpoint: `demoData/tableData.json`,
+            endpoint: `demoData/table/tableData.json`,
         },
         requestCondition
     }
@@ -51,7 +51,7 @@ function deleteDemoTable(requestCondition = {key: null}) {
             httpType: 'delete',
             types: [INDEX_DEMO_TABLE_DELETE_REQUEST, INDEX_DEMO_TABLE_DELETE_SUCCESS, INDEX_DEMO_TABLE_DELETE_FAILURE],
             schema: Schemas.DemoTable,
-            endpoint: `demoData/deleteData.json`,
+            endpoint: `demoData/table/deleteData.json`,
         },
         requestCondition
     }
@@ -68,7 +68,7 @@ function addDemoTable(requestCondition) {
             httpType: 'POST',
             types: [INDEX_DEMO_TABLE_ADD_REQUEST, INDEX_DEMO_TABLE_ADD_SUCCESS, INDEX_DEMO_TABLE_ADD_FAILURE],
             schema: Schemas.DemoTableRow,
-            endpoint: `demoData/addData.json`,
+            endpoint: `demoData/table/addData.json`,
         },
         requestCondition
     }
@@ -85,7 +85,7 @@ function updateDemoTable(requestCondition) {
             httpType: 'POST',
             types: [INDEX_DEMO_TABLE_UPDATE_REQUEST, INDEX_DEMO_TABLE_UPDATE_SUCCESS, INDEX_DEMO_TABLE_UPDATE_FAILURE],
             schema: Schemas.DemoTableRow,
-            endpoint: `demoData/updateData.json`,
+            endpoint: `demoData/table/updateData.json`,
         },
         requestCondition
     }
@@ -102,7 +102,7 @@ function updateColumnDemoTable(requestCondition) {
             httpType: 'POST',
             types: [INDEX_DEMO_TABLE_UPDATE_COLUMN_REQUEST, INDEX_DEMO_TABLE_UPDATE_COLUMN_SUCCESS, INDEX_DEMO_TABLE_UPDATE_COLUMN_FAILURE],
             schema: Schemas.DemoTableRow,
-            endpoint: `demoData/updateData.json`,
+            endpoint: `demoData/table/updateData.json`,
         },
         requestCondition
     }

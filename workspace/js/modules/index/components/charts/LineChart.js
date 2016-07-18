@@ -21,10 +21,10 @@ LineChart.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-    if (state && state.chart && state.chart.demoChartData) {
+    if (state && state.chart && state.chart.demoLineChartData) {
         const {
             data
-        } = state.chart.demoChartData
+        } = state.chart.demoLineChartData
         return {data}
     } else {
         return {};

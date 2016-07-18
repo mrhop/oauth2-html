@@ -3,8 +3,9 @@
  */
 require('./index.scss');
 
-import {getIndexDemoChartDispatch} from '../../actions/chart';
+import {getDemoLineChartDispatch,getDemoAreaChartDispatch} from '../../actions/chart';
 import LineChart from '../../components/charts/LineChart';
+import AreaChart from '../../components/charts/AreaChart';
 class DashBoardMainBlock extends React.Component {
     constructor(props) {
         super(props);
@@ -13,7 +14,8 @@ class DashBoardMainBlock extends React.Component {
 
     componentWillMount() {
         //data init
-        this.props.getIndexDemoChartDispatch()
+        this.props.getDemoLineChartDispatch()
+        this.props.getDemoAreaChartDispatch()
     }
 
     componentWillReceiveProps(nextProps) {
@@ -26,7 +28,7 @@ class DashBoardMainBlock extends React.Component {
                     <LineChart />
                 </Panel.PanelWithHeader>,
                 <Panel.PanelWithHeader panelValues={{title : 'Default Area Chart'}}>
-                    <div>area chart</div>
+                    <AreaChart />
                 </Panel.PanelWithHeader>
             ]
             ;
@@ -41,12 +43,13 @@ class DashBoardMainBlock extends React.Component {
 }
 
 DashBoardMainBlock.propTypes = {
-    getIndexDemoChartDispatch: React.PropTypes.func.isRequired,
+    getDemoLineChartDispatch: React.PropTypes.func.isRequired,
+    getDemoAreaChartDispatch: React.PropTypes.func.isRequired,
 }
 function mapStateToProps(state, ownProps) {
     return {};
 }
 
 export default ReactRedux.connect(mapStateToProps, {
-    getIndexDemoChartDispatch
+    getDemoLineChartDispatch,getDemoAreaChartDispatch
 })(DashBoardMainBlock)

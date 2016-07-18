@@ -93,7 +93,7 @@ const createClass = (chartType) => {
                         viewBoxObject: {
                             x: 0,
                             y: 0,
-                            width: (width > 100 ? width - 90 : width),
+                            width: (width > 100 ? width - 100 : width),
                             height: height
                         }
                     })
