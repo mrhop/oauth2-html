@@ -9,7 +9,7 @@ class BaseTable extends React.Component {
     }
 
     render() {
-        return <Table.StripedTable minHeight={300} tableRules={demoTableRules} {...this.props} />
+        return <Table.DefaultTable minHeight={300} tableRules={demoTableRules} {...this.props} />
     }
 }
 

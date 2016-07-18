@@ -4,6 +4,10 @@
 require('./index.scss');
 
 import BaseTable from '../../components/table/baseTable';
+import BaseBorderTable from '../../components/table/baseBorderTable';
+import BaseCondensedTable from '../../components/table/baseCondensedTable';
+import BaseHoverTable from '../../components/table/baseHoverTable';
+import BaseStripedTable from '../../components/table/baseStripedTable';
 import RowEditableTable from '../../components/table/rowEditableTable';
 import {getIndexDemoTableDispatch, refreshDemoTableDispatch} from '../../actions/table';
 class TableMainBlock extends React.Component {
@@ -24,12 +28,38 @@ class TableMainBlock extends React.Component {
     }
 
     render() {
-
+        var columns1 = [
+                <Panel.PanelWithHeader panelValues={{title : 'Basic default Table'}}>
+                    <BaseTable />
+                </Panel.PanelWithHeader>,
+                <Panel.PanelWithHeader panelValues={{title : 'Basic Border Table'}}>
+                    <BaseBorderTable />
+                </Panel.PanelWithHeader>
+            ]
+            ;
+        var columns2 = [
+                <Panel.PanelWithHeader panelValues={{title : 'Basic Condensed Table'}}>
+                    <BaseCondensedTable />
+                </Panel.PanelWithHeader>,
+                <Panel.PanelWithHeader panelValues={{title : 'Basic Hover Table'}}>
+                    <BaseHoverTable />
+                </Panel.PanelWithHeader>
+            ]
+            ;
+        var columns3 = [
+                <Panel.PanelWithHeader panelValues={{title : 'Basic Striped Table'}}>
+                    <BaseStripedTable />
+                </Panel.PanelWithHeader>,
+                <Panel.PanelWithHeader panelValues={{title : 'Basic Table'}}>
+                    <div>to be continue</div>
+                </Panel.PanelWithHeader>
+            ]
+            ;
         return (
             <div>
-                <Panel.PanelWithHeader panelValues={{title : 'Basic Table'}}>
-                    <BaseTable />
-                </Panel.PanelWithHeader>
+                <Layout.Columns2 columnValues={columns1}/>
+                <Layout.Columns2 columnValues={columns2}/>
+                <Layout.Columns2 columnValues={columns3}/>
                 <Panel.PanelWithHeader panelValues={{title : 'Row Editable Table'}}>
                     <RowEditableTable />
                 </Panel.PanelWithHeader>
