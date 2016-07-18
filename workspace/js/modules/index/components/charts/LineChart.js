@@ -21,7 +21,7 @@ LineChart.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-    if (state && state.dashBoard && state.dashBoard.demoChartData) {
+    if (state && state.chart && state.chart.demoChartData) {
         const {
             data
         } = state.chart.demoChartData

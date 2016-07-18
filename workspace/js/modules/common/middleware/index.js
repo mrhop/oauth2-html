@@ -39,7 +39,7 @@ var callApi = function (endpoint, schema, httpType, requestCondition) {
             }
         });
     } else if (httpType === 'GET' || httpType == 'DELETE') {
-        endpoint = endpoint + (requestCondition ? ('?' + toQueryString(requestCondition)) : null);
+        endpoint = endpoint + (requestCondition ? ('?' + toQueryString(requestCondition)) : '');
         return fetch(endpoint, {
             method: httpType
         }).then(response => response.text().then(function (text) {

@@ -1,5 +1,5 @@
-import {getIndexDemoTableDispatch} from '../../actions/dashBoard'
-import {demoTableRules} from '../../middleware/dashBoard'
+import {getIndexDemoTableDispatch} from '../../actions/table'
+import {demoTableRules} from '../../middleware/table'
 
 
 class BaseTable extends React.Component {
@@ -9,7 +9,7 @@ class BaseTable extends React.Component {
     }
 
     render() {
-        return <Table.StripedTable minHeight={426} tableRules={demoTableRules} {...this.props} />
+        return <Table.StripedTable minHeight={300} tableRules={demoTableRules} {...this.props} />
     }
 }
 
@@ -18,12 +18,12 @@ BaseTable.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-    if (state && state.dashBoard && state.dashBoard.demoTable) {
+    if (state && state.table && state.table.demoTable) {
         const {
             demoTableData,
             keys,
             totalCount
-        } = state.dashBoard.demoTable
+        } = state.table.demoTable
         const tableData = keys.map(id => demoTableData[id]);
         return {tableData, totalCount}
     } else {

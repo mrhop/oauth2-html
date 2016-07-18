@@ -1,5 +1,5 @@
-import {getIndexDemoTableDispatch, deleteDemoTableDispatch, addDemoTableDispatch,updateDemoTableDispatch,updateColumnDemoTableDispatch} from '../../actions/dashBoard'
-import {demoTableRules, rowEditableAdditionalFeature} from '../../middleware/dashBoard'
+import {getIndexDemoTableDispatch, deleteDemoTableDispatch, addDemoTableDispatch,updateDemoTableDispatch,updateColumnDemoTableDispatch} from '../../actions/table'
+import {demoTableRules, rowEditableAdditionalFeature} from '../../middleware/table'
 
 
 class RowEditableTable extends React.Component {
@@ -27,7 +27,7 @@ class RowEditableTable extends React.Component {
     render() {
         return <Table.RowEditableTable {...this.props} tableRules={demoTableRules}
                                                        additionalFeature={rowEditableAdditionalFeature}
-                                                       minHeight={350} deleteRow={this.deleteRow.bind(this)}
+                                                       minHeight={300} deleteRow={this.deleteRow.bind(this)}
                                                        getList={this.getList.bind(this)} saveRow ={this.saveRow.bind(this)}
                                                        updateRow={this.updateRow.bind(this)} updateColumn ={this.updateColumn.bind(this)}/>
     }
@@ -41,9 +41,9 @@ RowEditableTable.propTypes = {
     deleteDemoTableDispatch: React.PropTypes.func.isRequired
 }
 function mapStateToProps(state, ownProps) {
-    if (state && state.dashBoard && state.dashBoard.demoTable) {
+    if (state && state.table && state.table.demoTable) {
         const {
-            dashBoard: {
+            table: {
                 demoTable: {
                     demoTableData,
                     keys,

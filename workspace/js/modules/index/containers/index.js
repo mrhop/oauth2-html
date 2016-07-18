@@ -3,3 +3,4 @@
  */
 export  {default as dashBoard}   from './dashBoard'
 export  {default as chart}   from './chart'
+export  {default as table}   from './table'

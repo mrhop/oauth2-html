@@ -3,8 +3,6 @@
  */
 require('./index.scss');
 
-import RowEditableTable from '../../components/dashBoard/rowEditableTable';
-import {getIndexDemoTableDispatch, refreshDemoTableDispatch} from '../../actions/dashBoard';
 class DashBoardMainBlock extends React.Component {
     constructor(props) {
         super(props);
@@ -13,13 +11,9 @@ class DashBoardMainBlock extends React.Component {
 
     componentWillMount() {
         //data init
-        this.props.getIndexDemoTableDispatch()
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.demoTableRefresh) {
-            this.props.refreshDemoTableDispatch();
-        }
     }
 
     render() {
@@ -108,9 +102,6 @@ class DashBoardMainBlock extends React.Component {
             <div>
                 <Layout.Columns4 columnValues={columns}/>
                 <Layout.Columns2 columnValues={columnsSecond}/>
-                <Panel.PanelWithHeader panelValues={{title : 'Row Editable Table'}}>
-                    <RowEditableTable />
-                </Panel.PanelWithHeader>
             </div>
         </ReactIntl.IntlProvider>)
             ;
@@ -125,13 +116,8 @@ DashBoardMainBlock.propTypes = {
     demoTableRefresh: React.PropTypes.bool,
 }
 function mapStateToProps(state, ownProps) {
-    const {
-        demoTableRefresh
-    } = state.dashBoard.demoTable
-    return {demoTableRefresh};
+    return {};
 }
 
 export default ReactRedux.connect(mapStateToProps, {
-    getIndexDemoTableDispatch,
-    refreshDemoTableDispatch,
 })(DashBoardMainBlock)

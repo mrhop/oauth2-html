@@ -2,7 +2,6 @@
  * Created by Donghui Huo on 2016/5/10.
  */
 require('./dashBoardMain.scss');
-import data from './data/dashBoardMain';
 import DashBoardMainTop from './top/dashBoardMainTop.jsx';
 import DashBoardMainBottom from './bottom/dashBoardMainBottom.jsx';
 

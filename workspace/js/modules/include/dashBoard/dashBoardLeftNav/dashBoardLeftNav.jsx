@@ -2,7 +2,6 @@
  * Created by Donghui Huo on 2016/5/10.
  */
 require('./dashBoardLeftNav.scss');
-import data from './data/dashBoardLeftNav';
 
 class DashboardLeft extends React.Component {
     constructor(props) {
@@ -10,46 +9,16 @@ class DashboardLeft extends React.Component {
     }
 
     onMouseOut(e) {
-        var directLine = document.querySelector('.al-sidebar .direct-line');
-        directLine.style.top = '-200px';
+        document.querySelector('.al-sidebar .direct-line').style.top = '-200px';
     }
 
     render() {
-        var testData = {
-            items: [{
-                id: '1',
-                url: 'dashboard',
-                iconClass: 'home',
-                name: 'Dashboard'
-            },
-                {
-                    id: '2',
-                    iconClass: 'cog',
-                    name: 'Modules',
-                    subItems: [{
-                        id: '3',
-                        url: 'table',
-                        name: 'Tables'
-                    }, {
-                        id: '4',
-                        url: 'chart',
-                        name: 'Charts'
-                    }]
-                }, {
-                    id: '5',
-                    url: '#',
-                    selected: false,
-                    iconClass: 'home',
-                    name: 'Test'
-                }
-            ]
-        };
         return (
             <sidebar>
                 <aside className="al-sidebar" onMouseOut={this.onMouseOut}>
                     <div className="direct-line"></div>
                     <CustomScrollbar style={{'heigh':'100%'}}>
-                        {testData ? (<DashboardLeftList data={testData.items}/>) : null}
+                        {this.props.data && <DashboardLeftList data={this.props.data}/>}
                     </CustomScrollbar>
                 </aside>
             </sidebar>
@@ -62,7 +31,10 @@ class DashboardLeftList extends React.Component {
     }
 
     componentDidMount() {
-        //first init do something change
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+
     }
 
     onMouseOver(e) {
@@ -77,14 +49,12 @@ class DashboardLeftList extends React.Component {
         var subUl = parentDom.querySelector('.al-sidebar-sublist');
         if (subUl) {
             var sidebar = document.querySelector('.al-sidebar');
-
             if (!parentDom.classList.contains('opened')) {
                 var height = 0;
                 var liSubList = subUl.querySelectorAll('.al-sidebar-sublist-item');
                 for (var i = 0; i < liSubList.length; ++i) {
                     height += liSubList[i].offsetHeight;
                 }
-                ;
                 subUl.style.height = height + 'px';
                 parentDom.classList.add('opened');
             } else {
@@ -107,11 +77,10 @@ class DashboardLeftList extends React.Component {
                 node.classList.remove('selected');
             } else {
                 var subNode = document.querySelector('.al-sidebar .al-sidebar-sublist-item.selected');
-                subNode.classList.remove('selected');
+                subNode && subNode.classList.remove('selected');
             }
-            e.currentTarget.parentElement.classList.add('selected');
+            e.currentTarget.classList.add('selected');
         }
-
     }
 
     render() {
@@ -159,9 +128,10 @@ class DashboardLeftSubList extends React.Component {
             node.classList.remove('selected');
         } else {
             var subNodeList = document.querySelector('.al-sidebar').querySelector('.al-sidebar-sublist-item.selected');
-            subNodeList.classList.remove('selected');
+            subNodeList && subNodeList.classList.remove('selected');
         }
         e.currentTarget.classList.add('selected');
+        e.stopPropagation();
     }
 
     render() {
@@ -179,6 +149,24 @@ class DashboardLeftSubList extends React.Component {
         return (<ul className="al-sidebar-sublist">{subItems}</ul>);
     }
 }
-export default ReactIntl.injectIntl(DashboardLeft);
 
-//how to change the window width, when change
+
+//export default ReactIntl.injectIntl(DashboardLeft);
+
+DashboardLeft.propTypes = {
+    data: React.PropTypes.array,
+}
+
+function mapStateToProps(state, ownProps) {
+    if (state && state.dashBoardFramework && state.dashBoardFramework.leftMenuData) {
+        const {
+            data
+        } = state.dashBoardFramework.leftMenuData
+        return {data}
+    } else {
+        return {};
+    }
+}
+
+
+export default ReactIntl.injectIntl(ReactRedux.connect(mapStateToProps, {})(DashboardLeft))
