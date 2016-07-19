@@ -8,7 +8,7 @@
   .rd3-legend-item span {
     color: #fff !important;
   }
-  .rd3-linechart-xaxis, .rd3-linechart-yaxis, .rd3-areachart-xaxis, .rd3-areachart-yaxis {
+  .rd3-linechart-xaxis, .rd3-linechart-yaxis, .rd3-areachart-xaxis, .rd3-areachart-yaxis, .rd3-barchart-xaxis, .rd3-barchart-yaxis, .rd3-scatterchart-xaxis, .rd3-scatterchart-yaxis {
     path {
       stroke: #fff !important;
     }
@@ -31,6 +31,13 @@
       }
       text {
         fill: #fff !important;
+      }
+    }
+  }
+  .rd3-treemap{
+    .treemap{
+      g:hover > text{
+        fill: #000!important;
       }
     }
   }

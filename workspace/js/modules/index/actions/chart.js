@@ -14,6 +14,14 @@ export const PIE_DEMO_CHART_REQUEST = 'PIE_DEMO_CHART_REQUEST'
 export const PIE_DEMO_CHART_SUCCESS = 'PIE_DEMO_CHART_SUCCESS'
 export const PIE_DEMO_CHART_FAILURE = 'PIE_DEMO_CHART_FAILURE'
 
+export const SCATTER_DEMO_CHART_REQUEST = 'SCATTER_DEMO_CHART_REQUEST'
+export const SCATTER_DEMO_CHART_SUCCESS = 'SCATTER_DEMO_CHART_SUCCESS'
+export const SCATTER_DEMO_CHART_FAILURE = 'SCATTER_DEMO_CHART_FAILURE'
+
+export const TREEMAP_DEMO_CHART_REQUEST = 'TREEMAP_DEMO_CHART_REQUEST'
+export const TREEMAP_DEMO_CHART_SUCCESS = 'TREEMAP_DEMO_CHART_SUCCESS'
+export const TREEMAP_DEMO_CHART_FAILURE = 'TREEMAP_DEMO_CHART_FAILURE'
+
 function getDemoLineChart(requestCondition) {
     return {
         [MiddleWare.CALL_API]: {
@@ -74,7 +82,7 @@ function getDemoPieChart(requestCondition) {
     return {
         [MiddleWare.CALL_API]: {
             httpType: 'get',
-            types: [PIE_DEMO_CHART_REQUEST, PIE_DEMO_CHART_SUCCESS, PIE_DEMO_CHART_FAILURE],
+            types: [PIE_DEMO_CHART_REQUEST, PIE_DEMO_CHART_SUCCESS, SCATTER_DEMO_CHART_FAILURE],
             endpoint: `demoData/chartData/pie.json`,
         },
         requestCondition
@@ -85,5 +93,43 @@ export function getDemoPieChartDispatch(requestCondition = {
 }) {
     return (dispatch, getState) => {
         return dispatch(getDemoPieChart(requestCondition))
+    }
+}
+
+
+function getDemoScatterChart(requestCondition) {
+    return {
+        [MiddleWare.CALL_API]: {
+            httpType: 'get',
+            types: [SCATTER_DEMO_CHART_REQUEST, SCATTER_DEMO_CHART_SUCCESS, SCATTER_DEMO_CHART_FAILURE],
+            endpoint: `demoData/chartData/scatter.json`,
+        },
+        requestCondition
+    }
+}
+export function getDemoScatterChartDispatch(requestCondition = {
+    filters: null,
+}) {
+    return (dispatch, getState) => {
+        return dispatch(getDemoScatterChart(requestCondition))
+    }
+}
+
+
+function getDemoTreemapChart(requestCondition) {
+    return {
+        [MiddleWare.CALL_API]: {
+            httpType: 'get',
+            types: [TREEMAP_DEMO_CHART_REQUEST, TREEMAP_DEMO_CHART_SUCCESS, TREEMAP_DEMO_CHART_FAILURE],
+            endpoint: `demoData/chartData/treemap.json`,
+        },
+        requestCondition
+    }
+}
+export function getDemoTreemapChartDispatch(requestCondition = {
+    filters: null,
+}) {
+    return (dispatch, getState) => {
+        return dispatch(getDemoTreemapChart(requestCondition))
     }
 }

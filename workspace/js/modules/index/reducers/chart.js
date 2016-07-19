@@ -36,4 +36,22 @@ function demoPieChartData(state = {}, action) {
     return state
 }
 
-export default Redux.combineReducers({demoLineChartData,demoAreaChartData,demoBarChartData,demoPieChartData})
+function demoScatterChartData(state = {}, action) {
+    if (action.type === ActionTypes.SCATTER_DEMO_CHART_SUCCESS) {
+        state.data = action.response
+        state.requestCondition = action['requestCondition'];
+        return l_merge({}, state)
+    }
+    return state
+}
+
+function demoTreemapChartData(state = {}, action) {
+    if (action.type === ActionTypes.TREEMAP_DEMO_CHART_SUCCESS) {
+        state.data = action.response
+        state.requestCondition = action['requestCondition'];
+        return l_merge({}, state)
+    }
+    return state
+}
+
+export default Redux.combineReducers({demoLineChartData,demoAreaChartData,demoBarChartData,demoPieChartData,demoScatterChartData,demoTreemapChartData})

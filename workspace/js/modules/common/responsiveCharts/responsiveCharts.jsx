@@ -87,7 +87,7 @@ const createClass = (chartType) => {
             let height = this.props.height;
             width = this.state.size.w || 100;
             height = this.state.size.h || 100;
-            if (chartType == 'LineChart') {
+            if (chartType == 'LineChart' || chartType == 'BarChart' || chartType == 'AreaChart' || chartType == 'ScatterChart') {
                 l_assign(others, {
                     viewBoxObject: {
                         x: 0,

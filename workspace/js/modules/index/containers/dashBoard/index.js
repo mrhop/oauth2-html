@@ -111,9 +111,6 @@ class DashBoardMainBlock extends React.Component {
 
 
 DashBoardMainBlock.propTypes = {
-    getIndexDemoTableDispatch: React.PropTypes.func.isRequired,
-    refreshDemoTableDispatch: React.PropTypes.func.isRequired,
-    demoTableRefresh: React.PropTypes.bool,
 }
 function mapStateToProps(state, ownProps) {
     return {};

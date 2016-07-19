@@ -3,11 +3,20 @@
  */
 require('./index.scss');
 
-import {getDemoLineChartDispatch,getDemoAreaChartDispatch,getDemoBarChartDispatch,getDemoPieChartDispatch} from '../../actions/chart';
+import {
+    getDemoLineChartDispatch,
+    getDemoAreaChartDispatch,
+    getDemoBarChartDispatch,
+    getDemoPieChartDispatch,
+    getDemoScatterChartDispatch,
+    getDemoTreemapChartDispatch
+} from '../../actions/chart';
 import LineChart from '../../components/charts/LineChart';
 import AreaChart from '../../components/charts/AreaChart';
 import BarChart from '../../components/charts/BarChart';
 import PieChart from '../../components/charts/PieChart';
+import ScatterChart from '../../components/charts/ScatterChart';
+import TreemapChart from '../../components/charts/TreemapChart';
 class DashBoardMainBlock extends React.Component {
     constructor(props) {
         super(props);
@@ -20,6 +29,8 @@ class DashBoardMainBlock extends React.Component {
         this.props.getDemoAreaChartDispatch()
         this.props.getDemoBarChartDispatch()
         this.props.getDemoPieChartDispatch()
+        this.props.getDemoScatterChartDispatch()
+        this.props.getDemoTreemapChartDispatch()
     }
 
     componentWillReceiveProps(nextProps) {
@@ -46,10 +57,21 @@ class DashBoardMainBlock extends React.Component {
             ]
             ;
 
+        var columns3 = [
+                <Panel.PanelWithHeader panelValues={{title : 'Default Scatter Chart'}}>
+                    <ScatterChart />
+                </Panel.PanelWithHeader>,
+                <Panel.PanelWithHeader panelValues={{title : 'Default Treemap Chart'}}>
+                    <TreemapChart />
+                </Panel.PanelWithHeader>
+            ]
+            ;
+
         return (<ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoardMainBlock')}>
             <div>
                 <Layout.Columns2 columnValues={columns}/>
                 <Layout.Columns2 columnValues={columns2}/>
+                <Layout.Columns2 columnValues={columns3}/>
             </div>
         </ReactIntl.IntlProvider>)
             ;
@@ -61,11 +83,18 @@ DashBoardMainBlock.propTypes = {
     getDemoAreaChartDispatch: React.PropTypes.func.isRequired,
     getDemoBarChartDispatch: React.PropTypes.func.isRequired,
     getDemoPieChartDispatch: React.PropTypes.func.isRequired,
+    getDemoScatterChartDispatch: React.PropTypes.func.isRequired,
+    getDemoTreemapChartDispatch: React.PropTypes.func.isRequired,
 }
 function mapStateToProps(state, ownProps) {
     return {};
 }
 
 export default ReactRedux.connect(mapStateToProps, {
-    getDemoLineChartDispatch,getDemoAreaChartDispatch,getDemoBarChartDispatch,getDemoPieChartDispatch
+    getDemoLineChartDispatch,
+    getDemoAreaChartDispatch,
+    getDemoBarChartDispatch,
+    getDemoPieChartDispatch,
+    getDemoScatterChartDispatch,
+    getDemoTreemapChartDispatch
 })(DashBoardMainBlock)
