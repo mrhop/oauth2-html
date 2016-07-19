@@ -19,19 +19,23 @@ function createModal(modalValues, type) {
         ReactDOM.render(<DefaultSmModal key={UtilFun.uuid()} modalValues={modalValues} _call={this}/>, modalWrapper);
     } else if (type == 'message') {
         //other creation
-        ReactDOM.render(<MessageDefaultModal key={UtilFun.uuid()} modalValues={modalValues} _call={this}/>, modalWrapper);
+        ReactDOM.render(<MessageDefaultModal key={UtilFun.uuid()} modalValues={modalValues}
+                                             _call={this}/>, modalWrapper);
     } else if (type == 'messageSuccess') {
         //other creation
-        ReactDOM.render(<MessageSuccessModal key={UtilFun.uuid()} modalValues={modalValues} _call={this}/>, modalWrapper);
+        ReactDOM.render(<MessageSuccessModal key={UtilFun.uuid()} modalValues={modalValues}
+                                             _call={this}/>, modalWrapper);
     } else if (type == 'messageWarning') {
         //other creation
-        ReactDOM.render(<MessageWarningModal key={UtilFun.uuid()} modalValues={modalValues} _call={this}/>, modalWrapper);
+        ReactDOM.render(<MessageWarningModal key={UtilFun.uuid()} modalValues={modalValues}
+                                             _call={this}/>, modalWrapper);
     } else if (type == 'messageError') {
         //other creation
         ReactDOM.render(<MessageErrorModal key={UtilFun.uuid()} modalValues={modalValues} _call={this}/>, modalWrapper);
     } else if (type == 'messageConfirm') {
         //other creation
-        ReactDOM.render(<MessageConfirmModal key={UtilFun.uuid()} modalValues={modalValues} _call={this}/>, modalWrapper);
+        ReactDOM.render(<MessageConfirmModal key={UtilFun.uuid()} modalValues={modalValues}
+                                             _call={this}/>, modalWrapper);
     } else {
         //do nothing
     }
@@ -141,7 +145,7 @@ class BasicModal extends React.Component {
                                     {this.props.children}
                                 </div>
                                 <div className="modal-footer">
-                                    {(dialogExtraClass.indexOf('modal-confirm')) > -1 ?
+                                    {dialogExtraClass && (( dialogExtraClass.indexOf('modal-confirm')) > -1) ?
                                         (<button className={buttonClass}
                                                  onClick={this.confirmModal.bind(this)}>{this.props.modalValues.footerConfirmButton.title ? this.props.modalValues.footerConfirmButton.title : 'Confirm'}</button>) : null }
                                     {(this.props.modalValues.footerCloseButton.visible == undefined || this.props.modalValues.footerCloseButton.visible) ? (

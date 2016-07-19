@@ -17,30 +17,41 @@ class DashBoardMainBlock extends React.Component {
     }
 
     render() {
-        var dataWithTitle = {
-            title: 'test Name',
-            content: <span>who know this is right or not?</span>
-        };
 
         var basicToastData = {
-            content: <span>who know this is right or not?</span>,
-            title: 'check you are?'
+            content: <span>this is a toast?</span>,
+            title: 'check toast?'
         };
 
         var basicModalData = {
-            content: <span>who know this is right or not?</span>,
-            title: 'check you are?',
+            content: <span>test modal?</span>,
+            title: 'check something?',
             closeFun: function () {
-                console.log('before close');
                 return true;
             },
             footerCloseButton: {
                 visible: true,
                 title: 'close',
             },
-            footerContent: <span>test close</span>,
+            footerContent: <span>test modal</span>,
         };
-
+        const confirmModalData = {
+            content: <span>you can not revert the data</span>,
+            title: 'Do you really want to do things like this?',
+            closeFun: function () {
+                return true;
+            },
+            footerConfirmButton: {
+                callback: function () {
+                    console.log('confirm')
+                },
+                title: 'Confirm',
+            },
+            footerCloseButton: {
+                visible: true,
+                title: 'Cancel',
+            },
+        };
         var basicTabData = [
             {
                 id: 1,
@@ -68,40 +79,98 @@ class DashBoardMainBlock extends React.Component {
                 ]
             }
         ];
+
         var columns = [
                 <Panel.DefaultPanel>
-                    <button className="btn btn-primary open-toast1"
-                            onClick={Toast.createToast.bind(this,basicToastData,'success')}>open
+                    <button className="btn btn-primary"
+                            onClick={Toast.createToast.bind(this,basicToastData,'default')}>open default toast
                     </button>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
-                    <span>stand here</span>
-                </Panel.DefaultPanel>,
-                <Panel.DefaultPanel>
-                    <button className="btn btn-primary open-modal2"
-                            onClick={Modal.createModal.bind(this,basicModalData,'default')}>open
+                    <button className="btn btn-primary btn-success"
+                            onClick={Toast.createToast.bind(this,basicToastData,'success')}>open success toast
                     </button>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
-                    <button className="btn btn-primary open-modal1"
-                            onClick={Modal.createModal.bind(this,basicModalData,'messageError')}>open
+                    <button className="btn btn-primary btn-warning"
+                            onClick={Toast.createToast.bind(this,basicToastData,'warning')}>open warning toast
+                    </button>
+                </Panel.DefaultPanel>,
+                <Panel.DefaultPanel>
+                    <button className="btn btn-primary btn-danger"
+                            onClick={Toast.createToast.bind(this,basicToastData,'error')}>open error toast
                     </button>
                 </Panel.DefaultPanel>
+
             ]
             ;
         var columnsSecond = [
+                <Panel.DefaultPanel>
+                    <button className="btn btn-primary"
+                            onClick={Modal.createModal.bind(this,basicModalData,'default')}>open default modal
+                    </button>
+                </Panel.DefaultPanel>,
+                <Panel.DefaultPanel>
+                    <button className="btn btn-primary"
+                            onClick={Modal.createModal.bind(this,basicModalData,'lgModal')}>open large modal
+                    </button>
+                </Panel.DefaultPanel>,
+                <Panel.DefaultPanel>
+                    <button className="btn btn-primary"
+                            onClick={Modal.createModal.bind(this,basicModalData,'smModal')}>open small modal
+                    </button>
+                </Panel.DefaultPanel>,
+                <Panel.DefaultPanel>
+                    <button className="btn btn-primary"
+                            onClick={Modal.createModal.bind(this,basicModalData,'message')}>open default message modal
+                    </button>
+                </Panel.DefaultPanel>
+
+            ]
+            ;
+        var columnsThird = [
+                <Panel.DefaultPanel>
+                    <button className="btn btn-success"
+                            onClick={Modal.createModal.bind(this,basicModalData,'messageSuccess')}>open success modal
+                    </button>
+                </Panel.DefaultPanel>,
+                <Panel.DefaultPanel>
+                    <button className="btn btn-warning"
+                            onClick={Modal.createModal.bind(this,basicModalData,'messageWarning')}>open warning modal
+                    </button>
+                </Panel.DefaultPanel>,
+                <Panel.DefaultPanel>
+                    <button className="btn btn-danger"
+                            onClick={Modal.createModal.bind(this,basicModalData,'messageError')}>open error modal
+                    </button>
+                </Panel.DefaultPanel>,
+                <Panel.DefaultPanel>
+                    <button className="btn btn-danger"
+                            onClick={Modal.createModal.bind(this,confirmModalData,'messageConfirm')}>open confirm message
+                        modal
+                    </button>
+                </Panel.DefaultPanel>
+
+            ]
+            ;
+        var columnsFourth = [
                 <Panel.DefaultPanel>
                     <Tab.DefaultTab tabValues={basicTabData}/>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     <Tab.LeftVerticalTab tabValues={basicTabData}/>
+                </Panel.DefaultPanel>,
+                <Panel.DefaultPanel>
+                    <Tab.RightVerticalTab tabValues={basicTabData}/>
                 </Panel.DefaultPanel>
             ]
             ;
         return (<ReactIntl.IntlProvider locale={locale} messages={UtilFun.getIntl('dashBoardMainBlock')}>
             <div>
                 <Layout.Columns4 columnValues={columns}/>
-                <Layout.Columns2 columnValues={columnsSecond}/>
+                <Layout.Columns4 columnValues={columnsSecond}/>
+                <Layout.Columns4 columnValues={columnsThird}/>
+                <Layout.Columns3 columnValues={columnsFourth}/>
             </div>
         </ReactIntl.IntlProvider>)
             ;
@@ -109,12 +178,9 @@ class DashBoardMainBlock extends React.Component {
 }
 
 
-
-DashBoardMainBlock.propTypes = {
-}
+DashBoardMainBlock.propTypes = {}
 function mapStateToProps(state, ownProps) {
     return {};
 }
 
-export default ReactRedux.connect(mapStateToProps, {
-})(DashBoardMainBlock)
+export default ReactRedux.connect(mapStateToProps, {})(DashBoardMainBlock)
