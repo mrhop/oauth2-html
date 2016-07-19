@@ -2,7 +2,6 @@
  * Created by Donghui Huo on 2016/5/10.
  */
 require('./dashBoardLeftNav.scss');
-import {leftMenuCollapseChange} from '../actions'
 class DashboardLeft extends React.Component {
     constructor(props) {
         super(props);
@@ -76,15 +75,6 @@ class DashboardLeftList extends React.Component {
             }
             e.preventDefault();
         } else {
-            //do selected
-            // var node = document.querySelector('.al-sidebar .al-sidebar-list-item.selected');
-            // if (node) {
-            //     node.classList.remove('selected');
-            // } else {
-            //     var subNode = document.querySelector('.al-sidebar .al-sidebar-sublist-item.selected');
-            //     subNode && subNode.classList.remove('selected');
-            // }
-            // e.currentTarget.classList.add('selected');
             this.props.leftMenuSelectedChange({selectedUrl: e.currentTarget.getAttribute('data-url')});
             var w = window.innerWidth
                 || document.documentElement.clientWidth
@@ -135,15 +125,6 @@ class DashboardLeftSubList extends React.Component {
     }
 
     onClick(e) {
-        // var currentDom = e.currentTarget;
-        // var node = document.querySelector('.al-sidebar').querySelector('.al-sidebar-list-item.selected');
-        // if (node) {
-        //     node.classList.remove('selected');
-        // } else {
-        //     var subNodeList = document.querySelector('.al-sidebar').querySelector('.al-sidebar-sublist-item.selected');
-        //     subNodeList && subNodeList.classList.remove('selected');
-        // }
-        // e.currentTarget.classList.add('selected');
         this.props.leftMenuSelectedChange({selectedUrl: e.currentTarget.getAttribute('data-url')});
         var w = window.innerWidth
             || document.documentElement.clientWidth
