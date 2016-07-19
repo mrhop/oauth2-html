@@ -16,18 +16,24 @@ class DashboardMain extends React.Component {
         scrollbars.scrollTop(0);
     }
 
+
     scrollFun() {
         const {scrollbars} = this.refs;
         if (scrollbars.getScrollTop() <= 200) {
             document.querySelector('#backTop').style.display = 'none';
-        }else{
+        } else {
             document.querySelector('#backTop').style.display = 'block';
         }
     }
 
     render() {
+        let mainClassnames = classNames('al-main')
+        if (this.props.leftMenu.collapse != undefined) {
+
+            mainClassnames = classNames('al-main', this.props.leftMenu.collapse ? 'collapse' : 'un-collapse');
+        }
         return (
-            <main className="al-main">
+            <main className={mainClassnames}>
                 <CustomScrollbar ref="scrollbars" scrollFun={this.scrollFun.bind(this)}>
                     <div className="al-content">
                         <DashBoardMainTop />
@@ -43,7 +49,6 @@ class DashboardMain extends React.Component {
         );
     }
 }
-
-export default ReactIntl.injectIntl(DashboardMain);
+export default ReactIntl.injectIntl(DashboardMain)
 
 //how to change the window width, when change

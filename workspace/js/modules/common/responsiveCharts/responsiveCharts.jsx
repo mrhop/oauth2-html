@@ -92,9 +92,10 @@ const createClass = (chartType) => {
                     viewBoxObject: {
                         x: 0,
                         y: 0,
-                        width: (width > 100 ? width - 100 : width),
+                        width: (width > 480 ? width - 100 : width),
                         height: height
-                    }
+                    },
+                    legend: (width > 480 ? true : false)
                 })
             } else if (chartType == 'PieChart') {
                 l_assign(others, {

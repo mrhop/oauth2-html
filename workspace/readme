@@ -81,6 +81,8 @@ rebuild the dashboard basic
 
 use https://github.com/yang-wei/rd3 as a choice,now the color need to be change, do it
 and also read the d3 doc
-https://github.com/d3/d3
+https://github.com/d3/d3 c3
 
 still need the native choice
+first click close dashboard left when small view
+then the form,then draggable little panel,then the big modal,like oauth2 and work process,and sns,notifications basic business

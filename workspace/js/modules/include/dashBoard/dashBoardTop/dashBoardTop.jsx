@@ -11,22 +11,11 @@ class DashboardTop extends React.Component {
     onClick(e) {
         var sidebar = document.querySelector('.al-sidebar');
         var mainContent = document.querySelector('main');
-
         if (sidebar) {
             if (sidebar.classList.contains('collapse') || sidebar.clientWidth < 100) {
-                sidebar.classList.remove('collapse');
-                sidebar.classList.add('un-collapse');
-                if (mainContent) {
-                    mainContent.classList.remove('collapse');
-                    mainContent.classList.add('un-collapse');
-                }
+                this.props.leftMenuCollapseChange({collapse:false});
             } else {
-                sidebar.classList.remove('un-collapse');
-                sidebar.classList.add('collapse');
-                if (mainContent) {
-                    mainContent.classList.add('collapse');
-                    mainContent.classList.remove('un-collapse');
-                }
+                this.props.leftMenuCollapseChange({collapse:true});
             }
         }
         return false;
@@ -38,7 +27,7 @@ class DashboardTop extends React.Component {
                 <a href="#" className="al-logo clearfix">
                     <span>{globalProps['app.name']}</span>{globalProps['app.adminPlatform']}
                 </a>
-                <a href="#" className="collapse-menu-link" onClick={this.onClick}></a>
+                <a href="#" className="collapse-menu-link" onClick={this.onClick.bind(this)}></a>
 
                 <div className="search">
                     <i className="ion-ios-search-strong"></i>

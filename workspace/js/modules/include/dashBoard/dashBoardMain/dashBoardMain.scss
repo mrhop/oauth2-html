@@ -5,7 +5,7 @@ main, .al-main {
   padding: 66px 0 0;
  // min-height: 500px;
   height: 100%;
-  @include transition(all 400ms linear);
+  @include transition(all 200ms linear);
   @media (max-width: $screen-lg-min - 1) {
     margin-left: 50px;
   }

@@ -2,23 +2,35 @@
  * Created by Donghui Huo on 2016/5/10.
  */
 require('./dashBoardLeftNav.scss');
-
+import {leftMenuCollapseChange} from '../actions'
 class DashboardLeft extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {};
     }
 
     onMouseOut(e) {
         document.querySelector('.al-sidebar .direct-line').style.top = '-200px';
     }
 
+
+    componentDidUpdate(prevProps, prevState) {
+
+    }
+
     render() {
+        let asideClassnames = classNames('al-sidebar')
+        if (this.props.leftMenu.collapse != undefined) {
+
+            asideClassnames = classNames('al-sidebar', this.props.leftMenu.collapse ? 'collapse' : 'un-collapse');
+        }
         return (
             <sidebar>
-                <aside className="al-sidebar" onMouseOut={this.onMouseOut}>
+                <aside className={asideClassnames} onMouseOut={this.onMouseOut}>
                     <div className="direct-line"></div>
                     <CustomScrollbar style={{'heigh':'100%'}}>
-                        {this.props.data && <DashboardLeftList data={this.props.data}/>}
+                        { this.props.leftMenu.data &&
+                        <DashboardLeftList {...this.props} data={this.props.leftMenu.data}/>}
                     </CustomScrollbar>
                 </aside>
             </sidebar>
@@ -31,10 +43,6 @@ class DashboardLeftList extends React.Component {
     }
 
     componentDidMount() {
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-
     }
 
     onMouseOver(e) {
@@ -64,32 +72,37 @@ class DashboardLeftList extends React.Component {
                 }
             }
             if (sidebar && !sidebar.classList.contains('un-collapse')) {
-                sidebar.classList.remove('collapse');
-                sidebar.classList.add('un-collapse');
-                document.querySelector('main.al-main').classList.remove('collapse');
-                document.querySelector('main.al-main').classList.add('un-collapse');
+                this.props.leftMenuCollapseChange({collapse: false});
             }
             e.preventDefault();
         } else {
             //do selected
-            var node = document.querySelector('.al-sidebar .al-sidebar-list-item.selected');
-            if (node) {
-                node.classList.remove('selected');
-            } else {
-                var subNode = document.querySelector('.al-sidebar .al-sidebar-sublist-item.selected');
-                subNode && subNode.classList.remove('selected');
+            // var node = document.querySelector('.al-sidebar .al-sidebar-list-item.selected');
+            // if (node) {
+            //     node.classList.remove('selected');
+            // } else {
+            //     var subNode = document.querySelector('.al-sidebar .al-sidebar-sublist-item.selected');
+            //     subNode && subNode.classList.remove('selected');
+            // }
+            // e.currentTarget.classList.add('selected');
+            this.props.leftMenuSelectedChange({selectedUrl: e.currentTarget.getAttribute('data-url')});
+            var w = window.innerWidth
+                || document.documentElement.clientWidth
+                || document.body.clientWidth;
+            if (w < 1200) {
+                this.props.leftMenuCollapseChange({collapse: true});
             }
-            e.currentTarget.classList.add('selected');
         }
     }
 
     render() {
         var classNames = require('classnames');
         var items = this.props.data.map(function (item) {
-            var liClass = classNames('al-sidebar-list-item', {'selected': item.selected});
+            var liClass = classNames('al-sidebar-list-item', {'selected': item.url && item.url === this.props.leftMenu.selectedUrl ? 'selected' : null});
+            //var liClass = classNames('al-sidebar-list-item', {'selected': item.selected});
             return (
-                <li key={item.id} className={liClass}
-                    onClick={this.onClick}>
+                <li key={item.id} className={liClass} data-url={item.url}
+                    onClick={this.onClick.bind(this)}>
                     <ReactRouter.Link className={"al-sidebar-list-link"} to={ item.url ? item.url : '#'}
                                       onMouseOver={this.onMouseOver}
                                       onClick={!item.url ? e => e.preventDefault() : null}>
@@ -97,7 +110,7 @@ class DashboardLeftList extends React.Component {
                         <span>{item.name}</span>
                         {item.subItems ? (<b className="down"></b>) : null}
                     </ReactRouter.Link>
-                    {item.subItems ? (<DashboardLeftSubList data={item.subItems}/>) : null}
+                    {item.subItems ? (<DashboardLeftSubList {...this.props} data={item.subItems}/>) : null}
                 </li>
             );
         }, this);
@@ -122,24 +135,32 @@ class DashboardLeftSubList extends React.Component {
     }
 
     onClick(e) {
-        var currentDom = e.currentTarget;
-        var node = document.querySelector('.al-sidebar').querySelector('.al-sidebar-list-item.selected');
-        if (node) {
-            node.classList.remove('selected');
-        } else {
-            var subNodeList = document.querySelector('.al-sidebar').querySelector('.al-sidebar-sublist-item.selected');
-            subNodeList && subNodeList.classList.remove('selected');
+        // var currentDom = e.currentTarget;
+        // var node = document.querySelector('.al-sidebar').querySelector('.al-sidebar-list-item.selected');
+        // if (node) {
+        //     node.classList.remove('selected');
+        // } else {
+        //     var subNodeList = document.querySelector('.al-sidebar').querySelector('.al-sidebar-sublist-item.selected');
+        //     subNodeList && subNodeList.classList.remove('selected');
+        // }
+        // e.currentTarget.classList.add('selected');
+        this.props.leftMenuSelectedChange({selectedUrl: e.currentTarget.getAttribute('data-url')});
+        var w = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
+        if (w < 1200) {
+            this.props.leftMenuCollapseChange({collapse: true});
         }
-        e.currentTarget.classList.add('selected');
         e.stopPropagation();
     }
 
     render() {
         var classNames = require('classnames');
         var subItems = this.props.data.map(function (subItem) {
-            var liClass = classNames('al-sidebar-sublist-item', {'selected': subItem.selected});
+            var liClass = classNames('al-sidebar-sublist-item', {'selected': subItem.url && subItem.url === this.props.leftMenu.selectedUrl ? 'selected' : null});
             return (
-                <li key={subItem.id} className={liClass} onClick={this.onClick} onMouseOver={this.onMouseOver}>
+                <li key={subItem.id} data-url={subItem.url} className={liClass} onClick={this.onClick.bind(this)}
+                    onMouseOver={this.onMouseOver}>
                     <ReactRouter.Link className={"al-sidebar-list-link"} to={subItem.url}>
                         <span>{subItem.name}</span>
                     </ReactRouter.Link>
@@ -151,22 +172,4 @@ class DashboardLeftSubList extends React.Component {
 }
 
 
-//export default ReactIntl.injectIntl(DashboardLeft);
-
-DashboardLeft.propTypes = {
-    data: React.PropTypes.array,
-}
-
-function mapStateToProps(state, ownProps) {
-    if (state && state.dashBoardFramework && state.dashBoardFramework.leftMenuData) {
-        const {
-            data
-        } = state.dashBoardFramework.leftMenuData
-        return {data}
-    } else {
-        return {};
-    }
-}
-
-
-export default ReactIntl.injectIntl(ReactRedux.connect(mapStateToProps, {})(DashboardLeft))
+export default ReactIntl.injectIntl(DashboardLeft)

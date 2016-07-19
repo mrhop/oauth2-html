@@ -42,7 +42,7 @@
       width: auto;
     }
   }
-  @include transition(all 400ms linear);
+  @include transition(all 200ms linear);
 }
 
 .al-sidebar .direct-line {
@@ -52,7 +52,7 @@
   top: -200px;
   height: 43px;
   background-color: darken($brand-primary, 10%);
-  @include transition(all 300ms ease-in-out);
+  @include transition(all 200ms ease-in-out);
 }
 
 .al-sidebar-list, .al-sidebar-sublist {
@@ -148,7 +148,7 @@
   padding-top: 0;
   height: 0px;
   overflow: hidden;
-  @include transition(all 300ms linear);
+  @include transition(all 200ms linear);
   @media (max-width: $screen-lg-min - 1) {
     position: absolute;
     width: 0;
@@ -159,7 +159,7 @@
 }
 
 .al-sidebar-list-item .down {
-  @include transition(all 300ms linear);
+  @include transition(all 200ms linear);
   @include rotate(0deg);
 }
 
