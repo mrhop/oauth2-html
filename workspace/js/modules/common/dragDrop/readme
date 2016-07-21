@@ -1,0 +1,10 @@
+Organization Chart[role as the basic element] also with the line,be careful a Trash as the temp remove ,also can be revert or drag back
+data structure shall be like tree,can also be json children, a role 有从属，汇总，虚拟节点多对多三种关系（1对多， 多对一，多对多）
+
+工作流模块，role and event(action),event contains 1,all,大多数的通过方式，然后工作流有申请（审批）和下发通知两种流程
+
+so drag drop have three types role，action【关联文件，comments,大的可以看到小的上传的文件comment，小的看不到大的，level + 工作流id ,获取时 level> ...，工作流拒绝时，有一个返回某个event部分的操作，此时拒绝的内容作为工作流关联role id，该内容为拒绝后指定的action关联的角色可见】，virtual node(for关联上下组织结构)
+使用localstorage做暂存
+then others...
+
+html drag

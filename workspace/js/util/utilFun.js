@@ -51,21 +51,21 @@ utilFun.prototype = {
         };
     })(),
     //form type from data --> dom
-    formType:function(parameters){
-        if(parameters.type == 'text'){
+    formType: function (parameters) {
+        if (parameters.type == 'text') {
             var value = parameters.value ? parameters.value : '';
             var className = classNames('editable', parameters.className);
             return <input type="text" className={className} data-name={parameters.name}
                           name={parameters.name} value={value}
                           onChange={parameters.onChangeCallback}/>;
-        }else if(parameters.type == 'select'){
+        } else if (parameters.type == 'select') {
             var className = classNames('editable', parameters.className);
             return <Select className={className} name={parameters.name} data-name={parameters.name}
                            value={parameters.value ? parameters.value : null}
                            options={parameters.options}
                            onChange={parameters.onChangeCallback}>
             </Select>;
-        }else if(parameters.type == 'radio'){
+        } else if (parameters.type == 'radio') {
             var className = classNames('editable ul-wrapper', parameters.className);
             var editContent = parameters.options.map(function (subItem, index) {
                 const checked = subItem.value == parameters.value ? 'checked' : false;
@@ -78,7 +78,7 @@ utilFun.prototype = {
             }, this);
             editContent = <ul className={className}>{editContent}</ul>;
             return editContent;
-        }else if(parameters.type == 'checkbox'){
+        } else if (parameters.type == 'checkbox') {
             className = classNames('editable ul-wrapper', parameters.className);
             var value = parameters.value ? parameters.value : '';
             var editContent = parameters.options.map(function (subItem, index) {
@@ -93,8 +93,10 @@ utilFun.prototype = {
             return editContent;
         }
     },
-    formTypeValue(type,e,value){
-        if (type == 'radio' || type == 'text') {
+    formTypeValue(type, e, value){
+        if (!type || type === 'text' || type === 'email' ||
+            type === 'password' || type === 'number'
+            || type === 'hidden' || type == 'radio') {
             return e.target.value;
         } else if (type == 'checkbox') {
             if (e.target.checked) {
@@ -109,7 +111,7 @@ utilFun.prototype = {
                 value = value.substring(1);
             }
             return value;
-        } else if (type == 'select') {  
+        } else if (type == 'select') {
             return e ? e.value : null;
         }
     }
