@@ -10,7 +10,7 @@ require('./checkbox.scss');
 // tooltip
 //下面text的分类应该不是以上面的来分
 //应该要从最基本的做起，不应该再有分类
-class Checkbox extends React.Component {
+export default class Checkbox extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -36,7 +36,7 @@ class Checkbox extends React.Component {
 
     render() {
         const rule = this.props.rule;
-        let classNames = classNames('checkbox', (rule.validated === undefined || validated) ? null : 'has-error', rule.className);
+        let eleClassNames = classNames('checkbox', (rule.validated === undefined || validated) ? null : 'has-error', rule.className);
         //validate 需要class 和tooltip放置，根据props的改变来做
         //data-validate = {rule.validate} validate shall not be here
         let items = rule.items.map(function (item, index) {
@@ -45,8 +45,8 @@ class Checkbox extends React.Component {
                        checked={this.props.data.split(',').includes(item.value)  ? 'checked' : false}/>
                 <span>{item.label}</span>
             </label>
-        });
-        return <div className={classNames} id={this.props.id}>
+        },this);
+        return <div className={eleClassNames} id={this.props.id}>
             {rule.label && <label>{rule.label}</label>}
             {items}
             {(rule.validated === undefined || validated) ? null : <span className="error-block">{rule.errorMsg}</span>}
@@ -58,8 +58,3 @@ class Checkbox extends React.Component {
 Checkbox.propTypes = {rule: React.PropTypes.object};
 Checkbox.propTypes = {data: React.PropTypes.string};
 Checkbox.propTypes = {id: React.PropTypes.string};
-
-
-module.exports = {
-    Checkbox
-};

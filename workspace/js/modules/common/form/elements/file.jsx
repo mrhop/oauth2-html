@@ -4,7 +4,7 @@
 require('./file.scss');
 
 //基本file,需要考虑file data的获取， if not ,form submit
-class File extends React.Component {
+export default class File extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -18,8 +18,8 @@ class File extends React.Component {
     }
     render() {
         const rule = this.props.rule;
-        let classNames = classNames('form-group', (rule.validated === undefined || validated) ? null : 'has-error', rule.className);
-        return <div className={classNames}>{rule.label && <label
+        let eleClassNames = classNames('form-group', (rule.validated === undefined || validated) ? null : 'has-error', rule.className);
+        return <div className={eleClassNames}>{rule.label && <label
             for={this.props.id}>{rule.label}</label>}
             <input className='file' id={this.props.id} type='file'
                    name={rule.name}
@@ -34,8 +34,3 @@ class File extends React.Component {
 File.propTypes = {rule: React.PropTypes.object};
 File.propTypes = {data: React.PropTypes.string};
 File.propTypes = {id: React.PropTypes.string};
-
-
-module.exports = {
-    File
-};

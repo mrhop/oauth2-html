@@ -86,3 +86,11 @@ https://github.com/d3/d3 c3
 still need the native choice
 then the form,then draggable little panel,then the big modal,like oauth2 and work process,and sns,notifications basic business
 tomorow form and draggable little panel
+
+
+开始进行form的无样式的流程通路处理,form的初始化状态问题
+https://github.com/akveo/blur-admin 样式参考
+
+left 部分根据history并设置相应的样式
+
+另外 form 没有实现首次加载

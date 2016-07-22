@@ -4,7 +4,7 @@
 require('./text.scss');
 
 //基本text
-class Text extends React.Component {
+export default class Text extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -19,10 +19,10 @@ class Text extends React.Component {
 
     render() {
         const rule = this.props.rule;
-        let classNames = classNames('form-group', (rule.validated === undefined || validated) ? null : 'has-error', rule.className);
+        let eleClassNames = classNames('form-group', (rule.validated === undefined || validated) ? null : 'has-error', rule.className);
         //validate 需要class 和tooltip放置，根据props的改变来做
         //data-validate = {rule.validate} validate shall not be here
-        return <div className={classNames}>{rule.label && <label
+        return <div className={eleClassNames}>{rule.label && <label
             for={this.props.id}>{rule.label}</label>}
             <input className='text' id={this.props.id} type={rule.type ? rule.type : 'text'}
                    name={rule.name} placeholder={rule.placeholder}
@@ -39,7 +39,3 @@ Text.propTypes = {rule: React.PropTypes.object};
 Text.propTypes = {data: React.PropTypes.string};
 Text.propTypes = {id: React.PropTypes.string};
 
-
-module.exports = {
-    Text
-};

@@ -7,3 +7,4 @@
 
 
 现在是validate的设计部分，然后是服务端validate部分，然后是success的callback部分，然后是step form设计部分，然后做出index的demo部分，然后就是dragDrop和map
+need a basic element data-time

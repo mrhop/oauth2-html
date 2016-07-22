@@ -5,7 +5,7 @@ require('./select.scss');
 
 //基本Select，然后有
 // 使用已有的select module
-class Select extends React.Component {
+export default class Select extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -19,8 +19,8 @@ class Select extends React.Component {
 
     render() {
         const rule = this.props.rule;
-        let classNames = classNames('select', (rule.validated === undefined || validated) ? null : 'has-error', rule.className);
-        return <div className={className}>
+        let eleClassNames = classNames('select', (rule.validated === undefined || validated) ? null : 'has-error', rule.className);
+        return <div className={eleClassNames}>
             {rule.label && <label>{rule.label}</label>}
             <Select name={rule.name} data-name={rule.name}
                     value={rule.value ? rule.value : null}
@@ -36,8 +36,3 @@ class Select extends React.Component {
 Select.propTypes = {rule: React.PropTypes.object};
 Select.propTypes = {data: React.PropTypes.string};
 Select.propTypes = {id: React.PropTypes.string};
-
-
-module.exports = {
-    Select
-};

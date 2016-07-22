@@ -19,11 +19,16 @@
         "id": "4",
         "url": "chart",
         "name": "Charts"
+      },
+      {
+        "id": "5",
+        "url": "form",
+        "name": "Form"
       }
     ]
   },
   {
-    "id": "5",
+    "id": "6",
     "url": "#",
     "selected": false,
     "iconClass": "home",
