@@ -1,15 +1,19 @@
 @import "../../../../../scss/import";
-.form-control{
-  border-width: 0px;
-  &:focus{
-    border-width: 1px;
+.form-group {
+  .form-control {
+    border-width: 0px;
+    &:focus {
+      border-width: 1px;
+    }
+    @include placeholder(#ccc)
   }
-  @include placeholder(#ccc)
+  &.has-error .form-control {
+    border: 1px solid $brand-danger;
+  }
+  .error-block{
+    color: #d9534f;
+  }
 }
-.has-error .form-control{
-  border: 1px solid $brand-danger;
-}
-
 
 div.action{
   div.submit{

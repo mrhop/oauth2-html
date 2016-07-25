@@ -59,7 +59,7 @@ class BasicForm extends React.Component {
     reset(e) {
         const {structure} = this.props.initRule
 
-        if(this.props.formType === 'blockForm'){
+        if (this.props.formType === 'blockForm') {
             for (var index in structure) {
                 let item = structure[index]
                 for (var subIndex in item) {
@@ -67,7 +67,7 @@ class BasicForm extends React.Component {
                     this.state.data[subItem['name']] = subItem['defaultValue'] ? subItem['defaultValue'] : null;
                 }
             }
-        }else{
+        } else {
             structure.forEach(function (item) {
                 this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
             }.bind(this))
@@ -79,7 +79,11 @@ class BasicForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.confirmFormDispatch({data: this.state.data, formKey: this.props.symbol, url: this.props.url});
+        if (!this.props.submitProcess.status) {
+            this.props.submitProcess.status = true
+            this.forceUpdate();
+            this.props.confirmFormDispatch({data: this.state.data, formKey: this.props.symbol, url: this.props.url});
+        }
     }
 
     generateFormElement(id, rule, name) {
@@ -111,10 +115,11 @@ class BasicForm extends React.Component {
             const rule = this.props.rule;
             const {structure, submit, reset} = rule
             var formClasses = classNames(this.formType, this.props.extraClassName)
+            var submitClasses = classNames('btn btn-primary', this.props.submitProcess.status ? 'disabled' : null);
             var submitElement = null;
             if (submit) {
                 submitElement =
-                    <button type="button" className="btn btn-primary"
+                    <button type="button" className={submitClasses}
                             onClick={this.handleSubmit.bind(this)}>{submit.label ? submit.label : 'Submit'}</button>;
             }
             var resetElement = null;
@@ -267,7 +272,12 @@ BasicForm.propTypes = {
     responseData: React.PropTypes.object,
     initForm: React.PropTypes.func,
     confirmFormDispatch: React.PropTypes.func,
+    submitProcess: React.PropTypes.object
 }
+BasicForm.defaultProps = {
+    submitProcess:{status:false}
+}
+
 
 function mapStateToProps(state, ownProps) {
     if (ownProps.symbol && state && state.form && state.form.main[ownProps.symbol]) {
@@ -277,7 +287,7 @@ function mapStateToProps(state, ownProps) {
             failureMsg,
             responseData
         } = state.form.main[ownProps.symbol]
-        return {rule, status, failureMsg,responseData}
+        return {rule, status, failureMsg, responseData, submitProcess: {status:false}}
     } else {
         return {};
     }
