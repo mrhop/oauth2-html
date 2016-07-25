@@ -1,1 +1,6 @@
-{}
+{
+  "status":"success",
+  "responseData":{
+    "name":"happy"
+  }
+}

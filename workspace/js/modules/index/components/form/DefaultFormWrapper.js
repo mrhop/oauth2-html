@@ -12,6 +12,7 @@ export default class DefaultFormWrapper extends React.Component {
             structure: [{
                 name: 'testText',
                 defaultValue: 'my choice',
+                label:'Test',
                 type: 'text',
                 placeholder: 'shall be just test',
                 validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name}]

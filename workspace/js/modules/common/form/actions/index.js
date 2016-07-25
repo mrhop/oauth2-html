@@ -7,18 +7,18 @@ export const FORM_POST_FAILURE = 'FORM_POST_FAILURE'
 export const VALIDATE_RULE = {
     'REQUIRED_VALIDATE': {
         name: 'REQUIRED_VALIDATE',
-        defaultRegex: '^\S+[a-z A-Z]$',
+        defaultRegex: '\\S+',
         defaultErrorMsg: 'can not be empty'
     },
     'NUMBER_VALIDATE': {
         name: 'NUMBER_VALIDATE',
-        defaultRegex: '^(-?\d+)(\.\d+)?$',
+        defaultRegex: '(-?\\d+)(\\.\\d+)?',
         defaultErrorMsg: 'can only be a number'
     },
-    'INT_VALIDATE': {name: 'INT_VALIDATE', defaultRegex: '^-?\d+$', defaultErrorMsg: 'can only be an int'},
+    'INT_VALIDATE': {name: 'INT_VALIDATE', defaultRegex: '-?\\d+', defaultErrorMsg: 'can only be an int'},
     'EMAIL_VALIDATE': {
         name: 'EMAIL_VALIDATE',
-        defaultRegex: '^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$',
+        defaultRegex: '[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+',
         defaultErrorMsg: 'not an email'
     },
 }
@@ -42,10 +42,10 @@ export function confirmFormDispatch(requestCondition = {
         //然后如果成功了进行form confirm，然后设置成功后，调用callback在form内
         //do validate
         // getState.form[formKey].rule
-        var clientValidate = validateFormClient(data,getState.form[formKey].rule)
+        var clientValidate = validateFormClient(requestCondition.data,getState().form.main[requestCondition.formKey].rule)
         if (!clientValidate.returnFlag) {
             var structure = clientValidate.structure
-            return dispatch({formKey, structure, type: FORM_VALIDATE_FAILURE})
+            return dispatch({formKey:requestCondition.formKey, structure, type: FORM_VALIDATE_FAILURE})
         }
         return dispatch(confirmForm(requestCondition))
     }
@@ -65,9 +65,9 @@ export function initForm(requestCondition = {
 function validateFormClient(data, rule) {
     const {structure} = rule
     let returnFlag = true;
-    for (item in structure) {
+    structure.forEach(function(item){
         if (Array.isArray(item)) {
-            for (subItem in item) {
+            item.forEach(function(subItem){
                 let subItemData = data[subItem.name]
                 if(subItem.validateRules) {
                     var  validateMsg = validateInternal(subItemData, subItem.validateRules)
@@ -76,7 +76,7 @@ function validateFormClient(data, rule) {
                         returnFlag = false
                     }
                 }
-            }
+            })
         } else {
             let itemData = data[item.name]
             if(item.validateRules) {
@@ -87,22 +87,23 @@ function validateFormClient(data, rule) {
                 }
             }
         }
-    }
+    })
     return {structure,returnFlag}
 }
 function validateInternal(itemData, validateRules) {
     if (!itemData) {
         itemData = '';
     }
-    for (validateRule in validateRules) {
+    for (var index in validateRules) {
+        let validateRule = validateRules[index];
         if (VALIDATE_RULE[validateRule.name] && !validateRule.validateRegex) {
-            validateRule.validateRegex = VALIDATE_RULE[validateRule].defaultRegex;
+            validateRule.validateRegex = VALIDATE_RULE[validateRule.name].defaultRegex;
         }
         if (typeof validateRule.validateRegex === 'string') {
             validateRule.validateRegex = new RegExp(validateRule.validateRegex);
         }
         if (VALIDATE_RULE[validateRule.name] && !validateRule.errorMsg) {
-            validateRule.errorMsg = VALIDATE_RULE[validateRule].defaultErrorMsg;
+            validateRule.errorMsg = VALIDATE_RULE[validateRule.name].defaultErrorMsg;
         }
         if (!validateRule.validateRegex.test(itemData)) {
             return {

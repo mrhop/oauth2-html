@@ -8,24 +8,29 @@ export default class File extends React.Component {
     constructor(props) {
         super(props);
     }
+
     onChange(e) {
-        this.props.data = e.target.value;
+        this.props.data.value = e.target.value;
         console.log('something happened')
-        this.props.rule.validated = true;
-        this.props.rule.errorMsg = null;
-        //and also need to do the data format
+        if (this.props.rule.validated != undefined) {
+            this.props.rule.validated = true;
+        }
+        if (this.props.rule.errorMsg != undefined) {
+            this.props.rule.errorMsg = null;
+        }
         this.forceUpdate();
     }
+
     render() {
         const rule = this.props.rule;
-        let eleClassNames = classNames('form-group', (rule.validated === undefined || validated) ? null : 'has-error', rule.className);
+        let eleClassNames = classNames('form-group', (rule.validated === undefined || rule.validated) ? null : 'has-error', rule.className);
         return <div className={eleClassNames}>{rule.label && <label
             for={this.props.id}>{rule.label}</label>}
             <input className='file' id={this.props.id} type='file'
                    name={rule.name}
-                   value={this.props.data}
+                   value={this.props.data.value}
                    onChange={this.onChange.bind(this)}/>
-            {(rule.validated === undefined || validated) ? null : <span className="error-block">{rule.errorMsg}</span>}
+            {(rule.validated === undefined || rule.validated) ? null : <span className="error-block">{rule.errorMsg}</span>}
         </div>
     }
 }

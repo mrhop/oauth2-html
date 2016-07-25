@@ -11,23 +11,28 @@ export default class Select extends React.Component {
     }
 
     onChange(e) {
-        this.props.data = e.value;
-        this.props.rule.validated = true;
-        this.props.rule.errorMsg = null;
+        this.props.data.value = e.value;
+        if (this.props.rule.validated != undefined) {
+            this.props.rule.validated = true;
+        }
+        if (this.props.rule.errorMsg != undefined) {
+            this.props.rule.errorMsg = null;
+        }
+
         this.forceUpdate();
     }
 
     render() {
         const rule = this.props.rule;
-        let eleClassNames = classNames('select', (rule.validated === undefined || validated) ? null : 'has-error', rule.className);
+        let eleClassNames = classNames('select', (rule.validated === undefined || rule.validated) ? null : 'has-error', rule.className);
         return <div className={eleClassNames}>
             {rule.label && <label>{rule.label}</label>}
             <Select name={rule.name} data-name={rule.name}
-                    value={rule.value ? rule.value : null}
+                    value={this.props.data.value ? this.props.data.value : null}
                     options={rule.options}
                     onChange={this.onChange.bind(this)}>
             </Select>
-            {(rule.validated === undefined || validated) ? null : <span className="error-block">{rule.errorMsg}</span>}
+            {(rule.validated === undefined || rule.validated) ? null : <span className="error-block">{rule.errorMsg}</span>}
         </div>
     }
 }

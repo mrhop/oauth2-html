@@ -8,7 +8,7 @@ function main(state = {}, action) {
         state[action.formKey] = {}
         state[action.formKey].rule = action.rule
         state[action.formKey].status = 'init';
-        return state
+        return l_merge({}, state)
     }
     if (action.type === ActionTypes.FORM_VALIDATE_FAILURE) {
         state[action.formKey].rule.structure = action.structure
@@ -16,23 +16,22 @@ function main(state = {}, action) {
     }
 
     if (action.type === ActionTypes.FORM_POST_SUCCESS) {
-        let rule = state[action.formKey].rule
+        let rule = state[action.requestCondition.formKey].rule
         //将action.response和 validateFailureMsg 合并,并返回;
-        state[action.formKey].status = action.response.status;
+        state[action.requestCondition.formKey].status = action.response.status;
         if(action.response.failureMsg){
-            state[action.formKey].failureMsg = action.response.failureMsg;
+            state[action.requestCondition.formKey].failureMsg = action.response.failureMsg;
         }
         if(action.response.responseData){
-            state[action.formKey].responseData = action.response.responseData;
-
+            state[action.requestCondition.formKey].responseData = action.response.responseData;
         }
-        state[action.formKey].rule = rule;
+        state[action.requestCondition.formKey].rule = rule;
         return l_merge({}, state)
     }
 
     if (action.type === ActionTypes.FORM_POST_FAILURE) {
-        state[action.formKey].status = 'serverFailure';
-        state[action.formKey].failureMsg = action.error;
+        state[action.requestCondition.formKey].status = 'serverFailure';
+        state[action.requestCondition.formKey].failureMsg = action.error;
         return l_merge({}, state)
     }
     return state

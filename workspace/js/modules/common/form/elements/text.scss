@@ -1,1 +1,19 @@
 @import "../../../../../scss/import";
+.form-control{
+  border-width: 0px;
+  &:focus{
+    border-width: 1px;
+  }
+  @include placeholder(#ccc)
+}
+.has-error .form-control{
+  border: 1px solid $brand-danger;
+}
+
+
+div.action{
+  div.submit{
+    float: left;
+    margin-right: 10px;
+  }
+}

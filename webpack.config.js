@@ -29,6 +29,7 @@ const toolsJs = [
     //__dirname + '/node_modules/isomorphic-fetch/fetch-npm-node.js',
     'lodash/merge',
     'lodash/map',
+    'lodash/forEach',
     'lodash/assign',
     __dirname + '/workspace/js/util/utilFun',
 ];
