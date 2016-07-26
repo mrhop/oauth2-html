@@ -58,6 +58,13 @@ let initBlockRule = {
         placeholder: 'shall be just number',
         required :true,
         validateRules: [{name: 'custom_validate',validateRegex:'^(-?\\d+)(\\.\\d+)?$',errorMsg:'必须为数字'}]
+    },{
+        name: 'testCheckbox',
+        defaultValue: '1,2',
+        items:[{value:1,label:'label1'},{value:2,label:'label2'}],
+        label:'TestCheckBox',
+        type: 'checkbox',
+        required :true
     }],[{
         name: 'testPassword',
         label:'TestPassword',

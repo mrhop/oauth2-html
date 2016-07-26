@@ -1,6 +1,7 @@
 @import "../../../../scss/import";
 
 .defaultForm, .noLabelForm, .horizontalForm, .inlineForm,.blockForm {
+  overflow: hidden;
   .form-group {
     .form-control {
       border-width: 0px;
@@ -22,6 +23,9 @@
       float: left;
       margin-right: 10px;
     }
+    div.reset {
+       float: left;
+     }
   }
 }
 
@@ -36,7 +40,6 @@
 }
 
 .horizontalForm {
-  overflow: hidden;
   .form-group {
     overflow: hidden;
     margin-bottom: 15px;
