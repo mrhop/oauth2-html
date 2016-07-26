@@ -7,18 +7,18 @@ export const FORM_POST_FAILURE = 'FORM_POST_FAILURE'
 export const VALIDATE_RULE = {
     'REQUIRED_VALIDATE': {
         name: 'REQUIRED_VALIDATE',
-        defaultRegex: '\\S+',
-        defaultErrorMsg: 'can not be empty'
+        defaultRegex: '^\\S+(([\\S\\s]*\\S+$)|(\\S*$))',
+        defaultErrorMsg: '不能为空且不能以空格开头和结尾'
     },
     'NUMBER_VALIDATE': {
         name: 'NUMBER_VALIDATE',
-        defaultRegex: '(-?\\d+)(\\.\\d+)?',
+        defaultRegex: '^(-?\\d+)(\\.\\d+)?$',
         defaultErrorMsg: 'can only be a number'
     },
-    'INT_VALIDATE': {name: 'INT_VALIDATE', defaultRegex: '-?\\d+', defaultErrorMsg: 'can only be an int'},
+    'INT_VALIDATE': {name: 'INT_VALIDATE', defaultRegex: '^-?\\d+$', defaultErrorMsg: 'can only be an int'},
     'EMAIL_VALIDATE': {
         name: 'EMAIL_VALIDATE',
-        defaultRegex: '[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+',
+        defaultRegex: '^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+$',
         defaultErrorMsg: 'not an email'
     },
 }
@@ -42,10 +42,10 @@ export function confirmFormDispatch(requestCondition = {
         //然后如果成功了进行form confirm，然后设置成功后，调用callback在form内
         //do validate
         // getState.form[formKey].rule
-        var clientValidate = validateFormClient(requestCondition.data,getState().form.main[requestCondition.formKey].rule)
+        var clientValidate = validateFormClient(requestCondition.data, getState().form.main[requestCondition.formKey].rule)
         if (!clientValidate.returnFlag) {
             var structure = clientValidate.structure
-            return dispatch({formKey:requestCondition.formKey, structure, type: FORM_VALIDATE_FAILURE})
+            return dispatch({formKey: requestCondition.formKey, structure, type: FORM_VALIDATE_FAILURE})
         }
         return dispatch(confirmForm(requestCondition))
     }
@@ -57,7 +57,7 @@ export function initForm(requestCondition = {
 }) {
     //将数据进行处理化，并关联store后映射到form component中，然后根据props进行和state的对应更新
     return (dispatch, getState) => {
-        l_assign(requestCondition,{type: FORM_INIT})
+        l_assign(requestCondition, {type: FORM_INIT})
         return dispatch(requestCondition)
     }
 }
@@ -65,34 +65,38 @@ export function initForm(requestCondition = {
 function validateFormClient(data, rule) {
     const {structure} = rule
     let returnFlag = true;
-    structure.forEach(function(item){
+    structure.forEach(function (item) {
         if (Array.isArray(item)) {
-            item.forEach(function(subItem){
+            item.forEach(function (subItem) {
                 let subItemData = data[subItem.name]
-                if(subItem.validateRules) {
-                    var  validateMsg = validateInternal(subItemData, subItem.validateRules)
-                    if(validateMsg){
-                        l_assign(subItem,validateMsg);
+                if (subItem.validateRules) {
+                    var validateMsg = validateInternal(subItemData, subItem.validateRules, subItem.required)
+                    if (validateMsg) {
+                        l_assign(subItem, validateMsg);
                         returnFlag = false
                     }
                 }
             })
         } else {
             let itemData = data[item.name]
-            if(item.validateRules) {
-                var  validateMsg = validateInternal(itemData, item.validateRules)
-                if(validateMsg){
-                    l_assign(item,validateMsg);
+            if (item.validateRules) {
+                var validateMsg = validateInternal(itemData, item.validateRules, item.required)
+                if (validateMsg) {
+                    l_assign(item, validateMsg);
                     returnFlag = false
                 }
             }
         }
     })
-    return {structure,returnFlag}
+    return {structure, returnFlag}
 }
-function validateInternal(itemData, validateRules) {
-    if (!itemData) {
-        itemData = '';
+function validateInternal(itemData, validateRules, required) {
+    var tmpData = itemData ? itemData.replace(/(^\s*)|(\s*$)/g, "") : null;
+    if (!tmpData) {
+        if (!required) {
+            return null
+        }
+        tmpData = '';
     }
     for (var index in validateRules) {
         let validateRule = validateRules[index];

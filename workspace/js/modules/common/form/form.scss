@@ -1,1 +1,103 @@
 @import "../../../../scss/import";
+
+.defaultForm, .noLabelForm, .horizontalForm, .inlineForm,.blockForm {
+  .form-group {
+    .form-control {
+      border-width: 0px;
+      &:focus {
+        border-width: 1px;
+      }
+      @include placeholder(#ccc)
+    }
+    &.has-error .form-control {
+      border: 1px solid $brand-danger;
+    }
+    .error-block {
+      color: $brand-danger;
+    }
+  }
+
+  div.action {
+    div.submit {
+      float: left;
+      margin-right: 10px;
+    }
+  }
+}
+
+.defaultForm, .horizontalForm,.blockForm {
+  .form-group {
+    label span.required {
+      color: $brand-danger;
+      margin-left: 3px;
+      vertical-align: middle;
+    }
+  }
+}
+
+.horizontalForm {
+  overflow: hidden;
+  .form-group {
+    overflow: hidden;
+    margin-bottom: 15px;
+    label {
+      @media (min-width: $screen-sm-min) {
+        line-height: 34px;
+        margin-bottom: 0px;
+        vertical-align: middle;
+        text-align: right;
+      }
+    }
+    .col-sm-10, .col-sm-2 {
+      @media (max-width: $screen-xs-max) {
+        padding: 0
+      }
+    }
+  }
+  .action {
+    @media (min-width: $screen-sm-min) {
+      float: right;
+      padding: 0;
+    }
+  }
+}
+
+.noLabelForm, .inlineForm {
+  .form-group {
+    label {
+      display: none;
+    }
+  }
+}
+
+.inlineForm {
+  @media (min-width: $screen-sm-min) {
+    .form-group {
+      position: relative;
+      display: inline-block;
+      margin-right: 10px;
+      input {
+        width: auto;
+      }
+      .error-block {
+        position: absolute;
+      }
+    }
+
+    .action {
+      width: 120px;
+      display: inline-block;
+    }
+  }
+}
+.blockForm{
+  .col{
+    padding-left: 0;
+    .form-group {
+      position: relative;
+      .error-block {
+        position: absolute;
+      }
+    }
+  }
+}

@@ -58,8 +58,7 @@ class BasicForm extends React.Component {
 
     reset(e) {
         const {structure} = this.props.initRule
-
-        if (this.props.formType === 'blockForm') {
+        if (this.formType === 'blockForm') {
             for (var index in structure) {
                 let item = structure[index]
                 for (var subIndex in item) {
@@ -72,7 +71,6 @@ class BasicForm extends React.Component {
                 this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
             }.bind(this))
         }
-
         this.props.initForm({rule: this.props.initRule, formKey: this.props.symbol});
         e.preventDefault()
     }
@@ -90,15 +88,15 @@ class BasicForm extends React.Component {
         if (!rule.type || rule.type === 'text' || rule.type === 'email' ||
             rule.type === 'password' || rule.type === 'number'
             || rule.type === 'hidden') {
-            return <Text key={id} rule={rule} id={id} data={this.state.data} name={name}/>
+            return <Text key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         } else if (rule.type === 'radio') {
-            return <Radio key={id} rule={rule} id={id} data={this.state.data} name={name}/>
+            return <Radio key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         } else if (rule.type === 'checkox') {
-            return <Checkbox key={id} rule={rule} id={id} data={this.state.data} name={name}/>
+            return <Checkbox key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         } else if (rule.type === 'select') {
-            return <Select key={id} rule={rule} id={id} data={this.state.data} name={name}/>
+            return <Select key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         } else if (rule.type === 'file') {
-            return <File key={id} rule={rule} id={id} data={this.state.data} name={name}/>
+            return <File key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         } else if (rule.type === 'date') {
 
         } else if (rule.type === 'time') {
@@ -111,10 +109,16 @@ class BasicForm extends React.Component {
 
     //formExtraClass other layout
     renderBasic() {
+        let actionClasses = 'action'
+        switch (this.formType) {
+            case 'horizontalForm':
+                actionClasses = classNames(actionClasses, 'col-sm-10')
+        }
         if (this.props.rule) {
             const rule = this.props.rule;
             const {structure, submit, reset} = rule
-            var formClasses = classNames(this.formType, this.props.extraClassName)
+            var formDivClasses = classNames(this.formType, this.props.extraClassName)
+
             var submitClasses = classNames('btn btn-primary', this.props.submitProcess.status ? 'disabled' : null);
             var submitElement = null;
             if (submit) {
@@ -135,10 +139,10 @@ class BasicForm extends React.Component {
                     return this.generateFormElement(id, item, item['name'])
                     //this.state.data[item['name']]
                 }, this)
-                return <div className={formClasses}>
+                return <div className={formDivClasses}>
                     <form id={this.props.symbol} onSubmit={this.handleSubmit.bind(this)}>
                         {formElements}
-                        <div className="action">
+                        <div className={actionClasses}>
                             <div className="submit">
                                 {submitElement}
                             </div>
@@ -150,28 +154,36 @@ class BasicForm extends React.Component {
                 </div>
             } else if (this.formType === 'blockForm') {
                 let rows = structure.map(function (item, index) {
-                    let size = 12 % item.length;
+                    var indexTmp;
+                    var length = 0
+                    for (indexTmp in item) {
+                        if (!item[indexTmp].type || item[indexTmp].type !== 'hidden') {
+                            length++;
+                        }
+                    }
+                    let size = 12 / length;
                     let formElements = item.map(function (subItem, subIndex) {
                         let id = this.props.symbol + '-element-' + index + '-' + subIndex;
                         //this.state.data[subItem['name']] = subItem['defaultValue'] ? subItem['defaultValue'] : null;
-                        return <div key={subIndex} className={"col-sm-" + size}>
+                        return <div key={subIndex} className={"col col-sm-" + size}>
                             {this.generateFormElement(id, subItem, subItem['name'])}
                         </div>
-                    }, this);
-                    return <div key={index} className={classNames}>
-                        <form id={this.props.symbol}>
-                            {rows}
-                            <div className="action row">
-                                <div className="col-sm-6 submit">
-                                    {submitElement}
-                                </div>
-                                <div className="col-sm-6 reset">
-                                    {resetElement}
-                                </div>
+                    }, this)
+                    return formElements
+                }, this);
+                return <div className={formDivClasses}>
+                    <form id={this.props.symbol}>
+                        {rows}
+                        <div className={actionClasses}>
+                            <div className="submit">
+                                {submitElement}
                             </div>
-                        </form>
-                    </div>
-                }, this)
+                            <div className="reset">
+                                {resetElement}
+                            </div>
+                        </div>
+                    </form>
+                </div>
             }
         }
         return null;
@@ -275,7 +287,7 @@ BasicForm.propTypes = {
     submitProcess: React.PropTypes.object
 }
 BasicForm.defaultProps = {
-    submitProcess:{status:false}
+    submitProcess: {status: false}
 }
 
 
@@ -287,7 +299,7 @@ function mapStateToProps(state, ownProps) {
             failureMsg,
             responseData
         } = state.form.main[ownProps.symbol]
-        return {rule, status, failureMsg, responseData, submitProcess: {status:false}}
+        return {rule, status, failureMsg, responseData, submitProcess: {status: false}}
     } else {
         return {};
     }
