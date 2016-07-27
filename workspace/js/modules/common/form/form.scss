@@ -1,7 +1,11 @@
 @import "../../../../scss/import";
 
 .defaultForm, .noLabelForm, .horizontalForm, .inlineForm, .blockForm {
-  overflow: hidden;
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
   .form-group {
     .form-control {
       border-width: 0px;
@@ -36,6 +40,10 @@
         }
       }
     }
+    &.has-error ul.checkbox {
+      border: 1px solid $brand-danger;
+      color: #fff;
+    }
   }
   .radio-wrapper {
     margin-bottom: 15px;
@@ -57,9 +65,45 @@
           padding-right: 3px;
         }
       }
+
+    }
+    &.has-error ul.radio {
+      border: 1px solid $brand-danger;
+      color: #fff;
     }
   }
-  .form-group, .checkbox-wrapper, .radio-wrapper {
+  .select-wrapper {
+    margin-bottom: 15px;
+    .Select-control {
+      border: none;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.4);
+      @include transition(border-color ease-in-out 0.15s);
+      @include transition(box-shadow ease-in-out 0.15s);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      //&:focus{
+      //  border: 1px solid $input-border-focus;
+      //  @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(red($input-border-focus), green($input-border-focus), blue($input-border-focus), .6));
+      //}
+      .Select-value-label, .Select-placeholder {
+        color: #fff !important;
+      }
+      .Select-clear-zone {
+        color: #fff;
+        &:hover {
+          color: $brand-danger;
+        }
+      }
+      .Select-arrow {
+        border-color: #fff transparent transparent !important;
+      }
+    }
+    &.has-error .Select-control {
+      border: 1px solid $brand-danger;
+      //@include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(red($brand-danger), green($brand-danger), blue($brand-danger), .6));
+    }
+  }
+  .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper {
     .error-block {
       color: $brand-danger;
     }
@@ -85,8 +129,12 @@
 }
 
 .horizontalForm {
-  .form-group, .checkbox-wrapper, .radio-wrapper {
-    overflow: hidden;
+  .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper {
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
     margin-bottom: 15px;
     > label {
       @media (min-width: $screen-sm-min) {
@@ -101,7 +149,7 @@
         padding: 0
       }
     }
-    .error-block{
+    .error-block {
       @media (min-width: $screen-sm-min) {
         float: right;
       }
@@ -125,12 +173,13 @@
     @media (min-width: $screen-sm-min) {
       float: right;
       padding: 0;
+      padding-left: 10px;
     }
   }
 }
 
 .noLabelForm, .inlineForm {
-  .form-group, .checkbox-wrapper, .radio-wrapper {
+  .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper {
     > label {
       display: none;
     }
@@ -139,7 +188,7 @@
 
 .inlineForm {
   @media (min-width: $screen-sm-min) {
-    .form-group, .checkbox-wrapper,.radio-wrapper {
+    .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper {
       position: relative;
       display: inline-block;
       margin-right: 10px;
@@ -149,6 +198,16 @@
       .error-block {
         position: absolute;
       }
+    }
+    .select-wrapper {
+      .select-first-wrapper {
+        height: 34px;
+        .select-second-wrapper {
+          height: 22px;
+          display: inline-block;
+        }
+      }
+
     }
     div.action {
       display: inline-block;
@@ -173,6 +232,12 @@
       .error-block {
         position: absolute;
       }
+    }
+  }
+  .action {
+    @media (min-width: $screen-sm-min) {
+      float: left;
+      width: 100%;
     }
   }
 }

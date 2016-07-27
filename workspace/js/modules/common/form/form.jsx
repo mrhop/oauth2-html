@@ -7,7 +7,7 @@ import Text from './elements/text.jsx'
 import Checkbox from './elements/checkbox.jsx'
 import File from './elements/file.jsx'
 import Radio from './elements/radio.jsx'
-import Select from './elements/select.jsx'
+import SelectWrapper from './elements/selectWrapper.jsx'
 class BasicForm extends React.Component {
     constructor(props) {
         super(props);
@@ -94,7 +94,8 @@ class BasicForm extends React.Component {
         } else if (rule.type === 'checkbox') {
             return <Checkbox key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         } else if (rule.type === 'select') {
-            return <Select key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
+            return <SelectWrapper key={id} formType={this.formType} rule={rule} id={id} data={this.state.data}
+                                  name={name}/>
         } else if (rule.type === 'file') {
             return <File key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         } else if (rule.type === 'date') {
@@ -165,9 +166,11 @@ class BasicForm extends React.Component {
                     let formElements = item.map(function (subItem, subIndex) {
                         let id = this.props.symbol + '-element-' + index + '-' + subIndex;
                         //this.state.data[subItem['name']] = subItem['defaultValue'] ? subItem['defaultValue'] : null;
-                        return <div key={subIndex} className={"col col-sm-" + size}>
-                            {this.generateFormElement(id, subItem, subItem['name'])}
-                        </div>
+                        const formElement = this.generateFormElement(id, subItem, subItem['name']);
+                        return subItem.type === 'hidden' ? formElement :
+                            <div key={subIndex} className={"col col-sm-" + size}>
+                                {formElement}
+                            </div>
                     }, this)
                     return formElements
                 }, this);

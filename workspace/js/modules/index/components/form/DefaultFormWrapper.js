@@ -1,3 +1,4 @@
+
 import {DefaultForm,NoLabelForm,HorizontalForm,InlineForm,BlockForm} from '../../../common/form/form.jsx'
 import {VALIDATE_RULE} from '../../../common/form/actions'
 let url = 'demoData/formData/basicForm.json'
@@ -50,6 +51,13 @@ let initRule = {
         type: 'email',
         defaultValue: 'a@a.com',
         validateRules: [{name: 'custom_validate',validateRegex:'^([\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+)$',errorMsg:'只能为电子邮件'}]
+    },{
+        name: 'testSelect',
+        label: 'Test Select',
+        type: 'select',
+        items: [{label: 'select 1', value: 'select1'}, {label: 'select 2', value: 'select2'}],
+        required :true,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
     }],
     submit: {label: '保存'},
     reset: {label: '重置'}
@@ -81,6 +89,14 @@ let initBlockRule = {
         required :true,
         validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
     }],[{
+        name: 'testSelect',
+        label: 'Test Select',
+        type: 'select',
+        defaultValue: 'select2',
+        items: [{label: 'select 1', value: 'select1'}, {label: 'select 2', value: 'select2'}],
+        required :true,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
+    },{
         name: 'testRadio',
         items:[{value:1,label:'label1'},{value:2,label:'label2'}],
         label:'TestRadio',
