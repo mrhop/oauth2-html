@@ -91,7 +91,17 @@ function validateFormClient(data, rule) {
     return {structure, returnFlag}
 }
 function validateInternal(itemData, validateRules, required) {
-    var tmpData = itemData ? itemData.replace(/(^\s*)|(\s*$)/g, "") : null;
+
+    var tmpData =  null;
+    if(itemData){
+        if (typeof itemData  === 'string'){
+            tmpData = itemData.replace(/(^\s*)|(\s*$)/g, "")
+        }else if(typeof itemData === 'object'){
+            if(itemData.files){
+                tmpData = itemData.value;
+            }
+        }
+    }
     if (!tmpData) {
         if (!required) {
             return null

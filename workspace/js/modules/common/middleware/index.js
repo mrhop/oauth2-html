@@ -9,6 +9,7 @@ var toQueryString = function (obj) {
 var callApi = function (endpoint, schema, httpType, requestCondition) {
     httpType = httpType.toUpperCase();
     var fetchObj = null;
+    //此处需要处理json和http formData 的区分，因为有file的处理，目前只考虑单file，也可以考虑多file部分，根据name，and id来结合处理
     if (httpType === 'POST' || httpType == 'PUT') {
         return fetch(endpoint, {
             method: httpType,

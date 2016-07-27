@@ -5,7 +5,6 @@ require('./form.scss');
 import {initForm, confirmFormDispatch} from './actions'
 import Text from './elements/text.jsx'
 import Checkbox from './elements/checkbox.jsx'
-import File from './elements/file.jsx'
 import Radio from './elements/radio.jsx'
 import SelectWrapper from './elements/selectWrapper.jsx'
 class BasicForm extends React.Component {
@@ -87,7 +86,7 @@ class BasicForm extends React.Component {
     generateFormElement(id, rule, name) {
         if (!rule.type || rule.type === 'text' || rule.type === 'email' ||
             rule.type === 'password' || rule.type === 'number'
-            || rule.type === 'hidden') {
+            || rule.type === 'hidden' || rule.type === 'file') {
             return <Text key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         } else if (rule.type === 'radio') {
             return <Radio key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
@@ -96,8 +95,6 @@ class BasicForm extends React.Component {
         } else if (rule.type === 'select') {
             return <SelectWrapper key={id} formType={this.formType} rule={rule} id={id} data={this.state.data}
                                   name={name}/>
-        } else if (rule.type === 'file') {
-            return <File key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         } else if (rule.type === 'date') {
 
         } else if (rule.type === 'time') {
@@ -105,6 +102,9 @@ class BasicForm extends React.Component {
         } else if (rule.type === 'dateTime') {
 
         }
+        // else if (rule.type === 'file') {
+        //     return <File key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
+        // }
     }
 
 

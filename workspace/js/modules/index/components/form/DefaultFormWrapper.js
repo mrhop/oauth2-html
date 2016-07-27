@@ -23,6 +23,13 @@ let initRule = {
         required :true,
         validateRules: [{name: 'custom_validate',validateRegex:'^(-?\\d+)(\\.\\d+)?$',errorMsg:'必须为数字'}]
     },{
+        name: 'testFile',
+        label:'TestFile',
+        type: 'file',
+        placeholder: 'shall be just file',
+        required :true,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
+    },{
         name: 'testCheckbox',
         items:[{value:1,label:'label1'},{value:2,label:'label2'}],
         label:'TestCheckBox',
@@ -102,7 +109,7 @@ let initBlockRule = {
         label:'TestRadio',
         type: 'radio',
         required :true,
-        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name}]
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
     },{
         name: 'testPassword',
         label:'TestPassword',
