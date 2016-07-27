@@ -109,7 +109,7 @@ function validateInternal(itemData, validateRules, required) {
         if (VALIDATE_RULE[validateRule.name] && !validateRule.errorMsg) {
             validateRule.errorMsg = VALIDATE_RULE[validateRule.name].defaultErrorMsg;
         }
-        if (!validateRule.validateRegex.test(itemData)) {
+        if (!validateRule.validateRegex.test(tmpData)) {
             return {
                 validated: false,
                 errorMsg: validateRule.errorMsg

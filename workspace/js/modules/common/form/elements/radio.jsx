@@ -8,8 +8,9 @@ export default class Radio extends React.Component {
         super(props);
 
     }
+
     onChange(e) {
-        this.props.data.value = e.target.value;
+        this.props.data[this.props.name] = e.target.value;
         if (this.props.rule.validated != undefined) {
             this.props.rule.validated = true;
         }
@@ -18,23 +19,39 @@ export default class Radio extends React.Component {
         }
         this.forceUpdate();
     }
+
     render() {
 
         const rule = this.props.rule;
-        let eleClassNames = classNames('radio', (rule.validated === undefined || rule.validated) ? null : 'has-error', rule.className);
-        //validate 需要class 和tooltip放置，根据props的改变来做
-        //data-validate = {rule.validate} validate shall not be here
+        let eleClassNames = classNames('radio-wrapper', (rule.validated === undefined || rule.validated) ? null : 'has-error', rule.className);
+        let labelClassNames = null
+        let errorBlockClassNames = 'error-block';
+
+        switch (this.props.formType) {
+            case 'horizontalForm':
+                labelClassNames = 'col-sm-2'
+                errorBlockClassNames = classNames(errorBlockClassNames, 'col-sm-10')
+        }
         let items = rule.items.map(function (item, index) {
-            return <label>
-                <input type="radio" name={rule.name} value={item.value} onChange={this.onChange.bind(this)}
-                       checked={item.value == this.props.data.value ? 'checked' : false}/>
-                <span>{item.label}</span>
-            </label>
-        },this);
+            return <li key={index}>
+                <input type="radio" id={this.props.id + '-' + index} name={rule.name} value={item.value}
+                       onChange={this.onChange.bind(this)}
+                       checked={this.props.data[this.props.name] ? ((this.props.data[this.props.name] === (item.value + '')) ? 'checked' : false) : false}/>
+                <label htmlFor={this.props.id + '-' + index}>
+                    <span>{item.label}</span>
+                </label>
+            </li>
+        }, this);
         return <div className={eleClassNames} id={this.props.id}>
-            {rule.label && <label>{rule.label}</label>}
-            {items}
-            {(rule.validated === undefined || rule.validated) ? null : <span className="error-block">{rule.errorMsg}</span>}
+            <label
+                className={labelClassNames}>{rule.label ? rule.label : null}{rule.label && rule.required ?
+                <span className="required">*</span> : null}</label>
+            {this.props.formType === 'horizontalForm' ?
+                <div className="col-sm-10">
+                    <ul className="radio"> {items}</ul>
+                </div> : <ul className="radio"> {items}</ul> }
+            {(rule.validated === undefined || rule.validated) ? null :
+                <span className={errorBlockClassNames}>{rule.errorMsg}</span>}
         </div>
     }
 }
@@ -43,3 +60,5 @@ export default class Radio extends React.Component {
 Radio.propTypes = {rule: React.PropTypes.object};
 Radio.propTypes = {data: React.PropTypes.string};
 Radio.propTypes = {id: React.PropTypes.string};
+Radio.propTypes = {formType: React.PropTypes.string};
+

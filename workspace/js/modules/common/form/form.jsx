@@ -49,9 +49,9 @@ class BasicForm extends React.Component {
         }
         if (nextProps.status && nextProps.status === 'success') {
             // reset the form
-            this.props.initForm({rule: this.props.initRule, formKey: nextProps.symbol});
             this.props.callback(nextProps.responseData);
-            return false;
+            this.props.submitProcess.status = true
+            return true;
         }
         return true;
     }
@@ -91,7 +91,7 @@ class BasicForm extends React.Component {
             return <Text key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         } else if (rule.type === 'radio') {
             return <Radio key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
-        } else if (rule.type === 'checkox') {
+        } else if (rule.type === 'checkbox') {
             return <Checkbox key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         } else if (rule.type === 'select') {
             return <Select key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>

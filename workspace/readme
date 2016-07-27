@@ -93,6 +93,6 @@ https://github.com/akveo/blur-admin 样式参考
 
 left 部分根据history并设置相应的样式
 
-now form 其他基本元素的样式以及处理，然后是form layout
+now form 其他基本元素的样式以及处理(然后select，然后file，整个完事后考虑datetime)
 then draggable
 then map

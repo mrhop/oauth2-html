@@ -13,6 +13,53 @@
     &.has-error .form-control {
       border: 1px solid $brand-danger;
     }
+
+  }
+  .checkbox-wrapper {
+    margin-bottom: 15px;
+    ul.checkbox {
+      margin-bottom: 0;
+      margin-top: 0;
+      border-radius: 5px;
+      padding: 7px;
+      padding-left: 0;
+      background: rgba(0, 0, 0, 0.4);
+      li {
+        display: inline-block;
+        padding-left: 20px;
+        input[type='checkbox'] {
+          margin-left: -15px;
+        }
+        label {
+          padding-left: 0;
+          padding-right: 3px;
+        }
+      }
+    }
+  }
+  .radio-wrapper {
+    margin-bottom: 15px;
+    ul.radio {
+      margin-bottom: 0;
+      margin-top: 0;
+      border-radius: 5px;
+      padding: 7px;
+      padding-left: 0;
+      background: rgba(0, 0, 0, 0.4);
+      li {
+        display: inline-block;
+        padding-left: 20px;
+        input[type='radio'] {
+          margin-left: -15px;
+        }
+        label {
+          padding-left: 0;
+          padding-right: 3px;
+        }
+      }
+    }
+  }
+  .form-group, .checkbox-wrapper, .radio-wrapper {
     .error-block {
       color: $brand-danger;
     }
@@ -30,20 +77,18 @@
 }
 
 .defaultForm, .horizontalForm, .blockForm {
-  .form-group {
-    label span.required {
-      color: $brand-danger;
-      margin-left: 3px;
-      vertical-align: middle;
-    }
+  label span.required {
+    color: $brand-danger;
+    margin-left: 3px;
+    vertical-align: middle;
   }
 }
 
 .horizontalForm {
-  .form-group {
+  .form-group, .checkbox-wrapper, .radio-wrapper {
     overflow: hidden;
     margin-bottom: 15px;
-    label {
+    > label {
       @media (min-width: $screen-sm-min) {
         line-height: 34px;
         margin-bottom: 0px;
@@ -56,6 +101,25 @@
         padding: 0
       }
     }
+    .error-block{
+      @media (min-width: $screen-sm-min) {
+        float: right;
+      }
+    }
+  }
+  .checkbox-wrapper {
+    @media (min-width: $screen-sm-min) {
+      ul.checkbox {
+        margin-top: 8px;
+      }
+    }
+  }
+  .radio-wrapper {
+    @media (min-width: $screen-sm-min) {
+      ul.radio {
+        margin-top: 8px;
+      }
+    }
   }
   .action {
     @media (min-width: $screen-sm-min) {
@@ -66,8 +130,8 @@
 }
 
 .noLabelForm, .inlineForm {
-  .form-group {
-    label {
+  .form-group, .checkbox-wrapper, .radio-wrapper {
+    > label {
       display: none;
     }
   }
@@ -75,7 +139,7 @@
 
 .inlineForm {
   @media (min-width: $screen-sm-min) {
-    .form-group {
+    .form-group, .checkbox-wrapper,.radio-wrapper {
       position: relative;
       display: inline-block;
       margin-right: 10px;

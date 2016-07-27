@@ -22,6 +22,20 @@ let initRule = {
         required :true,
         validateRules: [{name: 'custom_validate',validateRegex:'^(-?\\d+)(\\.\\d+)?$',errorMsg:'必须为数字'}]
     },{
+        name: 'testCheckbox',
+        items:[{value:1,label:'label1'},{value:2,label:'label2'}],
+        label:'TestCheckBox',
+        type: 'checkbox',
+        required :true,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
+    },{
+        name: 'testRadio',
+        items:[{value:1,label:'label1'},{value:2,label:'label2'}],
+        label:'TestRadio',
+        type: 'radio',
+        required :true,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
+    },{
         name: 'testPassword',
         label:'TestPassword',
         type: 'password',
@@ -49,7 +63,7 @@ let initBlockRule = {
         type: 'text',
         placeholder: 'give some words',
         required :true,
-        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name}]
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
     },{
         name: 'testNum',
         defaultValue: '1',
@@ -64,8 +78,16 @@ let initBlockRule = {
         items:[{value:1,label:'label1'},{value:2,label:'label2'}],
         label:'TestCheckBox',
         type: 'checkbox',
-        required :true
+        required :true,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
     }],[{
+        name: 'testRadio',
+        items:[{value:1,label:'label1'},{value:2,label:'label2'}],
+        label:'TestRadio',
+        type: 'radio',
+        required :true,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name}]
+    },{
         name: 'testPassword',
         label:'TestPassword',
         type: 'password',

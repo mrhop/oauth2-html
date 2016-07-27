@@ -16,7 +16,7 @@ export default class Checkbox extends React.Component {
     }
 
     onChange(e) {
-        let value = this.props.data
+        let value = this.props.data[this.props.name]
         if (e.target.checked) {
             value = value ? value + ',' + e.target.value : e.target.value;
         } else {
@@ -28,7 +28,7 @@ export default class Checkbox extends React.Component {
         if (value && value.startsWith(',')) {
             value = value.substring(1);
         }
-        this.props.data.value = value;
+        this.props.data[this.props.name] = value;
         if (this.props.rule.validated != undefined) {
             this.props.rule.validated = true;
         }
@@ -40,20 +40,33 @@ export default class Checkbox extends React.Component {
 
     render() {
         const rule = this.props.rule;
-        let eleClassNames = classNames('checkbox', (rule.validated === undefined || rule.validated) ? null : 'has-error', rule.className);
-        //validate 需要class 和tooltip放置，根据props的改变来做
-        //data-validate = {rule.validate} validate shall not be here
+        let eleClassNames = classNames('checkbox-wrapper', (rule.validated === undefined || rule.validated) ? null : 'has-error', rule.className);
+        let labelClassNames = null
+        let errorBlockClassNames = 'error-block';
+
+        switch (this.props.formType) {
+            case 'horizontalForm':
+                labelClassNames = 'col-sm-2'
+                errorBlockClassNames = classNames(errorBlockClassNames, 'col-sm-10')
+        }
         let items = rule.items.map(function (item, index) {
-            return <label>
-                <input type="checkbox" name={rule.name} value={item.value} onChange={this.onChange.bind(this)}
-                       checked={this.props.data.value.split(',').includes(item.value)  ? 'checked' : false}/>
-                <span>{item.label}</span>
-            </label>
-        },this);
+            return <li key={index}>
+                <input type="checkbox" id={this.props.id + '-' + index} name={rule.name} value={item.value}
+                       onChange={this.onChange.bind(this)}
+                       checked={this.props.data[this.props.name] ? (this.props.data[this.props.name].split(',').includes(item.value + '') ? 'checked' : false) : false}/>
+                <label htmlFor={this.props.id + '-' + index}>
+                    <span>{item.label}</span>
+                </label>
+            </li>
+        }, this);
         return <div className={eleClassNames} id={this.props.id}>
-            {rule.label && <label>{rule.label}</label>}
-            {items}
-            {(rule.validated === undefined || rule.validated) ? null : <span className="error-block">{rule.errorMsg}</span>}
+            <label
+                className={labelClassNames}>{rule.label ? rule.label : null}{rule.label && rule.required ?
+                <span className="required">*</span> : null}</label>
+            {this.props.formType === 'horizontalForm' ?
+                <div className="col-sm-10"><ul className="checkbox"> {items}</ul></div> : <ul className="checkbox"> {items}</ul> }
+            {(rule.validated === undefined || rule.validated) ? null :
+                <span className={errorBlockClassNames}>{rule.errorMsg}</span>}
         </div>
     }
 }
@@ -62,3 +75,4 @@ export default class Checkbox extends React.Component {
 Checkbox.propTypes = {rule: React.PropTypes.object};
 Checkbox.propTypes = {data: React.PropTypes.string};
 Checkbox.propTypes = {id: React.PropTypes.string};
+Checkbox.propTypes = {formType: React.PropTypes.string};
