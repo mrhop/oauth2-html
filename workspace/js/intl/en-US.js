@@ -1,6 +1,7 @@
 export default{
     app: {
-        'app.name': 'Hope',
+        //'app.name': 'Hope',
+        'app.name': 'Huo',
         'app.adminPlatform': 'Admin',
         'app.email': 'Email',
         'app.password': 'Password',

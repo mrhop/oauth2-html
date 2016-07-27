@@ -11,10 +11,10 @@ class DashboardMainBottom extends React.Component {
         return (
             <footer className="al-footer">
                 <div className="al-footer-right">
-                    Created by Hope
+                    Created by Huo
                 </div>
                 <div className="al-footer-left">
-                    <span className="al-copy">© <a href="#" target="_blank">Hope</a> 2016</span>
+                    <span className="al-copy">© <a href="#" target="_blank">Huo</a> 2016</span>
                     <ul className="al-share">
                         <li><a href="#" target="_blank"><i
                             className="fa fa-wechat"></i></a></li>

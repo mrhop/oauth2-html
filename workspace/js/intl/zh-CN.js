@@ -1,6 +1,7 @@
 export default{
     app: {
-        'app.name': '霍普',
+        // 'app.name': '霍普',
+        'app.name': '霍',
         'app.adminPlatform': '管理平台',
         'app.email': '邮箱',
         'app.password': '密码'
