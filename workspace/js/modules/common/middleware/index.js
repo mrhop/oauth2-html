@@ -11,9 +11,45 @@ var callApi = function (endpoint, schema, httpType, requestCondition) {
     var fetchObj = null;
     //此处需要处理json和http formData 的区分，因为有file的处理，目前只考虑单file，也可以考虑多file部分，根据name，and id来结合处理
     if (httpType === 'POST' || httpType == 'PUT') {
+        var formData = null;
+        if (requestCondition.multipart) {
+            formData = new FormData();
+            const data = requestCondition ? requestCondition.data : null;
+            if (data) {
+                for (var key in data) {
+                    if (!data.hasOwnProperty(key)) {
+                        continue
+                    }
+                    var obj = data[key]
+                    if (obj && typeof  obj === 'object') {
+                        for (var subKey in obj) {
+                            if (obj[subKey] && typeof  obj[subKey] === 'object') {
+                                var files = obj[subKey].files
+                                if (files) {
+                                    for (var i = 0; i < files.length; i++) {
+                                        var file = files[i];
+                                        formData.append(key, file);
+                                    }
+                                }
+                            } else {
+                                if(!obj[subKey]){
+                                    obj[subKey] = ''
+                                }
+                                formData.append(key, obj[subKey]);
+                            }
+                        }
+                    } else {
+                       if(!obj){
+                           obj = ''
+                       }
+                        formData.append(key, obj);
+                    }
+                }
+            }
+        }
         return fetch(endpoint, {
             method: httpType,
-            body: requestCondition ? requestCondition : null
+            body: formData ? formData : (requestCondition ? JSON.stringify(requestCondition) : null)
         }).then(response => response.text().then(function (text) {
                 if (text) {
                     var json = JSON.parse(text);
@@ -27,12 +63,12 @@ var callApi = function (endpoint, schema, httpType, requestCondition) {
                 return Promise.reject(json)
             }
             if (json) {
-                if(schema){
+                if (schema) {
                     const camelizedJson = humps.camelizeKeys(json)
                     return Object.assign(
                         normalizr.normalize(camelizedJson, schema)
                     )
-                }else{
+                } else {
                     return json
                 }
             } else {
@@ -56,12 +92,12 @@ var callApi = function (endpoint, schema, httpType, requestCondition) {
                 return Promise.reject(json)
             }
             if (json) {
-                if(schema){
+                if (schema) {
                     const camelizedJson = humps.camelizeKeys(json)
                     return Object.assign(
                         normalizr.normalize(camelizedJson, schema)
                     )
-                }else{
+                } else {
                     return json
                 }
             } else {

@@ -11,7 +11,10 @@ export default class Text extends React.Component {
 
     onChange(e) {
         if (this.props.rule.type === 'file') {
-            this.props.data[this.props.name] = {files: e.target.files, value: e.target.value};
+            if(!this.props.data[this.props.name]){
+                this.props.data[this.props.name] = {}
+            }
+            this.props.data[this.props.name][this.props.id] = {files: e.target.files, value: e.target.value};
         } else {
             this.props.data[this.props.name] = e.target.value;
         }
@@ -41,7 +44,7 @@ export default class Text extends React.Component {
         }
         const inputElement = <input className={inputClassNames} id={this.props.id} type={rule.type ? rule.type : 'text'}
                                     name={rule.name} placeholder={rule.placeholder}
-                                    value={this.props.data[this.props.name] ? (rule.type === 'file' ? this.props.data[this.props.name].value : this.props.data[this.props.name]) : ''}
+                                    value={this.props.data[this.props.name] ? (rule.type === 'file' ? (this.props.data[this.props.name][this.props.id] ? this.props.data[this.props.name][this.props.id].value : '') : this.props.data[this.props.name]) : ''}
                                     autocomplete={rule.autocomplete !== undefined ? rule.autocomplete : true}
                                     onChange={this.onChange.bind(this)}/>
         return <div className={eleClassNames} style={eleStyle}><label

@@ -162,7 +162,7 @@ class BasicForm extends React.Component {
                             length++;
                         }
                     }
-                    let size = 12 / length;
+                    let size = parseInt(12 / length);
                     let formElements = item.map(function (subItem, subIndex) {
                         let id = this.props.symbol + '-element-' + index + '-' + subIndex;
                         //this.state.data[subItem['name']] = subItem['defaultValue'] ? subItem['defaultValue'] : null;
@@ -172,7 +172,7 @@ class BasicForm extends React.Component {
                                 {formElement}
                             </div>
                     }, this)
-                    return formElements
+                    return <div className="row" key ={index}>{formElements}</div>
                 }, this);
                 return <div className={formDivClasses}>
                     <form id={this.props.symbol}>

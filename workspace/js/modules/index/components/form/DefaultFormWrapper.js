@@ -24,10 +24,17 @@ let initRule = {
         validateRules: [{name: 'custom_validate',validateRegex:'^(-?\\d+)(\\.\\d+)?$',errorMsg:'必须为数字'}]
     },{
         name: 'testFile',
-        label:'TestFile',
+        label:'TestFile1',
         type: 'file',
         placeholder: 'shall be just file',
         required :true,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
+    },{
+        name: 'testFile',
+        label:'TestFile2',
+        type: 'file',
+        placeholder: 'shall be just file',
+        required :false,
         validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
     },{
         name: 'testCheckbox',
@@ -94,6 +101,20 @@ let initBlockRule = {
         label:'TestCheckBox',
         type: 'checkbox',
         required :true,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
+    },{
+        name: 'testFile',
+        label:'TestFile1',
+        type: 'file',
+        placeholder: 'shall be just file',
+        required :false,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
+    },{
+        name: 'testFile',
+        label:'TestFile2',
+        type: 'file',
+        placeholder: 'shall be just file',
+        required :false,
         validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
     }],[{
         name: 'testSelect',

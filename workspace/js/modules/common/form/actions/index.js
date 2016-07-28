@@ -47,6 +47,7 @@ export function confirmFormDispatch(requestCondition = {
             var structure = clientValidate.structure
             return dispatch({formKey: requestCondition.formKey, structure, type: FORM_VALIDATE_FAILURE})
         }
+        requestCondition.multipart = clientValidate.multipart
         return dispatch(confirmForm(requestCondition))
     }
 }
@@ -65,9 +66,13 @@ export function initForm(requestCondition = {
 function validateFormClient(data, rule) {
     const {structure} = rule
     let returnFlag = true;
+    let multipart = false;
     structure.forEach(function (item) {
         if (Array.isArray(item)) {
             item.forEach(function (subItem) {
+                if (subItem.type === 'file') {
+                    multipart = true;
+                }
                 let subItemData = data[subItem.name]
                 if (subItem.validateRules) {
                     var validateMsg = validateInternal(subItemData, subItem.validateRules, subItem.required)
@@ -79,6 +84,9 @@ function validateFormClient(data, rule) {
             })
         } else {
             let itemData = data[item.name]
+            if (item.type === 'file') {
+                multipart = true;
+            }
             if (item.validateRules) {
                 var validateMsg = validateInternal(itemData, item.validateRules, item.required)
                 if (validateMsg) {
@@ -88,17 +96,20 @@ function validateFormClient(data, rule) {
             }
         }
     })
-    return {structure, returnFlag}
+    return {structure, returnFlag, multipart}
 }
 function validateInternal(itemData, validateRules, required) {
 
-    var tmpData =  null;
-    if(itemData){
-        if (typeof itemData  === 'string'){
+    var tmpData = null;
+    if (itemData) {
+        if (typeof itemData === 'string') {
             tmpData = itemData.replace(/(^\s*)|(\s*$)/g, "")
-        }else if(typeof itemData === 'object'){
-            if(itemData.files){
-                tmpData = itemData.value;
+        } else if (typeof itemData === 'object') {
+            tmpData = ''
+            for (var key in itemData) {
+                if (itemData[key].files) {
+                    tmpData += itemData[key].value
+                }
             }
         }
     }
