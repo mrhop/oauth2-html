@@ -18,6 +18,9 @@ export default{
         '404.error': '404 错误',
         '404.sorrySentence': '对不起，该网页不存在，',
         '404.backHome': '返回首页。'
+    },dashBoard:{
+        'dashBoard.searchPlaceHolder':'Search for...',
+        'dashBoard.haveQuestions':'Have questions?'
     },dashBoardMainBlock:{
 
     }

@@ -23,6 +23,14 @@ let initRule = {
         required :true,
         validateRules: [{name: 'custom_validate',validateRegex:'^(-?\\d+)(\\.\\d+)?$',errorMsg:'必须为数字'}]
     },{
+        name: 'testDate',
+        defaultValue: '2011/11/11',
+        label:'TestDate',
+        type: 'date',
+        placeholder: 'shall be just date',
+        required :true,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
+    },{
         name: 'testFile',
         label:'TestFile1',
         type: 'file',
@@ -30,11 +38,13 @@ let initRule = {
         required :true,
         validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
     },{
-        name: 'testFile',
-        label:'TestFile2',
-        type: 'file',
-        placeholder: 'shall be just file',
-        required :false,
+        name: 'testTextarea',
+        label:'TestTextarea',
+        type: 'textarea',
+        placeholder: 'shall be just textarea',
+        required :true,
+        rows:10,
+        defaultValue: '<div>text</div>',
         validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
     },{
         name: 'testCheckbox',
@@ -110,11 +120,13 @@ let initBlockRule = {
         required :false,
         validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
     },{
-        name: 'testFile',
-        label:'TestFile2',
-        type: 'file',
-        placeholder: 'shall be just file',
-        required :false,
+        name: 'testTextarea',
+        label:'TestTextarea',
+        type: 'textarea',
+        placeholder: 'shall be just textarea',
+        required :true,
+        rows:10,
+        defaultValue: '<div>text</div>',
         validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name,errorMsg:'不能为空'}]
     }],[{
         name: 'testSelect',

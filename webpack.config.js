@@ -99,6 +99,9 @@ module.exports = {
                 loader: ExtractTextPlugin.extract('css!sass', {
                     publicPath: '../'
                 })
+            },{
+                test: /\.css$/,
+                loaders: ['style', 'css']
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,

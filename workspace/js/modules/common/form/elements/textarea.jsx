@@ -1,20 +1,18 @@
 /**
  * Created by Donghui Huo on 2016/5/13.
  */
-require('./text.scss');
+require('./textarea.scss');
+const defaultRows = 10
 
 //基本text
-export default class Text extends React.Component {
+export default class Textarea extends React.Component {
     constructor(props) {
         super(props);
     }
 
     onChange(e) {
-        if (this.props.rule.type === 'file') {
-            this.props.data[this.props.name] = {files: e.target.files, value: e.target.value};
-        } else {
-            this.props.data[this.props.name] = e.target.value;
-        }
+
+        this.props.data[this.props.name] = e.target.value;
         if (this.props.rule.validated != undefined) {
             this.props.rule.validated = true;
         }
@@ -30,26 +28,34 @@ export default class Text extends React.Component {
         let eleStyle = rule.type === 'hidden' ? {display: 'none'} : null;
         //validate 需要class 和tooltip放置，根据props的改变来做
         //data-validate = {rule.validate} validate shall not be here
-        let inputClassNames = classNames('form-control', (rule.type ? rule.type : 'text'));
+        let inputClassNames = classNames('form-control', 'textarea');
         let labelClassNames = null
         let errorBlockClassNames = 'error-block';
 
+
+        let textareaElement = <textarea className={inputClassNames} cols="2"
+                                          rows={(this.props.formType === 'inlineForm' || this.props.formType === 'blockForm') ? 1 : (rule.rows ? rule.rows : defaultRows) }
+                                          id={this.props.id} name={rule.name} placeholder={rule.placeholder}
+                                          onChange={this.onChange.bind(this)} value = {this.props.data[this.props.name] ? this.props.data[this.props.name] : ''}>
+
+            </textarea>
         switch (this.props.formType) {
-            case 'horizontalForm':
+            case  'horizontalForm':
                 labelClassNames = 'col-sm-2'
                 errorBlockClassNames = classNames(errorBlockClassNames, 'col-sm-10')
+                textareaElement = <div className="col-sm-10 input-wrapper">
+                    {textareaElement}
+                </div>
+            case  'inlineForm':
+                textareaElement =
+                    <div className="textarea-first-wrapper">{textareaElement}</div>
         }
-        const inputElement = <input className={inputClassNames} id={this.props.id} type={rule.type ? rule.type : 'text'}
-                                    name={rule.name} placeholder={rule.placeholder}
-                                    value={this.props.data[this.props.name] ? (rule.type === 'file' ? this.props.data[this.props.name].value : this.props.data[this.props.name]) : ''}
-                                    autocomplete={rule.autocomplete !== undefined ? rule.autocomplete : true}
-                                    onChange={this.onChange.bind(this)}/>
+
         return <div className={eleClassNames} style={eleStyle}><label
             htmlFor={this.props.id}
             className={labelClassNames}>{rule.label ? rule.label : null}{rule.label && rule.required ?
             <span className="required">*</span> : null}</label>
-            {this.props.formType === 'horizontalForm' ?
-                <div className="col-sm-10 input-wrapper">{inputElement}</div> : inputElement }
+            {textareaElement }
             {(rule.validated === undefined || rule.validated) ? null :
                 <span className={errorBlockClassNames}>{rule.errorMsg}</span>}
         </div>;
@@ -57,9 +63,9 @@ export default class Text extends React.Component {
 }
 
 
-Text.propTypes = {rule: React.PropTypes.object};
-Text.propTypes = {data: React.PropTypes.object};
-Text.propTypes = {id: React.PropTypes.string};
-Text.propTypes = {name: React.PropTypes.string};
-Text.propTypes = {formType: React.PropTypes.string};
+Textarea.propTypes = {rule: React.PropTypes.object};
+Textarea.propTypes = {data: React.PropTypes.object};
+Textarea.propTypes = {id: React.PropTypes.string};
+Textarea.propTypes = {name: React.PropTypes.string};
+Textarea.propTypes = {formType: React.PropTypes.string};
 

@@ -4,9 +4,11 @@
 require('./form.scss');
 import {initForm, confirmFormDispatch} from './actions'
 import Text from './elements/text.jsx'
+import Textarea from './elements/textarea.jsx'
 import Checkbox from './elements/checkbox.jsx'
 import Radio from './elements/radio.jsx'
 import SelectWrapper from './elements/selectWrapper.jsx'
+import Datetime from './elements/datetime.jsx'
 class BasicForm extends React.Component {
     constructor(props) {
         super(props);
@@ -95,12 +97,10 @@ class BasicForm extends React.Component {
         } else if (rule.type === 'select') {
             return <SelectWrapper key={id} formType={this.formType} rule={rule} id={id} data={this.state.data}
                                   name={name}/>
-        } else if (rule.type === 'date') {
-
-        } else if (rule.type === 'time') {
-
-        } else if (rule.type === 'dateTime') {
-
+        } else if (rule.type === 'textarea') {
+            return <Textarea key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
+        } else if (rule.type === 'date' || rule.type === 'dateRange' || rule.type === 'time' || rule.type === 'dateTime') {
+            return <Datetime key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         }
         // else if (rule.type === 'file') {
         //     return <File key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>

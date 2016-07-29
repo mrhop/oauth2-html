@@ -28,12 +28,7 @@ export default class SelectWrapper extends React.Component {
 
         let labelClassNames = null
         let errorBlockClassNames = 'error-block';
-
-        switch (this.props.formType) {
-            case 'horizontalForm':
-                labelClassNames = 'col-sm-2'
-                errorBlockClassNames = classNames(errorBlockClassNames, 'col-sm-10')
-        }
+        
 
         let selectEle = <Select name={rule.name}
                                 value={this.props.data[this.props.name] ? this.props.data[this.props.name] : null}
@@ -42,6 +37,8 @@ export default class SelectWrapper extends React.Component {
         </Select>
         switch (this.props.formType) {
             case  'horizontalForm':
+                labelClassNames = 'col-sm-2'
+                errorBlockClassNames = classNames(errorBlockClassNames, 'col-sm-10')
                 selectEle = <div className="col-sm-10">
                     {selectEle}
                 </div>

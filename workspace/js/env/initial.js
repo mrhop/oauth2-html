@@ -3,5 +3,6 @@
  */
 ReactIntl.addLocaleData([...ReactIntlEn, ...ReactIntlZh]);
 module.exports = {
-    locale:'en-US'
+    //locale:'en-US'
+    locale:'zh-CN'
 }
