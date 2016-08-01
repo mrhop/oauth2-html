@@ -117,40 +117,55 @@
       //@include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(red($brand-danger), green($brand-danger), blue($brand-danger), .6));
     }
   }
-  .datetime-wrapper{
-    div.date{
+  .datetime-wrapper {
+    margin-bottom: 15px;
+    width: 100%;
+    div.date > div, div.daterange-wrapper {
       width: 100%;
-      margin-bottom: 15px;
-      >div{
+      input {
         width: 100%;
-        input{
-          outline: none;
-          width: 100%;
-          border-radius: 5px;
-          border: none;
-          color: #fff;
-          height: 34px;
-          padding: 0 12px;
-          background: rgba(0, 0, 0, 0.4);
-          @include transition(border-color ease-in-out 0.15s);
-          @include transition(box-shadow ease-in-out 0.15s);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-          @include placeholder(#ccc);
-          &:focus{
-            border: 1px solid $input-border-focus;
-            @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(red($input-border-focus), green($input-border-focus), blue($input-border-focus), .6));
-          }
+        outline: none;
+        border-radius: 5px;
+        border: none;
+        color: #fff;
+        height: 34px;
+        padding: 0 12px;
+        background: rgba(0, 0, 0, 0.4);
+        @include transition(border-color ease-in-out 0.15s);
+        @include transition(box-shadow ease-in-out 0.15s);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        @include placeholder(#ccc);
+        &:focus {
+          border: 1px solid $input-border-focus;
+          @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(red($input-border-focus), green($input-border-focus), blue($input-border-focus), .6));
         }
       }
     }
-    &.has-error  div.date {
+
+    div.date {
+      input {
+      }
+    }
+    div.daterange-wrapper {
+      > span {
+        margin: 0 5px;
+      }
+      div.daterange {
+        display: inline-block;
+        width: 45%;
+        > div {
+          width: 100%;
+        }
+      }
+    }
+    &.has-error div.date ,&.has-error div.daterange.has-error{
       input {
         border: 1px solid $brand-danger;
-        @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(red($brand-danger), green($brand-danger), blue($brand-danger), .6));
+        @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(red($brand-danger), green($brand-danger), blue($brand-danger), .6));
       }
     }
   }
-  .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper {
+  .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper, .datetime-wrapper {
     .error-block {
       color: $brand-danger;
     }
@@ -176,7 +191,7 @@
 }
 
 .horizontalForm {
-  .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper {
+  .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper, .datetime-wrapper {
     &:after {
       content: '';
       display: block;
@@ -226,7 +241,7 @@
 }
 
 .noLabelForm, .inlineForm {
-  .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper {
+  .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper, .datetime-wrapper {
     > label {
       display: none;
     }
@@ -235,7 +250,7 @@
 
 .inlineForm {
   @media (min-width: $screen-sm-min) {
-    .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper {
+    .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper, .datetime-wrapper {
       position: relative;
       display: inline-block;
       margin-right: 10px;
@@ -244,6 +259,7 @@
       }
       .error-block {
         position: absolute;
+        font-size: 12px;
       }
     }
     .form-group {
@@ -256,6 +272,15 @@
         }
       }
     }
+    .datetime-wrapper {
+      width: auto;
+      div.daterange {
+        width: auto;
+        > div {
+          width: auto;
+        }
+      }
+    }
     .select-wrapper {
       .select-first-wrapper {
         height: 34px;
@@ -264,7 +289,6 @@
           display: inline-block;
         }
       }
-
     }
     div.action {
       display: inline-block;

@@ -26,6 +26,7 @@ const toolsJs = [
     'classnames',
     'normalizr',
     'humps',
+    'moment',
     //__dirname + '/node_modules/isomorphic-fetch/fetch-npm-node.js',
     'lodash/merge',
     'lodash/map',
@@ -43,7 +44,8 @@ const commonComponentsJs = [
     __dirname + '/workspace/js/modules/common/responsiveCharts/responsiveCharts.jsx',
     __dirname + '/workspace/js/modules/common/tab/tab.jsx',
     __dirname + '/workspace/js/modules/common/table/table.jsx',
-    __dirname + '/workspace/js/modules/common/toast/toast.jsx'];
+    __dirname + '/workspace/js/modules/common/toast/toast.jsx',
+    __dirname + '/workspace/js/modules/common/form/form.jsx'];
 var moduleAll = new Object({'vendor': vendorJs, 'tools': toolsJs, 'common-components': commonComponentsJs});
 
 var walk = function (dir) {
@@ -151,6 +153,7 @@ module.exports = {
             'l_map': 'lodash/map',
             'l_assign': 'lodash/assign',
             'humps': 'humps',
+            'moment': 'moment',
             'UtilFun': __dirname + '/workspace/js/util/utilFun',
             'RootContainer': __dirname + '/workspace/js/modules/common/containers/Root.js',
             'MiddleWare': __dirname + '/workspace/js/modules/common/middleware/index.js',
@@ -163,6 +166,7 @@ module.exports = {
             'Tab': __dirname + '/workspace/js/modules/common/tab/tab.jsx',
             'Table': __dirname + '/workspace/js/modules/common/table/table.jsx',
             'Toast': __dirname + '/workspace/js/modules/common/toast/toast.jsx',
+            'Form': __dirname + '/workspace/js/modules/common/form/form.jsx',
         }),
         new ExtractTextPlugin('./css/[name].css', {
             allChunks: true

@@ -3,7 +3,7 @@ export const FORM_VALIDATE_FAILURE = 'FORM_VALIDATE_FAILURE'
 export const FORM_POST_REQUEST = 'FORM_POST_REQUEST'
 export const FORM_POST_SUCCESS = 'FORM_POST_SUCCESS'
 export const FORM_POST_FAILURE = 'FORM_POST_FAILURE'
-
+const DATE_FORMAT = 'YYYY/MM/DD';
 export const VALIDATE_RULE = {
     'REQUIRED_VALIDATE': {
         name: 'REQUIRED_VALIDATE',
@@ -70,13 +70,46 @@ function validateFormClient(data, rule) {
     structure.forEach(function (item) {
         if (Array.isArray(item)) {
             item.forEach(function (subItem) {
+                let subItemData = data[subItem.name]
                 if (subItem.type === 'file') {
                     multipart = true;
                 }
-                let subItemData = data[subItem.name]
-                if (subItem.validateRules) {
+                if (subItem.type === 'date') {
+                    data[subItem.name] = subItemData ? ( typeof subItemData === 'string' ? (subItem.dateFormat ? moment(subItemData, subItem.dateFormat).valueOf() : moment(subItemData, DATE_FORMAT).valueOf()) : moment(subItemData).valueOf()) : null;
+                    subItemData = data[subItem.name] ? data[subItem.name] + '' : null;
+                }
+                if (subItem.type === 'daterange') {
+                    var dateTimeStart = subItemData.dateTimeStart ? ( typeof subItemData.dateTimeStart === 'string' ? (subItem.dateFormat ? moment(subItemData.dateTimeStart, subItem.dateFormat).valueOf() : moment(subItemData.dateTimeStart, DATE_FORMAT).valueOf()) : moment(subItemData.dateTimeStart).valueOf()) : null;
+                    var dateTimeEnd = subItemData.dateTimeEnd ? ( typeof subItemData.dateTimeEnd === 'string' ? (subItem.dateFormat ? moment(subItemData.dateTimeEnd, subItem.dateFormat).valueOf() : moment(subItemData.dateTimeEnd, DATE_FORMAT).valueOf()) : moment(subItemData.dateTimeEnd).valueOf()) : null;
+
+                    data[subItem.name] = {dateTimeStart: dateTimeStart, dateTimeEnd: dateTimeEnd};
+                    subItemData = data[subItem.name];
+                }
+                if (subItem.validateRules && subItem.type !== 'daterange') {
                     var validateMsg = validateInternal(subItemData, subItem.validateRules, subItem.required)
                     if (validateMsg) {
+                        l_assign(subItem, validateMsg);
+                        returnFlag = false
+                    }
+                } else if (subItem.validateRules && subItem.type === 'daterange') {
+                    var validateMsgDateTimeStart = null
+                    var validateMsgDateTimeEnd = null
+                    if (subItem.validateRules[0]) {
+                        validateMsgDateTimeStart = validateInternal(subItemData.dateTimeStart ? subItemData.dateTimeStart + '' : null, subItem.validateRules[0], subItem.required)
+                    }
+                    if (subItem.validateRules[1]) {
+                        validateMsgDateTimeEnd = validateInternal(subItemData.dateTimeEnd ? subItemData.dateTimeEnd + '' : null, subItem.validateRules[1], subItem.required)
+                    }
+                    if (validateMsgDateTimeStart || validateMsgDateTimeEnd) {
+                        var validateMsg = {
+                            validated: false,
+                            dateTimeStartValidated: validateMsgDateTimeStart ? false : true,
+                            dateTimeEndValidated: validateMsgDateTimeEnd ? false : true
+                        }
+                        validateMsg.errorMsg = validateMsgDateTimeStart ? validateMsgDateTimeStart.errorMsg : ''
+                        if (validateMsgDateTimeEnd) {
+                            validateMsg.errorMsg = validateMsg.errorMsg ? validateMsg.errorMsg + ' & ' + validateMsgDateTimeEnd.errorMsg : validateMsgDateTimeEnd.errorMsg;
+                        }
                         l_assign(subItem, validateMsg);
                         returnFlag = false
                     }
@@ -87,9 +120,41 @@ function validateFormClient(data, rule) {
             if (item.type === 'file') {
                 multipart = true;
             }
-            if (item.validateRules) {
+            if (item.type === 'date') {
+                data[item.name] = itemData ? ( typeof itemData === 'string' ? (item.dateFormat ? moment(itemData, item.dateFormat).valueOf() : moment(itemData, DATE_FORMAT).valueOf()) : moment(itemData).valueOf()) : null;
+                itemData = data[item.name] ? data[item.name] + '' : null;
+            }
+            if (item.type === 'daterange') {
+                var dateTimeStart = itemData.dateTimeStart ? ( typeof itemData.dateTimeStart === 'string' ? (item.dateFormat ? moment(itemData.dateTimeStart, item.dateFormat).valueOf() : moment(itemData.dateTimeStart, DATE_FORMAT).valueOf()) : moment(itemData.dateTimeStart).valueOf()) : null;
+                var dateTimeEnd = itemData.dateTimeEnd ? ( typeof itemData.dateTimeEnd === 'string' ? (item.dateFormat ? moment(itemData.dateTimeEnd, item.dateFormat).valueOf() : moment(itemData.dateTimeEnd, DATE_FORMAT).valueOf()) : moment(itemData.dateTimeEnd).valueOf()) : null;
+                data[item.name] = {dateTimeStart: dateTimeStart, dateTimeEnd: dateTimeEnd};
+                itemData = data[item.name];
+            }
+            if (item.validateRules && item.type !== 'daterange') {
                 var validateMsg = validateInternal(itemData, item.validateRules, item.required)
                 if (validateMsg) {
+                    l_assign(item, validateMsg);
+                    returnFlag = false
+                }
+            } else if (item.validateRules && item.type === 'daterange') {
+                var validateMsgDateTimeStart = null
+                var validateMsgDateTimeEnd = null
+                if (item.validateRules[0]) {
+                    validateMsgDateTimeStart = validateInternal(itemData.dateTimeStart ? itemData.dateTimeStart + '' : null, item.validateRules[0], item.required)
+                }
+                if (item.validateRules[1]) {
+                    validateMsgDateTimeEnd = validateInternal(itemData.dateTimeEnd ? itemData.dateTimeEnd + '' : null, item.validateRules[1], item.required)
+                }
+                if (validateMsgDateTimeStart || validateMsgDateTimeEnd) {
+                    var validateMsg = {
+                        validated: false,
+                        dateTimeStartValidated: validateMsgDateTimeStart ? false : true,
+                        dateTimeEndValidated: validateMsgDateTimeEnd ? false : true
+                    }
+                    validateMsg.errorMsg = validateMsgDateTimeStart ? validateMsgDateTimeStart.errorMsg : ''
+                    if (validateMsgDateTimeEnd) {
+                        validateMsg.errorMsg = validateMsg.errorMsg ? validateMsg.errorMsg + ' & ' + validateMsgDateTimeEnd.errorMsg : validateMsgDateTimeEnd.errorMsg;
+                    }
                     l_assign(item, validateMsg);
                     returnFlag = false
                 }
@@ -137,5 +202,6 @@ function validateInternal(itemData, validateRules, required) {
             }
         }
     }
+
     return null
 }

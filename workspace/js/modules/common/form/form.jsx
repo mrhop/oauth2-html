@@ -64,12 +64,24 @@ class BasicForm extends React.Component {
                 let item = structure[index]
                 for (var subIndex in item) {
                     let subItem = item[subIndex]
-                    this.state.data[subItem['name']] = subItem['defaultValue'] ? subItem['defaultValue'] : null;
+                    if (subItem.type == 'daterange') {
+                        this.state.data[subItem['name']] = {};
+                        this.state.data[subItem['name']].dateTimeStart = subItem['defaultStartValue'] ? subItem['defaultStartValue'] : null;
+                        this.state.data[subItem['name']].dateTimeEnd = subItem['defaultEndValue'] ? subItem['defaultEndValue'] : null;
+                    } else {
+                        this.state.data[subItem['name']] = subItem['defaultValue'] ? subItem['defaultValue'] : null;
+                    }
                 }
             }
         } else {
             structure.forEach(function (item) {
-                this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+                if (item.type == 'daterange') {
+                    this.state.data[item['name']] = {};
+                    this.state.data[item['name']].dateTimeStart = item['defaultStartValue'] ? item['defaultStartValue'] : null;
+                    this.state.data[item['name']].dateTimeEnd = item['defaultEndValue'] ? item['defaultEndValue'] : null;
+                } else {
+                    this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+                }
             }.bind(this))
         }
         this.props.initForm({rule: this.props.initRule, formKey: this.props.symbol});
@@ -99,7 +111,7 @@ class BasicForm extends React.Component {
                                   name={name}/>
         } else if (rule.type === 'textarea') {
             return <Textarea key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
-        } else if (rule.type === 'date' || rule.type === 'dateRange' || rule.type === 'time' || rule.type === 'dateTime') {
+        } else if (rule.type === 'date' || rule.type === 'daterange' || rule.type === 'time' || rule.type === 'datetime') {
             return <Datetime key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         }
         // else if (rule.type === 'file') {
@@ -172,7 +184,7 @@ class BasicForm extends React.Component {
                                 {formElement}
                             </div>
                     }, this)
-                    return <div className="row" key ={index}>{formElements}</div>
+                    return <div className="row" key={index}>{formElements}</div>
                 }, this);
                 return <div className={formDivClasses}>
                     <form id={this.props.symbol}>
@@ -200,7 +212,13 @@ class DefaultForm extends BasicForm {
         this.formType = 'defaultForm'
         const {structure} = this.props.initRule
         structure.forEach(function (item) {
-            this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+            if (item.type == 'daterange') {
+                this.state.data[item['name']] = {};
+                this.state.data[item['name']].dateTimeStart = item['defaultStartValue'] ? item['defaultStartValue'] : null;
+                this.state.data[item['name']].dateTimeEnd = item['defaultEndValue'] ? item['defaultEndValue'] : null;
+            } else {
+                this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+            }
         }.bind(this))
     }
 
@@ -215,7 +233,13 @@ class InlineForm extends BasicForm {
         this.formType = 'inlineForm'
         const {structure} = this.props.initRule
         structure.forEach(function (item) {
-            this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+            if (item.type == 'daterange') {
+                this.state.data[item['name']] = {};
+                this.state.data[item['name']].dateTimeStart = item['defaultStartValue'] ? item['defaultStartValue'] : null;
+                this.state.data[item['name']].dateTimeEnd = item['defaultEndValue'] ? item['defaultEndValue'] : null;
+            } else {
+                this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+            }
         }.bind(this))
     }
 
@@ -230,7 +254,13 @@ class NoLabelForm extends BasicForm {
         this.formType = 'noLabelForm'
         const {structure} = this.props.initRule
         structure.forEach(function (item) {
-            this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+            if (item.type == 'daterange') {
+                this.state.data[item['name']] = {};
+                this.state.data[item['name']].dateTimeStart = item['defaultStartValue'] ? item['defaultStartValue'] : null;
+                this.state.data[item['name']].dateTimeEnd = item['defaultEndValue'] ? item['defaultEndValue'] : null;
+            } else {
+                this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+            }
         }.bind(this))
     }
 
@@ -245,7 +275,13 @@ class HorizontalForm extends BasicForm {
         this.formType = 'horizontalForm'
         const {structure} = this.props.initRule
         structure.forEach(function (item) {
-            this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+            if (item.type == 'daterange') {
+                this.state.data[item['name']] = {};
+                this.state.data[item['name']].dateTimeStart = item['defaultStartValue'] ? item['defaultStartValue'] : null;
+                this.state.data[item['name']].dateTimeEnd = item['defaultEndValue'] ? item['defaultEndValue'] : null;
+            } else {
+                this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+            }
         }.bind(this))
 
     }
@@ -264,7 +300,13 @@ class BlockForm extends BasicForm {
             let item = structure[index]
             for (var subIndex in item) {
                 let subItem = item[subIndex]
-                this.state.data[subItem['name']] = subItem['defaultValue'] ? subItem['defaultValue'] : null;
+                if (subItem.type == 'daterange') {
+                    this.state.data[subItem['name']] = {};
+                    this.state.data[subItem['name']].dateTimeStart = subItem['defaultStartValue'] ? subItem['defaultStartValue'] : null;
+                    this.state.data[subItem['name']].dateTimeEnd = subItem['defaultEndValue'] ? subItem['defaultEndValue'] : null;
+                } else {
+                    this.state.data[subItem['name']] = subItem['defaultValue'] ? subItem['defaultValue'] : null;
+                }
             }
         }
     }
