@@ -99,7 +99,5 @@ file 只处理name，内容部分 form submit处理
    多文件的考虑，但是暂时不考虑多name的其他属性，因为可以试用radio和checkbox！！---------------------------------------
    参照 http://stackoverflow.com/questions/35192841/fetch-post-with-multipart-form-data
    以及http://blog.teamtreehouse.com/uploading-files-ajax
-   file&&multi done, now date-time(if or not try to find the best one),now date and date group,use the 微秒作为统一的方式来处理，允许用户输入string来格式化
-
-then draggable
+now draggable~~~!!!需要进行设计
 then map

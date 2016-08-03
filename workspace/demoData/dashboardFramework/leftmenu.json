@@ -24,6 +24,11 @@
         "id": "5",
         "url": "form",
         "name": "Form"
+      },
+      {
+        "id": "6",
+        "url": "dragdrop",
+        "name": "DragDrop"
       }
     ]
   },

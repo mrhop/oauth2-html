@@ -1,0 +1,38 @@
+@import "../../../../scss/import";
+
+.dragdrop-wrapper {
+  height: 300px;
+  .sample-base-react, .work-base-react {
+    stroke: none;
+    fill: #fff;
+    filter: url(#drop-shadow);
+    pointer-events: all;
+  }
+  .trash-base-text {
+    font-family: "Icomoon Icon";
+    font-size: 30px;
+    fill: #fff;
+    pointer-events: all;
+    cursor: pointer;
+    filter: url(#drop-shadow);
+    text-anchor:middle;
+    &:hover {
+      fill: $brand-primary;
+    }
+  }
+  .sample-group {
+    circle {
+      fill: none;
+      stroke: $brand-primary;
+      stroke-width: 3;
+      pointer-events: all;
+      &:hover {
+        stroke: darken($brand-primary, 10%);
+      }
+    }
+    text.circle-text{
+      text-anchor:middle;
+      fill: $brand-primary;
+    }
+  }
+}
