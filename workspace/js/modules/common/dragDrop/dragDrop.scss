@@ -15,24 +15,64 @@
     pointer-events: all;
     cursor: pointer;
     filter: url(#drop-shadow);
-    text-anchor:middle;
+    alignment-baseline: middle;
+    text-anchor: middle;
     &:hover {
       fill: $brand-primary;
     }
   }
   .sample-group {
-    circle {
+    .common-element {
       fill: none;
-      stroke: $brand-primary;
       stroke-width: 3;
       pointer-events: all;
+      cursor: pointer;
+    }
+    circle.common-element {
+      stroke: $brand-primary;
       &:hover {
         stroke: darken($brand-primary, 10%);
       }
     }
-    text.circle-text{
-      text-anchor:middle;
+    ellipse.common-element {
+      stroke: $brand-primary;
+      &:hover {
+        stroke: darken($brand-primary, 10%);
+      }
+    }
+    rect.common-element {
+      stroke: $brand-warning;
+      &:hover {
+        stroke: darken($brand-warning, 10%);
+      }
+    }
+    polygon.common-element {
+      stroke: $brand-danger;
+      &:hover {
+        stroke: darken($brand-danger, 10%);
+      }
+    }
+    text.innner-text {
+      @include user-select(none);
+      alignment-baseline: middle;
+      text-anchor: middle;
+      pointer-events: all;
+      cursor: pointer;
+    }
+    text.circle-text {
       fill: $brand-primary;
+      &:hover {
+        stroke: darken($brand-primary, 10%);
+      }
+    }
+    text.rect-text {
+      fill: darken($brand-warning, 10%);
+    }
+    text.ellipse-text {
+      fill: darken($brand-primary, 10%);
+    }
+    text.polygon-text, text.diamond-text {
+      fill: darken($brand-danger, 10%);
     }
   }
 }

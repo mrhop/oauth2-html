@@ -56,10 +56,10 @@ class DragDrop extends React.Component {
         feMerge.append("feMergeNode")
             .attr("in", "SourceGraphic");
 
-        let sampleData = [{type:'circle',label:'角色'}]
-        let sampleGroup = new SampleGroup(this.d3.svgContainer,sampleData);
-        let workGroup = new WorkGroup(this.d3.svgContainer);
+        let sampleData = [{type:'ellipse',label:'角色'},{type:'rect',label:'职位'},{type:'diamond',label:'动作'}]
         let trashGroup = new TrashGroup(this.d3.svgContainer);
+        let workGroup = new WorkGroup(this.d3.svgContainer);
+        let sampleGroup = new SampleGroup(this.d3.svgContainer,sampleData);
         this.d3.sampleGroup = sampleGroup;
         this.d3.workGroup = workGroup;
         this.d3.trashGroup = trashGroup;

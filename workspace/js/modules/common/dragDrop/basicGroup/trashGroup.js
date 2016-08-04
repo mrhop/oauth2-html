@@ -5,13 +5,10 @@
 export default class TrashGroup {
     constructor(svgContainer, data) {
         this.svgContainer = svgContainer;
-        this.trashGroup = svgContainer.append("svg")
-            .attr("class", "trash-group")
-        this.trashG = this.trashGroup.append("g");
-        this.baseText = this.trashG.append("text")
+        this.trashGroup = this.svgContainer.append("g")
+            .attr("class", "trash-group");
+        this.baseText = this.trashGroup.append("text")
             .attr("class", "trash-base-text")
-            .attr("x", 30)
-            .attr("y", 40)
             .text(function (d) {
                 return '\ue910'
             })
@@ -20,7 +17,9 @@ export default class TrashGroup {
 
     resize(containerWidth, containerHeight) {
         this.trashGroup
-            .attr("x", containerWidth - 100)
-            .attr("y", containerHeight - 50)
+            .attr("transform", "translate(" + (containerWidth - 100) + "," + (containerHeight - 50) + ")")
+        this.baseText
+            .attr("x", 45)
+            .attr("y", 30)
     }
 }
