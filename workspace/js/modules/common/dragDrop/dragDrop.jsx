@@ -56,10 +56,65 @@ class DragDrop extends React.Component {
         feMerge.append("feMergeNode")
             .attr("in", "SourceGraphic");
 
-        let sampleData = [{type:'ellipse',label:'角色'},{type:'rect',label:'职位'},{type:'diamond',label:'动作'}]
-        let trashGroup = new TrashGroup(this.d3.svgContainer);
-        let workGroup = new WorkGroup(this.d3.svgContainer);
-        let sampleGroup = new SampleGroup(this.d3.svgContainer,sampleData);
+        let workGroupData = [[
+            {
+                id: 1,
+                name: 'role1',
+                label: '角色1',
+                type: 'role',
+                level:'0',
+                parentId: null,
+                childId: 4
+            }, {
+                id: 2,
+                name: 'position1',
+                label: '职位1',
+                type: 'position',
+                level:'0',
+                parentId: null,
+                childId: 4
+            }, {
+                id: 3,
+                name: 'role2',
+                label: '角色2',
+                type: 'role',
+                level:'0',
+                parentId: null,
+                childId: 5
+            }
+        ], [
+            {
+                id: 4,
+                name: 'action1',
+                label: '行为1',
+                type: 'action',
+                level:1,
+                parentId: [1, 2],
+                childId: 6
+            }, {
+                id: 5,
+                name: 'action2',
+                label: '行为2',
+                type: 'action',
+                level:1,
+                parentId: [3],
+                childId: 6
+            }
+        ], [
+            {
+                id: 6,
+                name: 'role3',
+                label: '角色3',
+                type: 'role',
+                level:2,
+                parentId: [4, 5],
+                childId: null
+            }
+        ]]
+        let sampleData = [{model: 'ellipse',type:'role', label: '角色'}, {model: 'rect',type:'position', label: '职位'}, {model: 'diamond',type:'action', label: '动作'}]
+        let workGroup = new WorkGroup(this.d3.svgContainer, workGroupData);
+        let trashGroup = new TrashGroup(this.d3.svgContainer,{workGroup});
+        let sampleGroup = new SampleGroup(this.d3.svgContainer, sampleData);
         this.d3.sampleGroup = sampleGroup;
         this.d3.workGroup = workGroup;
         this.d3.trashGroup = trashGroup;

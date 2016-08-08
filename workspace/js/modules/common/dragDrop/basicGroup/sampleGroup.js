@@ -16,7 +16,7 @@ export default class SampleGroup {
         this.innerElements = []
         if (this.data) {
             this.data.forEach(function (item) {
-                let commonElement = new CommonElement(this.sampleGroup, item, this.dragStart);
+                let commonElement = new CommonElement(this.sampleGroup, item);
                 this.innerElements.push(commonElement);
             }.bind(this))
         }
@@ -35,37 +35,16 @@ export default class SampleGroup {
             var size = height > 40 ? 40 : height
             var top = 15
             this.innerElements.forEach(function (item, i) {
-                if (item.type == 'circle') {
-                    item.resize({
-                        cx: 45,
-                        cy: top + parseInt(size / 2),
-                        r: parseInt(size / 2)
-                    })
-                    top = top + 15 + parseInt(size)
-                } else if (item.type == 'rect') {
-                    item.resize({
-                        x: 5,
-                        y: top,
-                        w: 80,
-                        h: size
-                    })
-                    top = top + 15 + parseInt(size)
-                } else if (item.type == 'ellipse') {
-                    item.resize({
-                        cx: 45,
-                        cy: top + parseInt(size / 2),
-                        rx: parseInt(40),
-                        ry: parseInt(size / 2)
-                    })
-                    top = top + 15 + parseInt(size)
-                } else if (item.type == 'diamond') {
-                    item.resize({
-                        cx: 45,
-                        cy: top + parseInt(size / 2),
-                        points: "5," + (top + parseInt(size / 2)) + " 45," + top + " 85," + (top + parseInt(size / 2)) + " 45," + (top + size)
-                    })
-                    top = top + 15 + parseInt(size)
-                }
+                item.resize({
+                    initX: 5,
+                    x: 5,
+                    initY: top,
+                    y: top,
+                    size: size,
+                    containerHeight,
+                    containerWidth
+                })
+                top = top + 15 + parseInt(size)
             }.bind(this))
 
         }

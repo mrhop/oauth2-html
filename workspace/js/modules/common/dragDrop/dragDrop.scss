@@ -21,7 +21,6 @@
       fill: $brand-primary;
     }
   }
-  .sample-group {
     .common-element {
       fill: none;
       stroke-width: 3;
@@ -74,5 +73,4 @@
     text.polygon-text, text.diamond-text {
       fill: darken($brand-danger, 10%);
     }
-  }
 }

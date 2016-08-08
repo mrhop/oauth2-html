@@ -1,9 +1,23 @@
 /**
  * Created by Donghui Huo on 2016/5/13.
  */
-
+const clearWorkgroup = {
+    content: <span>If you confirm this, the data on the workgroup will be clear</span>,
+    title: 'Do you want to clear the workgroup ?',
+    footerConfirmButton: {
+        callback: function () {
+            this.cleanWorkgroup();
+        },
+        title: 'Confirm',
+    },
+    footerCloseButton: {
+        visible: true,
+        title: 'Cancel',
+    },
+};
 export default class TrashGroup {
     constructor(svgContainer, data) {
+        this.data = data;
         this.svgContainer = svgContainer;
         this.trashGroup = this.svgContainer.append("g")
             .attr("class", "trash-group");
@@ -11,8 +25,7 @@ export default class TrashGroup {
             .attr("class", "trash-base-text")
             .text(function (d) {
                 return '\ue910'
-            })
-        this.data = data;
+            }).on("click", Modal.createModal.bind(this.data.workGroup, clearWorkgroup, 'messageConfirm'))
     }
 
     resize(containerWidth, containerHeight) {

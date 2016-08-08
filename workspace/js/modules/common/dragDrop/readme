@@ -42,7 +42,6 @@ D3 drag
 所有使用localstorage来实现暂存，直到进行save的时候
 
 首先将基础性的技术性问题解决，然后进行业务性的判定处理
-//svg then child svg,！！now
 sample group用于收集sample data，并根据行为进行处理，应该设计为一个对象，有行为，有属性，有值
 
 
