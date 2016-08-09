@@ -5,9 +5,10 @@ import d3 from 'd3'
 import CommonElement from '../basicElement/commonElement';
 
 export default class SampleGroup {
-    constructor(svgContainer, data) {
+    constructor(parent, data) {
         this.data = data;
-        this.svgContainer = svgContainer;
+        this.parent = parent;
+        this.svgContainer = this.parent.d3.svgContainer;
         this.sampleGroup = this.svgContainer.append("g")
             .attr("class", "sample-group")
         this.baseReact = this.sampleGroup.append("rect")
@@ -16,7 +17,7 @@ export default class SampleGroup {
         this.innerElements = []
         if (this.data) {
             this.data.forEach(function (item) {
-                let commonElement = new CommonElement(this.sampleGroup, item);
+                let commonElement = new CommonElement(this.parent,this.sampleGroup,item);
                 this.innerElements.push(commonElement);
             }.bind(this))
         }

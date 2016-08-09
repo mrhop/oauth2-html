@@ -3,22 +3,21 @@
  */
 
 export default class WorkGroup {
-    constructor(svgContainer, data) {
-        this.svgContainer = svgContainer;
-        this.workGroup = svgContainer.append("svg").append("g")
+    constructor(parent, data) {
+        this.parent = parent
+        this.data = {items: data};
+        this.svgContainer = this.parent.d3.svgContainer;
+        this.workGroup = this.svgContainer.append("g")
             .attr("class", "work-group")
+            .attr("transform", "translate(0,0)")
         this.baseReact = this.workGroup.append("rect")
             .attr("class", "work-base-react")
         this.totalElemntGroup = this.workGroup.append("g")
             .attr("class", "elements-group")
-        this.data = {items: data};
+            .attr("transform", "translate(0,0)")
     }
 
     resize(containerWidth, containerHeight) {
-        this.workGroup
-            .attr("transform", "translate(0,0)")
-        this.totalElemntGroup
-            .attr("transform", "translate(0,0)")
         this.baseReact
             .attr("x", 0)
             .attr("y", 0)
@@ -29,10 +28,11 @@ export default class WorkGroup {
         this.drawData()
     }
 
-    cleanWorkgroup(){
+    cleanWorkgroup() {
         this.totalElemntGroup.selectAll("*").remove();
     }
-    
+
+
     drawData() {
         this.cleanWorkgroup();
         var hor = this.data.containerWidth > this.data.containerHeight ? true : false;
@@ -47,6 +47,8 @@ export default class WorkGroup {
             var heightSegment = parseInt((this.data.containerHeight - 5) / (2 * this.data.items.length - 1))
             size = 40 > heightSegment ? heightSegment : 40;
         }
+        var linePoints = {}
+        var positionData = [];
         for (var i = 0; i < this.data.items.length; i++) {
             var item = this.data.items[i];
             var length = item.length;
@@ -68,19 +70,49 @@ export default class WorkGroup {
                     x = subSize * j;
                 }
                 var group = this.totalElemntGroup.append("g").data([subItem])
-                    .attr("id", subItem.id)
+                    .attr("id", "item-workgroup-" + subItem.id)
                     .attr("transform", "translate(" + x + "," + y + ")")
+                positionData.push({
+                    x1: x,
+                    y1: y,
+                    x2: hor ? x + size : x + subSize,
+                    y2: hor ? y + subSize : size + y,
+                    data: subItem
+                })
                 var type = "rect";
                 if (subItem.type == "role") {
                     type = "ellipse"
+                } else if (subItem.type == "position") {
+                    type = "rect"
+                } else if (subItem.type == "action") {
+                    type = "polygon"
+                }
+
+                group.append("text").data([subItem])
+                    .attr("class", type + "-text innner-text")
+                    .attr("x", hor ? parseInt(size / 2) : parseInt((subSize - 10) / 2) + 5)
+                    .attr("y", hor ? parseInt((subSize - 10) / 2) + 5 : parseInt(size / 2))
+                    .attr('pointer-events', 'all')
+                    .text(subItem.label)
+                var leftOrTopPoint = {
+                    x: hor ? x : x + parseInt(subSize / 2),
+                    y: hor ? y + parseInt(subSize / 2) : y
+                }
+                var rightOrBottomPoint = {
+                    x: hor ? x + size : x + parseInt(subSize / 2),
+                    y: hor ? y + parseInt(subSize / 2) : y + size
+                }
+                linePoints["point_" + subItem.id] = {leftOrTopPoint, rightOrBottomPoint}
+                if (subItem.type == "role") {
                     group.append("ellipse").data([subItem])
                         .attr("class", "common-element common-element-workspace")
                         .attr("cx", hor ? parseInt(size / 2) : parseInt((subSize - 10) / 2) + 5)
                         .attr("cy", hor ? parseInt((subSize - 10) / 2) + 5 : parseInt(size / 2))
                         .attr("rx", hor ? parseInt(size / 2) : parseInt((subSize - 10) / 2))
                         .attr("ry", hor ? parseInt((subSize - 10) / 2) : parseInt(size / 2))
+                        .attr('pointer-events', 'all')
+
                 } else if (subItem.type == "position") {
-                    type = "rect"
                     group.append("rect").data([subItem])
                         .attr("class", "common-element common-element-workspace")
                         .attr("x", hor ? 0 : 5)
@@ -88,7 +120,6 @@ export default class WorkGroup {
                         .attr("height", hor ? subSize - 10 : size)
                         .attr("width", hor ? size : subSize - 10)
                 } else if (subItem.type == "action") {
-                    type = "polygon"
                     var point = ""
                     if (hor) {
                         point = "0," + parseInt((subSize - 10) / 2 + 5) + " " + parseInt(size / 2) + ",5" + " " + size + "," + parseInt((subSize - 10) / 2 + 5) + " " + parseInt(size / 2) + "," + (subSize - 5)
@@ -99,12 +130,21 @@ export default class WorkGroup {
                         .attr("class", "common-element common-element-workspace")
                         .attr("points", point)
                 }
-                group.append("text").data([subItem])
-                    .attr("class", type + "-text innner-text")
-                    .attr("x", hor ? parseInt(size / 2) : parseInt((subSize - 10) / 2) + 5)
-                    .attr("y", hor ? parseInt((subSize - 10) / 2) + 5 : parseInt(size / 2))
-                    .text(subItem.label)
+                if (subItem.parentId) {
+                    for (var k = 0; k < subItem.parentId.length; k++) {
+                        var originPoint = linePoints["point_" + subItem.parentId[k]]
+                        if (originPoint) {
+                            this.totalElemntGroup.append("line")
+                                .attr("class", "line-work-group")
+                                .attr("x1", originPoint.rightOrBottomPoint.x)
+                                .attr("y1", originPoint.rightOrBottomPoint.y)
+                                .attr("x2", leftOrTopPoint.x)
+                                .attr("y2", leftOrTopPoint.y)
+                        }
+                    }
+                }
             }
         }
+        this.parent.workGroupData = positionData;
     }
 }

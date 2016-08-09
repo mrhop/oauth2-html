@@ -55,6 +55,18 @@ class DragDrop extends React.Component {
             .attr("in", "offsetBlur")
         feMerge.append("feMergeNode")
             .attr("in", "SourceGraphic");
+        var arrowMarker = defs.append("marker")
+            .attr("id","arrow-marker")
+            .attr("markerUnits","strokeWidth")
+            .attr("markerWidth",6)
+            .attr("markerHeight",6)
+            .attr("viewBox","0 0 6 6")
+            .attr("refX",3)
+            .attr("refY",3)
+            .attr("orient","auto")
+        arrowMarker.append("path")
+            .attr("d","M1,1 L5,3 L1,5 L3,3 L1,1")
+            .style("fill", "#000")
 
         let workGroupData = [[
             {
@@ -64,7 +76,7 @@ class DragDrop extends React.Component {
                 type: 'role',
                 level:'0',
                 parentId: null,
-                childId: 4
+                childId: [4]
             }, {
                 id: 2,
                 name: 'position1',
@@ -72,7 +84,7 @@ class DragDrop extends React.Component {
                 type: 'position',
                 level:'0',
                 parentId: null,
-                childId: 4
+                childId: [4]
             }, {
                 id: 3,
                 name: 'role2',
@@ -80,7 +92,7 @@ class DragDrop extends React.Component {
                 type: 'role',
                 level:'0',
                 parentId: null,
-                childId: 5
+                childId: [5]
             }
         ], [
             {
@@ -90,7 +102,7 @@ class DragDrop extends React.Component {
                 type: 'action',
                 level:1,
                 parentId: [1, 2],
-                childId: 6
+                childId: [6,7]
             }, {
                 id: 5,
                 name: 'action2',
@@ -98,7 +110,7 @@ class DragDrop extends React.Component {
                 type: 'action',
                 level:1,
                 parentId: [3],
-                childId: 6
+                childId: [6]
             }
         ], [
             {
@@ -109,12 +121,23 @@ class DragDrop extends React.Component {
                 level:2,
                 parentId: [4, 5],
                 childId: null
+            }, {
+                id: 7,
+                name: 'role4',
+                label: '角色4',
+                type: 'role',
+                level:2,
+                parentId: [4],
+                childId: null
             }
         ]]
-        let sampleData = [{model: 'ellipse',type:'role', label: '角色'}, {model: 'rect',type:'position', label: '职位'}, {model: 'diamond',type:'action', label: '动作'}]
-        let workGroup = new WorkGroup(this.d3.svgContainer, workGroupData);
-        let trashGroup = new TrashGroup(this.d3.svgContainer,{workGroup});
-        let sampleGroup = new SampleGroup(this.d3.svgContainer, sampleData);
+        let sampleData = [
+            {model: 'ellipse',type:'role', label: '角色'}, 
+            {model: 'rect',type:'position', label: '职位'}, 
+            {model: 'diamond',type:'action', label: '动作'}]
+        let workGroup = new WorkGroup(this, workGroupData);
+        let trashGroup = new TrashGroup(this);
+        let sampleGroup = new SampleGroup(this, sampleData);
         this.d3.sampleGroup = sampleGroup;
         this.d3.workGroup = workGroup;
         this.d3.trashGroup = trashGroup;

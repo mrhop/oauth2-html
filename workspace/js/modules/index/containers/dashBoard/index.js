@@ -101,7 +101,6 @@ class DashBoardMainBlock extends React.Component {
                             onClick={Toast.createToast.bind(this,basicToastData,'error')}>open error toast
                     </button>
                 </Panel.DefaultPanel>
-
             ]
             ;
         var columnsSecond = [

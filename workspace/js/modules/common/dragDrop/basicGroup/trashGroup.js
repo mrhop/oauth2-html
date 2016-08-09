@@ -16,16 +16,16 @@ const clearWorkgroup = {
     },
 };
 export default class TrashGroup {
-    constructor(svgContainer, data) {
-        this.data = data;
-        this.svgContainer = svgContainer;
+    constructor(parent) {
+        this.parent = parent;
+        this.svgContainer =  this.parent.d3.svgContainer;
         this.trashGroup = this.svgContainer.append("g")
             .attr("class", "trash-group");
         this.baseText = this.trashGroup.append("text")
             .attr("class", "trash-base-text")
             .text(function (d) {
                 return '\ue910'
-            }).on("click", Modal.createModal.bind(this.data.workGroup, clearWorkgroup, 'messageConfirm'))
+            }).on("click", Modal.createModal.bind(this.parent.workGroup, clearWorkgroup, 'messageConfirm'))
     }
 
     resize(containerWidth, containerHeight) {

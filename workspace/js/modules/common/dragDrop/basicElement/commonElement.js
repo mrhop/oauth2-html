@@ -3,8 +3,15 @@
  */
 import d3 from 'd3'
 
+const dragToastData = {
+    content: <span>不能将角色和职位关联，行为和行为关联</span>,
+    title: '拖拽错误'
+};
+
 export default class CommonElement {
-    constructor(group, data, dragstart, drag, dragend) {
+    constructor(parent, group, data, dragstart, drag, dragend) {
+        this.data = data;
+        this.data.parent = parent
         this.type = data.type
         this.model = data.model
         this.label = data.label
@@ -23,7 +30,6 @@ export default class CommonElement {
                 .attr("class", this.model + "-text innner-text")
                 .text(this.label)
         }
-
         this.elementBack = this.groupBack.append(select)
             .attr("class", "common-element common-element-back")
         this.groupDrag = this.group.append("g").data([{x: 0, y: 0, model: this.model}])
@@ -36,7 +42,6 @@ export default class CommonElement {
         }
         this.elementDrag = this.groupDrag.append(select)
             .attr("class", "common-element")
-        this.data = data;
     }
 
     resize(obj) {
@@ -134,9 +139,6 @@ export default class CommonElement {
     }
 
     defaultDragStart(d) {
-        //d3.select(this).classed("dragging");
-        var node = d3.select(this.parentNode)
-        d.g = {initTransform: node.attr("transform")}
         console.log('startDrag')
     }
 
@@ -164,10 +166,26 @@ export default class CommonElement {
     defaultDragEnd(d) {
         console.log('drag end')
         //此处应该关联到工作区的callback
-        if (d.x >= -95) {
-            d.x = d.initX
-            d.y = d.initY
+        if (d.parent && d.parent.workGroupData && d.parent.workGroupData.length > 0) {
+            for (var i = 0; i < d.parent.workGroupData.length; i++) {
+                var item = d.parent.workGroupData[i];
+                if ((item.x1 <= (d.containerWidth + d.x - 100)) && ((d.containerWidth + d.x - 100) <= item.x2 ) && (item.y1 <= d.y) && ( d.y <= item.y2)) {
+                    if ((d.type == "action" && item.data.type == "action") ||
+                        ((d.type == "position" || d.type == "role") && (item.data.type == "position" || item.data.type == "role"))) {
+                        Toast.createToast.bind(this, dragToastData, 'error')()
+
+                    } else {
+                        //do contact
+                        console.log("next")
+                    }
+                    break;
+                }
+            }
+        } else {
+            //when there is no parameters first add shall be only role and position
         }
+        d.x = d.initX
+        d.y = d.initY
         d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
         d3.event.sourceEvent.stopPropagation();
     }
