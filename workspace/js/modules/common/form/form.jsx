@@ -320,7 +320,7 @@ BasicForm.propTypes = {
     type: React.PropTypes.string,
     extraClassName: React.PropTypes.string,
     initRule: React.PropTypes.object,
-    url: React.PropTypes.string,
+    url: React.PropTypes.any,
     callback: React.PropTypes.func,
     symbol: React.PropTypes.any,
     rule: React.PropTypes.object,

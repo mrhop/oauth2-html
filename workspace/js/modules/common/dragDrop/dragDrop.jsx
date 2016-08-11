@@ -3,6 +3,8 @@
  */
 require('./dragDrop.scss');
 import elementResizeEvent from 'element-resize-event';
+import dragDropRules from './structure'
+
 import {
     initWorkflowDispatch,
     getRolesDispatch,
@@ -10,6 +12,7 @@ import {
     saveWorkflowDispatch,
     cleanWorkgroup,
     showElementFrom,
+    hideElementFrom,
     afterSaveElement,
     deleteElement,
     createBasicSvg,
@@ -19,7 +22,8 @@ class DragDrop extends React.Component {
     constructor(props) {
         super(props);
         //shall be data relate form localstorage or data from server
-        this.state = {size: {w: 0, h: 0}};
+        this.state = {size: {w: 0, h: 0}, anonymousId: 0};
+        dragDropRules.dragModalData.closeFun = this.hideElementFrom.bind(this);
     }
 
     componentWillMount() {
@@ -43,7 +47,14 @@ class DragDrop extends React.Component {
 
     render() {
         var dragdropDivClasses = classNames("dragdrop-wrapper", this.props.type, this.props.extraClassName)
-        return <div className={dragdropDivClasses} ref="wrapper"></div>
+        var addElementFormSymbol = 'form-' + 'work-flow-drag-drop-default'
+        return <div className={dragdropDivClasses} ref="wrapper">
+            {this.props.dragModalData && <Modal.MessageDefaultModal modalValues={dragDropRules.dragModalData}
+                                                                    alertVisible={this.props.addFormVisible}>
+                <Form.HorizontalForm url={this.saveElementFrom.bind(this)} initRule={dragDropRules.dragElementForm}
+                                     symbol={addElementFormSymbol}/>
+            </Modal.MessageDefaultModal>}
+        </div>
     }
 
     fitToParentSize() {
@@ -67,6 +78,22 @@ class DragDrop extends React.Component {
         this.props.cleanWorkgroup({symbol: this.props.symbol})
     }
 
+    //show form
+    showElementFrom() {
+        //here shall
+        this.props.showElementFrom.bind(this, {symbol: this.props.symbol})();
+    }
+    //hide form
+    hideElementFrom() {
+        this.props.hideElementFrom.bind(this, {symbol: this.props.symbol})();
+        return true;
+    }
+
+    //saveElementFrom
+    saveElementFrom() {
+        console.log("tese function save")
+    }
+
     //save
 }
 DragDrop.propTypes = {
@@ -86,6 +113,7 @@ DragDrop.propTypes = {
     saveWorkflowDispatch: React.PropTypes.func,
     cleanWorkgroup: React.PropTypes.func,
     showElementFrom: React.PropTypes.func,
+    hideElementFrom: React.PropTypes.func,
     afterSaveElement: React.PropTypes.func,
     deleteElement: React.PropTypes.func,
 }
@@ -97,9 +125,19 @@ function mapStateToProps(state, ownProps) {
             flowId,
             flowName,
             roles,
-            positions
+            positions,
+            addFormVisible,
+            dragElementForm,
+            dragModalData
         } = state.dragDrop.main[ownProps.symbol]
-        return {workData: data, flowId, flowName, roles, positions}
+        return {
+            workData: data,
+            flowId, flowName,
+            roles, positions,
+            addFormVisible,
+            dragElementForm,
+            dragModalData
+        }
     } else {
         return {};
     }
@@ -113,6 +151,7 @@ module.exports = {
             saveWorkflowDispatch,
             cleanWorkgroup,
             showElementFrom,
+            hideElementFrom,
             afterSaveElement,
             deleteElement
         }

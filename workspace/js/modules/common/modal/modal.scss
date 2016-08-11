@@ -112,6 +112,19 @@
       .modal-body {
         position: relative;
         padding: 15px;
+        //form
+          form {
+            .form-control,
+            .form-control.textarea,
+            .checkbox-wrapper ul.checkbox,
+            .radio-wrapper ul.radio,
+            .select-wrapper .Select-control,
+            .datetime-wrapper div.date > div, div.daterange-wrapper input {
+              @include placeholder(#fff);
+              background-color: rgba(0, 0, 0, 0.8);
+              color: #fff;
+            }
+          }
       }
       .modal-footer {
         padding: 0 15px 15px;

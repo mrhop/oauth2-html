@@ -3,7 +3,7 @@
  */
 import d3 from 'd3'
 import {VALIDATE_RULE} from '../../../common/form/actions'
-
+import dragDropRules from '../structure'
 const dragToastData = {
     content: <span>不能将角色和职位关联，行为和行为关联</span>,
     title: '拖拽错误'
@@ -15,46 +15,6 @@ const dragModalData = {
         visible: false,
     }
 };
-
-const formStructure = {
-    structure: [{
-        name: 'id',
-        type: 'hidden',
-        defaultValue: '1',
-    } ,{
-        name: 'relateId',
-        type: 'hidden',
-        defaultValue: '1',
-    },{
-        name: 'role',
-        label: '选择角色',
-        type: 'select',
-        items: [{label: 'select 1', value: 'select1'}, {label: 'select 2', value: 'select2'}],
-        required: true,
-        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
-    },{
-        name: 'upDown',
-        items: [{value: 0, label: '下行'}, {value: 1, label: '上行'}],
-        label: '上下行',
-        type: 'radio',
-        required: true,
-        defaultValue: '0',
-        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
-        //此处应该有form的触发
-    },{
-        name: 'testTextarea',
-        label: 'TestTextarea',
-        type: 'textarea',
-        placeholder: '说明',
-        rows: 10,
-    },],
-    submit: {label: '保存'},
-    reset: {label: '重置'}
-}
-let url = 'demoData/formData/basicForm.json'
-let symbol = 'form-' + 'drag-drop-default'
-let defaultDragDropForm =  <Form.DefaultForm url={url} initRule={formStructure}
-                         symbol={symbol}/>
 
 
 
@@ -222,12 +182,14 @@ export default class CommonElement {
                 if ((item.x1 <= (d.containerWidth + d.x - 100)) && ((d.containerWidth + d.x - 100) <= item.x2 ) && (item.y1 <= d.y) && ( d.y <= item.y2)) {
                     if ((d.type == "action" && item.data.type == "action") ||
                         ((d.type == "position" || d.type == "role") && (item.data.type == "position" || item.data.type == "role"))) {
-                        Toast.createToast.bind(this, dragToastData, 'error')()
-
+                        Toast.createToast.bind(this, dragDropRules.dragToastData, 'error')()
                     } else {
                         //do contact
                         console.log("next")
-                        Modal.createModal.bind(this,{modalValues:dragModalData,type:'message',children:defaultDragDropForm})()
+                        //Modal.createModal.bind(this,{modalValues:dragModalData,type:'message',children:defaultDragDropForm})()
+                        //use action
+                        //SHALL base on the condition give the data related the data to show in the form
+                        d.parent.showElementFrom()
                     }
                     break;
                 }

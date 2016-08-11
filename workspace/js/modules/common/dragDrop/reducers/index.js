@@ -59,10 +59,15 @@ function main(state = {}, action) {
     }
 
     if (action.type === ActionTypes.SHOW_ELEMENT_FORM) {
-        state[action.requestCondition.symbol]["elementForm"] = {
-            formStructure: action.requestCondition.formStructure,
-            visible: true
-        };
+        state[action.requestCondition.symbol].addFormVisible = true
+        state[action.requestCondition.symbol].dragElementForm = action.requestCondition.dragElementForm
+        state[action.requestCondition.symbol].dragModalData = action.requestCondition.dragModalData
+        return l_merge({}, state)
+    }
+    if (action.type === ActionTypes.HIDE_ELEMENT_FORM) {
+        state[action.requestCondition.symbol].addFormVisible = false
+        state[action.requestCondition.symbol].dragElementForm = null
+        state[action.requestCondition.symbol].dragModalData = null
         return l_merge({}, state)
     }
     if (action.type === ActionTypes.AFTER_SAVE_ELEMENT) {

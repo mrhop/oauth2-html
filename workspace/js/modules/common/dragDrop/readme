@@ -62,3 +62,8 @@ sample group用于收集sample data，并根据行为进行处理，应该设计
 这里仍然需要middleware部分的除去URL的endpoint之外的fun action的处理
 
 首先，目前架构走通，测试部分功能，比如清空工作板，然后拖拽的form部分走通，涉及到endpoint为function的情况，然后就是整天的保存处理，然后就是细节样式以及整个panel的title更新为工作流的name的处理
+
+1. modal  消失后不见
+2. 样式设计
+3. form action
+4. 调整form内容

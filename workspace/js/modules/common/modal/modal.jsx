@@ -55,40 +55,6 @@ class BasicModal extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.alertVisible !== undefined) {
-            this.setState({
-                alertVisible: nextProps.alertVisible
-            });
-        }
-    }
-
-    handleAlertDismiss() {
-        this.setState({alertVisible: false});
-    }
-
-    closeModal(e) {
-        var currentDom = e.currentTarget;
-        if (!currentDom.classList.contains('modal-dialog')) {
-            if (this.props.modalValues.closeFun) {
-                if (this.props.modalValues.closeFun()) {
-                    this.modalDom.classList.remove('open');
-                    this.modalDom.classList.add('close');
-                }
-                ;
-            } else {
-                this.modalDom.classList.remove('open');
-                this.modalDom.classList.add('close');
-            }
-        }
-        e.stopPropagation();
-    }
-
-    confirmModal(e) {
-        this.closeModal(e);
-        this.props.modalValues.footerConfirmButton.callback.bind(this.props._call)();
-    }
-
 
     componentDidMount() {
 
@@ -100,6 +66,48 @@ class BasicModal extends React.Component {
         this.modalDom.style.display = 'block';
         this.modalDom.classList.add('open');
         this.modalDom.classList.remove('close');
+    }
+
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.alertVisible !== undefined) {
+            this.setState({
+                alertVisible: nextProps.alertVisible
+            });
+        }
+    }
+
+
+    componentDidUpdate() {
+        if (this.modalDom) {
+            this.modalDom.querySelector('.modal-bg').addEventListener('webkitAnimationEnd', function () {
+                if (this.modalDom && this.modalDom.classList.contains('close')) {
+                    this.handleAlertDismiss();
+                }
+            }.bind(this));
+            this.modalDom.classList.add('open');
+            this.modalDom.classList.remove('close');
+        }
+    }
+
+
+    handleAlertDismiss() {
+        this.props.modalValues.closeFun();
+        this.setState({alertVisible: false});
+    }
+
+    closeModal(e) {
+        var currentDom = e.currentTarget;
+        if (!currentDom.classList.contains('modal-dialog')) {
+            this.modalDom.classList.remove('open');
+            this.modalDom.classList.add('close');
+        }
+        e.stopPropagation();
+    }
+
+    confirmModal(e) {
+        this.closeModal(e);
+        this.props.modalValues.footerConfirmButton.callback.bind(this.props._call)();
     }
 
     renderBasic(dialogExtraClass) {
@@ -267,5 +275,13 @@ BasicModal.propTypes = {modalValues: React.PropTypes.object};
 //need to deal with the display:none cause no animation question
 
 module.exports = {
-    createModal
+    createModal,
+    DefaultModal,
+    DefaultLgModal,
+    DefaultSmModal,
+    MessageDefaultModal,
+    MessageSuccessModal,
+    MessageWarningModal,
+    MessageErrorModal,
+    MessageConfirmModal
 };

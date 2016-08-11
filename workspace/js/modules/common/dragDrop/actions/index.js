@@ -25,6 +25,7 @@ export const AFTER_SAVE_WORK_FLOW_SUCCESS = 'AFTER_SAVE_WORK_FLOW_SUCCESS'
 export const CLEAN_WORK_GROUP = 'CLEAN_WORK_GROUP'
 //显示新建或者需修改的单个元素的form modal
 export const SHOW_ELEMENT_FORM = 'SHOW_ELEMENT_FORM'
+export const HIDE_ELEMENT_FORM = 'HIDE_ELEMENT_FORM'
 //删除单个元素，同时删除单独关联元素
 export const DELETE_ELEMENT = 'DELETE_ELEMENT'
 
@@ -131,9 +132,18 @@ export function cleanWorkgroup(requestCondition) {
 
 //show the new element form and
 export function showElementFrom(requestCondition) {
-    //base on the key
+    //base on the key,根据内容进行调整 form的内容，以及modal的标题等，并放置在requestCondition里面
+    requestCondition.dragElementForm = dragDropRules.dragElementForm
+    requestCondition.dragModalData = dragDropRules.dragModalData
     return (dispatch, getState) => {
         return dispatch({type: SHOW_ELEMENT_FORM, requestCondition})
+    }
+}
+export function hideElementFrom(requestCondition) {
+    //base on the key,根据内容进行调整 form的内容，以及modal的标题等，并放置在requestCondition里面
+
+    return (dispatch, getState) => {
+        return dispatch({type: HIDE_ELEMENT_FORM, requestCondition})
     }
 }
 
