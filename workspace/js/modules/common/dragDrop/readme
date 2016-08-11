@@ -67,3 +67,6 @@ sample group用于收集sample data，并根据行为进行处理，应该设计
 2. 样式设计
 3. form action
 4. 调整form内容
+action-->index.js部分，即将转移至basicElement-->commonElement.js的编码实现
+    //注意此处的数据结构要和传输的data保持一致性，所以要在commonElement部分进行data结构的解析和完善，分为多种，注意toplevel的情况处理，
+    // 是否尝试在modalheadr部分加入声明title？，比如您正在添加一个角色，您正在修改一个角色，您正在将角色添加在顶部等等！！！

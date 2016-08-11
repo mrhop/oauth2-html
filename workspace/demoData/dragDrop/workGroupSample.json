@@ -6,8 +6,10 @@
       {
         "id": 1,
         "label": "角色1",
+        "elementId": 1,
         "type": "role",
         "level": "0",
+        "desc":"角色测试",
         "parentId": null,
         "childId": [
           4
@@ -16,6 +18,7 @@
       {
         "id": 2,
         "label": "职位1",
+        "elementId": 1,
         "type": "position",
         "level": "0",
         "parentId": null,
@@ -26,6 +29,7 @@
       {
         "id": 3,
         "label": "角色2",
+        "elementId": 2,
         "type": "role",
         "level": "0",
         "parentId": null,
@@ -38,7 +42,9 @@
       {
         "id": 4,
         "label": "行为1",
+        "elementId": 1,
         "type": "action",
+        "actionRule":"multi",
         "level": 1,
         "parentId": [
           1,
@@ -52,7 +58,9 @@
       {
         "id": 5,
         "label": "行为2",
+        "elementId": 2,
         "type": "action",
+        "actionRule":"single",
         "level": 1,
         "parentId": [
           3
@@ -66,6 +74,7 @@
       {
         "id": 6,
         "label": "角色3",
+        "elementId": 3,
         "type": "role",
         "level": 2,
         "parentId": [
@@ -77,6 +86,7 @@
       {
         "id": 7,
         "label": "角色4",
+        "elementId": 4,
         "type": "role",
         "level": 2,
         "parentId": [

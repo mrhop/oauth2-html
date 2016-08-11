@@ -9,6 +9,10 @@ export default {
         {model: 'diamond', type: 'action', label: '动作'}],
     defaultPositionsFlowSample: [
         {model: 'rect', type: 'position', label: '职位'}],
+    defaultActionChoices: [
+        {label: '一票通过', value: 'single'},
+        {label: '多票通过', value: 'multi'},
+        {label: '全票通过', value: 'all'}],
     cleanWorkflowDialog: {
         content: <span>If you confirm this, the data on the workgroup will be clear</span>,
         title: 'Do you want to clear the workgroup ?',
@@ -33,22 +37,27 @@ export default {
             type: 'hidden',
             defaultValue: '1',
         }, {
-            name: 'role',
+            name: 'roles',
+            label: '选择角色',
+            type: 'checkbox',
+            items: [{label: 'select 1', value: 'select1'}, {label: 'select 2', value: 'select2'}],
+            required: true,
+            validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+        }, {
+            name: 'positions',
+            label: '选择职位',
+            type: 'checkbox',
+            items: [{label: 'select 1', value: 'select1'}, {label: 'select 2', value: 'select2'}],
+            required: true,
+            validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+        },{
+            name: 'action',
             label: '选择角色',
             type: 'select',
             items: [{label: 'select 1', value: 'select1'}, {label: 'select 2', value: 'select2'}],
             required: true,
             validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
-        }, {
-            name: 'upDown',
-            items: [{value: 0, label: '下行'}, {value: 1, label: '上行'}],
-            label: '上下行',
-            type: 'radio',
-            required: true,
-            defaultValue: '0',
-            validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
-            //此处应该有form的触发
-        }, {
+        },  {
             name: '说明',
             label: 'TestTextarea',
             type: 'textarea',

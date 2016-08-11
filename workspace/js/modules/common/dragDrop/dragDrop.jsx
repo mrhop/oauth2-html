@@ -79,9 +79,8 @@ class DragDrop extends React.Component {
     }
 
     //show form
-    showElementFrom() {
-        //here shall
-        this.props.showElementFrom.bind(this, {symbol: this.props.symbol})();
+    showElementFrom(dataObj = {operationType,data,dataRelated,dataUp,dataDown}) {
+        this.props.showElementFrom.bind(this, {symbol: this.props.symbol,dataObj})();
     }
     //hide form
     hideElementFrom() {
@@ -90,7 +89,8 @@ class DragDrop extends React.Component {
     }
 
     //saveElementFrom
-    saveElementFrom() {
+    saveElementFrom(requestCondition) {
+        //do something with requestCondition.data
         console.log("tese function save")
     }
 

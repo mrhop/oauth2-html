@@ -3,6 +3,8 @@ import dragDropRules from '../structure'
 import SampleGroup from '../basicGroup/sampleGroup';
 import WorkGroup from '../basicGroup/workGroup';
 import TrashGroup from '../basicGroup/trashGroup';
+import {VALIDATE_RULE} from '../../../common/form/actions'
+
 
 export const INIT_WORK_FLOW_REQUEST = 'INIT_WORK_FLOW_REQUEST'
 export const INIT_WORK_FLOW_SUCCESS = 'INIT_WORK_FLOW_SUCCESS'
@@ -133,8 +135,169 @@ export function cleanWorkgroup(requestCondition) {
 //show the new element form and
 export function showElementFrom(requestCondition) {
     //base on the key,根据内容进行调整 form的内容，以及modal的标题等，并放置在requestCondition里面
-    requestCondition.dragElementForm = dragDropRules.dragElementForm
+    var dataObj = requestCondition.dataObj
+    var data = dataObj.data
+    var dataRelated = dataObj.dataRelated
+    var dataUp = dataObj.dataUp
+    var dataDown = dataObj.dataDown
+    var dragElementForm = {
+        structure: [],
+        submit: {label: '保存'},
+        reset: {label: '重置'}
+    };
+    dragElementForm.structure.push({
+        name: "type",
+        type: "hidden",
+        defaultValue: data.type,
+    })
+    dragElementForm.structure.push({
+        name: "level",
+        type: "hidden",
+        defaultValue: data.level,
+    })
+    dragElementForm.structure.push({
+        name: "id",
+        type: "hidden",
+        defaultValue: data.id ? data.id : "temp_id" + this.state.anonymousId
+    })
+    if (!data.id) {
+        this.state.anonymousId += 1;
+    }
+    if (dataRelated) {
+        dragElementForm.structure.push({
+            name: "parentId",
+            type: "hidden",
+            defaultValue: [dataRelated.id],
+        })
+    }
+    dragElementForm.structure.push({
+        name: "label",
+        label: '名称',
+        type: "text",
+        placeholder: '请输入名称',
+        defaultValue: data.label,
+        required: true,
+        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+    })
+    if (data.type == "position") {
+        dragElementForm.structure.push({
+            name: "elementId",
+            label: '选择职位',
+            type: "select",
+            items: this.props.positions,
+            defaultValue: data.elementId,
+            required: true,
+            validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+        })
+    } else if (data.type == "role") {
+        dragElementForm.structure.push({
+            name: "elementId",
+            label: '选择角色',
+            type: "select",
+            items: this.props.roles,
+            defaultValue: data.elementId,
+            required: true,
+            validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+        })
+    } else if (data.type == "action") {
+        dragElementForm.structure.push({
+            name: "elementId",
+            type: "hidden",
+            defaultValue: data.elementId
+        })
+        dragElementForm.structure.push({
+            name: "action",
+            label: '行为标准',
+            type: "radio",
+            items: dragDropRules.defaultActionChoices,
+            defaultValue: data.actionRule ? data.actionRule : "single",
+            required: true,
+            validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+        })
+    }
+    if (dataUp) {
+        if (type === 'role' || type === 'position' && dataUp.data) {
+            dragElementForm.structure.push({
+                name: "parent",
+                label: '上行行为',
+                type: "checkbox",
+                items: dataUp.data,
+                defaultValue: dataUp.defaultValue,
+                required: true,
+                validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+            })
+        } else {
+            if (dataUp.data.roles && dataUp.data.roles.length > 0) {
+                dragElementForm.structure.push({
+                    name: "parentRoles",
+                    label: '上行角色',
+                    type: "checkbox",
+                    items: dataUp.data.roles,
+                    defaultValue: dataUp.defaultValue.roles,
+                    required: true,
+                    validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+                })
+            }
+            if (dataUp.data.positions && dataUp.data.positions.length > 0) {
+                dragElementForm.structure.push({
+                    name: "parentPositions",
+                    label: '上行职位',
+                    type: "checkbox",
+                    items: dataUp.data.positions,
+                    defaultValue: dataUp.defaultValue.positions,
+                    required: true,
+                    validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+                })
+            }
+        }
+    }
+    if (dataDown) {
+        if (type === 'role' || type === 'position' && dataDown.data) {
+            dragElementForm.structure.push({
+                name: "child",
+                label: '下行行为',
+                type: "select",
+                items: dataDown.data,
+                defaultValue: dataDown.defaultValue,
+                required: true,
+                validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+            })
+        } else {
+            if (dataDown.data.roles && dataDown.data.roles.length > 0) {
+                dragElementForm.structure.push({
+                    name: "childRoles",
+                    label: '下行角色',
+                    type: "checkbox",
+                    items: dataDown.data.roles,
+                    defaultValue: dataDown.defaultValue.roles,
+                    required: true,
+                    validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+                })
+            }
+            if (dataDown.data.positions && dataDown.data.positions.length > 0) {
+                dragElementForm.structure.push({
+                    name: "childPositions",
+                    label: '下行职位',
+                    type: "checkbox",
+                    items: dataDown.data.positions,
+                    defaultValue: dataDown.defaultValue.positions,
+                    required: true,
+                    validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+                })
+            }
+        }
+    }
+    dragElementForm.structure.push({
+        name: "desc",
+        label: "详细说明",
+        type: "textarea",
+        defaultValue: data.desc,
+        placeholder: '请输入详细说明'
+    })
+    requestCondition.dragElementForm = dragElementForm
     requestCondition.dragModalData = dragDropRules.dragModalData
+    //注意此处的数据结构要和传输的data保持一致性，所以要在commonElement部分进行data结构的解析和完善，分为多种，注意toplevel的情况处理，
+    // 是否尝试在modalheadr部分加入声明title？，比如您正在添加一个角色，您正在修改一个角色，您正在将角色添加在顶部等等！！！
     return (dispatch, getState) => {
         return dispatch({type: SHOW_ELEMENT_FORM, requestCondition})
     }
