@@ -2,16 +2,48 @@
  * Created by Donghui Huo on 2016/5/13.
  */
 require('./dragDrop.scss');
-import d3 from 'd3'
 import elementResizeEvent from 'element-resize-event';
-import SampleGroup from './basicGroup/sampleGroup';
-import WorkGroup from './basicGroup/workGroup';
-import TrashGroup from './basicGroup/trashGroup';
+import {
+    initWorkflowDispatch,
+    getRolesDispatch,
+    getPositionsDispatch,
+    saveWorkflowDispatch,
+    cleanWorkgroup,
+    showElementFrom,
+    afterSaveElement,
+    deleteElement,
+    createBasicSvg,
+    resizeSvg
+} from './actions'
 class DragDrop extends React.Component {
     constructor(props) {
         super(props);
         //shall be data relate form localstorage or data from server
         this.state = {size: {w: 0, h: 0}};
+    }
+
+    componentWillMount() {
+    }
+
+//点击和拖拽的是不一样的，拖拽的时候可以全部选择，但是只能选level0，拖拽在其中一个上时，标明是其的下行，也是全部可选的
+//点击则可以选择其上行和下行的element，但是action上下行时用checkbox来多选，而职位和角色上下行时使用select，标明只能单选行为
+    componentDidMount() {
+        createBasicSvg(this, this.props.type)
+        elementResizeEvent(this.refs.wrapper, this.fitToParentSize.bind(this));
+        //init data
+        this.props.initWorkflowDispatch({url: this.props.initUrl, symbol: this.props.symbol})
+        this.props.getRolesDispatch({url: this.props.rolesUrl, symbol: this.props.symbol})
+        this.props.getPositionsDispatch({url: this.props.positionsUrl, symbol: this.props.symbol})
+        this.fitToParentSize()
+    }
+
+    componentDidUpdate() {
+        resizeSvg(this)
+    }
+
+    render() {
+        var dragdropDivClasses = classNames("dragdrop-wrapper", this.props.type, this.props.extraClassName)
+        return <div className={dragdropDivClasses} ref="wrapper"></div>
     }
 
     fitToParentSize() {
@@ -30,144 +62,60 @@ class DragDrop extends React.Component {
         resizeId = setTimeout(this.fitToParentSize.bind(this), 200);
     }
 
-    componentWillMount() {
+    //清空工作区
+    cleanWorkgroup() {
+        this.props.cleanWorkgroup({symbol: this.props.symbol})
     }
 
-
-    componentDidMount() {
-        var el = this.refs.wrapper;
-        this.d3 = {svgContainer: d3.select(el).append("svg")}
-        var defs = this.d3.svgContainer.append("defs");
-        var filter = defs.append("filter")
-            .attr("id", "drop-shadow")
-            .attr("height", "150%");
-        filter.append("feGaussianBlur")
-            .attr("in", "SourceAlpha")
-            .attr("stdDeviation", 5)
-            .attr("result", "blur");
-        var feOffset = filter.append("feOffset")
-            .attr("in", "blur")
-            .attr("dx", 5)
-            .attr("dy", 5)
-            .attr("result", "offsetBlur");
-        var feMerge = filter.append("feMerge");
-        feMerge.append("feMergeNode")
-            .attr("in", "offsetBlur")
-        feMerge.append("feMergeNode")
-            .attr("in", "SourceGraphic");
-        var arrowMarker = defs.append("marker")
-            .attr("id","arrow-marker")
-            .attr("markerUnits","strokeWidth")
-            .attr("markerWidth",6)
-            .attr("markerHeight",6)
-            .attr("viewBox","0 0 6 6")
-            .attr("refX",3)
-            .attr("refY",3)
-            .attr("orient","auto")
-        arrowMarker.append("path")
-            .attr("d","M1,1 L5,3 L1,5 L3,3 L1,1")
-            .style("fill", "#000")
-
-        let workGroupData = [[
-            {
-                id: 1,
-                name: 'role1',
-                label: '角色1',
-                type: 'role',
-                level:'0',
-                parentId: null,
-                childId: [4]
-            }, {
-                id: 2,
-                name: 'position1',
-                label: '职位1',
-                type: 'position',
-                level:'0',
-                parentId: null,
-                childId: [4]
-            }, {
-                id: 3,
-                name: 'role2',
-                label: '角色2',
-                type: 'role',
-                level:'0',
-                parentId: null,
-                childId: [5]
-            }
-        ], [
-            {
-                id: 4,
-                name: 'action1',
-                label: '行为1',
-                type: 'action',
-                level:1,
-                parentId: [1, 2],
-                childId: [6,7]
-            }, {
-                id: 5,
-                name: 'action2',
-                label: '行为2',
-                type: 'action',
-                level:1,
-                parentId: [3],
-                childId: [6]
-            }
-        ], [
-            {
-                id: 6,
-                name: 'role3',
-                label: '角色3',
-                type: 'role',
-                level:2,
-                parentId: [4, 5],
-                childId: null
-            }, {
-                id: 7,
-                name: 'role4',
-                label: '角色4',
-                type: 'role',
-                level:2,
-                parentId: [4],
-                childId: null
-            }
-        ]]
-        let sampleData = [
-            {model: 'ellipse',type:'role', label: '角色'}, 
-            {model: 'rect',type:'position', label: '职位'}, 
-            {model: 'diamond',type:'action', label: '动作'}]
-        let workGroup = new WorkGroup(this, workGroupData);
-        let trashGroup = new TrashGroup(this);
-        let sampleGroup = new SampleGroup(this, sampleData);
-        this.d3.sampleGroup = sampleGroup;
-        this.d3.workGroup = workGroup;
-        this.d3.trashGroup = trashGroup;
-        elementResizeEvent(this.refs.wrapper, this.fitToParentSize.bind(this));
-        this.fitToParentSize()
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return true;
-    }
-
-
-    componentDidUpdate() {
-        this.d3.svgContainer.attr("width", this.state.size.w)
-            .attr("height", this.state.size.h);
-        this.d3.sampleGroup.resize(this.state.size.w, this.state.size.h);
-        this.d3.workGroup.resize(this.state.size.w, this.state.size.h);
-        this.d3.trashGroup.resize(this.state.size.w, this.state.size.h);
-    }
-
-    render() {
-        return <div className="dragdrop-wrapper" ref="wrapper"></div>
-    }
+    //save
 }
-DragDrop.propTypes = {}
+DragDrop.propTypes = {
+    symbol: React.PropTypes.any.isRequired,
+    type: React.PropTypes.string,
+    extraClassName: React.PropTypes.string,
+    workData: React.PropTypes.array,
+    roles: React.PropTypes.array,
+    positions: React.PropTypes.array,
+    initUrl: React.PropTypes.string,
+    saveUrl: React.PropTypes.string,
+    rolesUrl: React.PropTypes.string,
+    positionsUrl: React.PropTypes.string,
+    initWorkflowDispatch: React.PropTypes.func,
+    getRolesDispatch: React.PropTypes.func,
+    getPositionsDispatch: React.PropTypes.func,
+    saveWorkflowDispatch: React.PropTypes.func,
+    cleanWorkgroup: React.PropTypes.func,
+    showElementFrom: React.PropTypes.func,
+    afterSaveElement: React.PropTypes.func,
+    deleteElement: React.PropTypes.func,
+}
 
 function mapStateToProps(state, ownProps) {
-    return ownProps
+    if (ownProps.symbol && state && state.dragDrop && state.dragDrop.main[ownProps.symbol]) {
+        const {
+            data,
+            flowId,
+            flowName,
+            roles,
+            positions
+        } = state.dragDrop.main[ownProps.symbol]
+        return {workData: data, flowId, flowName, roles, positions}
+    } else {
+        return {};
+    }
 }
 
 module.exports = {
-    DragDrop: ReactRedux.connect(mapStateToProps, {})(DragDrop),
-};
+    DragDrop: ReactRedux.connect(mapStateToProps, {
+            initWorkflowDispatch,
+            getRolesDispatch,
+            getPositionsDispatch,
+            saveWorkflowDispatch,
+            cleanWorkgroup,
+            showElementFrom,
+            afterSaveElement,
+            deleteElement
+        }
+    )(DragDrop)
+}
+;

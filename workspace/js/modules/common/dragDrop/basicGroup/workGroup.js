@@ -3,9 +3,9 @@
  */
 
 export default class WorkGroup {
-    constructor(parent, data) {
+    constructor(parent) {
         this.parent = parent
-        this.data = {items: data};
+        this.data = {};
         this.svgContainer = this.parent.d3.svgContainer;
         this.workGroup = this.svgContainer.append("g")
             .attr("class", "work-group")
@@ -17,7 +17,7 @@ export default class WorkGroup {
             .attr("transform", "translate(0,0)")
     }
 
-    resize(containerWidth, containerHeight) {
+    resize(containerWidth, containerHeight,data) {
         this.baseReact
             .attr("x", 0)
             .attr("y", 0)
@@ -25,11 +25,18 @@ export default class WorkGroup {
             .attr("height", containerHeight - 10);
         this.data.containerWidth = containerWidth - 110
         this.data.containerHeight = containerHeight - 10
-        this.drawData()
+        if(data){
+            this.data.items = data
+            this.drawData()
+        }else{
+            this.data.items = data
+            this.cleanWorkgroup();
+        }
     }
 
     cleanWorkgroup() {
         this.totalElemntGroup.selectAll("*").remove();
+        this.parent.workDataCoordinate = null
     }
 
 
@@ -145,6 +152,6 @@ export default class WorkGroup {
                 }
             }
         }
-        this.parent.workGroupData = positionData;
+        this.parent.workDataCoordinate = positionData;
     }
 }

@@ -106,22 +106,22 @@ class DashBoardMainBlock extends React.Component {
         var columnsSecond = [
                 <Panel.DefaultPanel>
                     <button className="btn btn-primary"
-                            onClick={Modal.createModal.bind(this,basicModalData,'default')}>open default modal
+                            onClick={Modal.createModal.bind(this,{modalValues:basicModalData,type:'default'})}>open default modal
                     </button>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     <button className="btn btn-primary"
-                            onClick={Modal.createModal.bind(this,basicModalData,'lgModal')}>open large modal
+                            onClick={Modal.createModal.bind(this,{modalValues:basicModalData,type:'lgModal'})}>open large modal
                     </button>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     <button className="btn btn-primary"
-                            onClick={Modal.createModal.bind(this,basicModalData,'smModal')}>open small modal
+                            onClick={Modal.createModal.bind(this,{modalValues:basicModalData,type:'smModal'})}>open small modal
                     </button>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     <button className="btn btn-primary"
-                            onClick={Modal.createModal.bind(this,basicModalData,'message')}>open default message modal
+                            onClick={Modal.createModal.bind(this,{modalValues:basicModalData,type:'message'})}>open default message modal
                     </button>
                 </Panel.DefaultPanel>
 
@@ -130,22 +130,22 @@ class DashBoardMainBlock extends React.Component {
         var columnsThird = [
                 <Panel.DefaultPanel>
                     <button className="btn btn-success"
-                            onClick={Modal.createModal.bind(this,basicModalData,'messageSuccess')}>open success modal
+                            onClick={Modal.createModal.bind(this,{modalValues:basicModalData,type:'messageSuccess'})}>open success modal
                     </button>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     <button className="btn btn-warning"
-                            onClick={Modal.createModal.bind(this,basicModalData,'messageWarning')}>open warning modal
+                            onClick={Modal.createModal.bind(this,{modalValues:basicModalData,type:'messageWarning'})}>open warning modal
                     </button>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     <button className="btn btn-danger"
-                            onClick={Modal.createModal.bind(this,basicModalData,'messageError')}>open error modal
+                            onClick={Modal.createModal.bind(this,{modalValues:basicModalData,type:'messageError'})}>open error modal
                     </button>
                 </Panel.DefaultPanel>,
                 <Panel.DefaultPanel>
                     <button className="btn btn-danger"
-                            onClick={Modal.createModal.bind(this,confirmModalData,'messageConfirm')}>open confirm message
+                            onClick={Modal.createModal.bind(this,{modalValues:confirmModalData,type:'messageConfirm'})}>open confirm message
                         modal
                     </button>
                 </Panel.DefaultPanel>

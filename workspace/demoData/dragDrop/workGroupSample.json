@@ -1,0 +1,89 @@
+{
+  "flowId": 1,
+  "flowName": "测试工作流",
+  "data": [
+    [
+      {
+        "id": 1,
+        "label": "角色1",
+        "type": "role",
+        "level": "0",
+        "parentId": null,
+        "childId": [
+          4
+        ]
+      },
+      {
+        "id": 2,
+        "label": "职位1",
+        "type": "position",
+        "level": "0",
+        "parentId": null,
+        "childId": [
+          4
+        ]
+      },
+      {
+        "id": 3,
+        "label": "角色2",
+        "type": "role",
+        "level": "0",
+        "parentId": null,
+        "childId": [
+          5
+        ]
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "label": "行为1",
+        "type": "action",
+        "level": 1,
+        "parentId": [
+          1,
+          2
+        ],
+        "childId": [
+          6,
+          7
+        ]
+      },
+      {
+        "id": 5,
+        "label": "行为2",
+        "type": "action",
+        "level": 1,
+        "parentId": [
+          3
+        ],
+        "childId": [
+          6
+        ]
+      }
+    ],
+    [
+      {
+        "id": 6,
+        "label": "角色3",
+        "type": "role",
+        "level": 2,
+        "parentId": [
+          4,
+          5
+        ],
+        "childId": null
+      },
+      {
+        "id": 7,
+        "label": "角色4",
+        "type": "role",
+        "level": 2,
+        "parentId": [
+          4
+        ],
+        "childId": null
+      }
+    ]
+  ]
+}

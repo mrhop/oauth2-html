@@ -3,39 +3,43 @@
  */
 require('./modal.scss');
 let modalWrapper = null;
-function createModal(modalValues, type) {
+function createModal({modalValues, type, children}) {
     if (!modalWrapper) {
         modalWrapper = document.createElement('div');
         modalWrapper.setAttribute('id', 'modal-wrapper');
         document.body.insertBefore(modalWrapper, document.body.children[0]);
     }
     if (!type || type == 'default') {
-        ReactDOM.render(<DefaultModal key={UtilFun.uuid()} modalValues={modalValues} _call={this}/>, modalWrapper);
+        ReactDOM.render(<DefaultModal key={UtilFun.uuid()} modalValues={modalValues}
+                                      _call={this}>{children ? children : null}</DefaultModal>, modalWrapper);
     } else if (type == 'lgModal') {
         //other creation
-        ReactDOM.render(<DefaultLgModal key={UtilFun.uuid()} modalValues={modalValues} _call={this}/>, modalWrapper);
+        ReactDOM.render(<DefaultLgModal key={UtilFun.uuid()} modalValues={modalValues}
+                                        _call={this}>{children ? children : null}</DefaultLgModal>, modalWrapper);
     } else if (type == 'smModal') {
         //other creation
-        ReactDOM.render(<DefaultSmModal key={UtilFun.uuid()} modalValues={modalValues} _call={this}/>, modalWrapper);
+        ReactDOM.render(<DefaultSmModal key={UtilFun.uuid()} modalValues={modalValues}
+                                        _call={this}>{children ? children : null}</DefaultSmModal>, modalWrapper);
     } else if (type == 'message') {
         //other creation
         ReactDOM.render(<MessageDefaultModal key={UtilFun.uuid()} modalValues={modalValues}
-                                             _call={this}/>, modalWrapper);
+                                             _call={this}>{children ? children : null}</MessageDefaultModal>, modalWrapper);
     } else if (type == 'messageSuccess') {
         //other creation
         ReactDOM.render(<MessageSuccessModal key={UtilFun.uuid()} modalValues={modalValues}
-                                             _call={this}/>, modalWrapper);
+                                             _call={this}>{children ? children : null}</MessageSuccessModal>, modalWrapper);
     } else if (type == 'messageWarning') {
         //other creation
         ReactDOM.render(<MessageWarningModal key={UtilFun.uuid()} modalValues={modalValues}
-                                             _call={this}/>, modalWrapper);
+                                             _call={this}>{children ? children : null}</MessageWarningModal>, modalWrapper);
     } else if (type == 'messageError') {
         //other creation
-        ReactDOM.render(<MessageErrorModal key={UtilFun.uuid()} modalValues={modalValues} _call={this}/>, modalWrapper);
+        ReactDOM.render(<MessageErrorModal key={UtilFun.uuid()} modalValues={modalValues}
+                                           _call={this}>{children ? children : null}</MessageErrorModal>, modalWrapper);
     } else if (type == 'messageConfirm') {
         //other creation
         ReactDOM.render(<MessageConfirmModal key={UtilFun.uuid()} modalValues={modalValues}
-                                             _call={this}/>, modalWrapper);
+                                             _call={this}>{children ? children : null}</MessageConfirmModal>, modalWrapper);
     } else {
         //do nothing
     }
@@ -46,6 +50,17 @@ class BasicModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {alertVisible: true};
+        if (this.props.alertVisible !== undefined) {
+            this.state.alertVisible = this.props.alertVisible;
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.alertVisible !== undefined) {
+            this.setState({
+                alertVisible: nextProps.alertVisible
+            });
+        }
     }
 
     handleAlertDismiss() {
@@ -73,6 +88,7 @@ class BasicModal extends React.Component {
         this.closeModal(e);
         this.props.modalValues.footerConfirmButton.callback.bind(this.props._call)();
     }
+
 
     componentDidMount() {
 

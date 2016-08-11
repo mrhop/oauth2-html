@@ -1,7 +1,8 @@
 /**
  * Created by Donghui Huo on 2016/5/13.
  */
-const clearWorkgroup = {
+import {cleanWorkflowDialog} from "../actions"
+const cleanWorkgroup = {
     content: <span>If you confirm this, the data on the workgroup will be clear</span>,
     title: 'Do you want to clear the workgroup ?',
     footerConfirmButton: {
@@ -25,7 +26,7 @@ export default class TrashGroup {
             .attr("class", "trash-base-text")
             .text(function (d) {
                 return '\ue910'
-            }).on("click", Modal.createModal.bind(this.parent.workGroup, clearWorkgroup, 'messageConfirm'))
+            }).on("click",cleanWorkflowDialog.bind(this,this.parent))
     }
 
     resize(containerWidth, containerHeight) {
