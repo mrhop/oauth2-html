@@ -92,8 +92,8 @@ class BasicModal extends React.Component {
 
 
     handleAlertDismiss() {
-        this.props.modalValues.closeFun();
         this.setState({alertVisible: false});
+        this.props.modalValues.closeFun();
     }
 
     closeModal(e) {

@@ -16,16 +16,16 @@ function main(state = {}, action) {
     }
 
     if (action.type === ActionTypes.FORM_POST_SUCCESS) {
-        let rule = state[action.requestCondition.formKey].rule
         //将action.response和 validateFailureMsg 合并,并返回;
-        state[action.requestCondition.formKey].status = action.response.status;
-        if(action.response.failureMsg){
-            state[action.requestCondition.formKey].failureMsg = action.response.failureMsg;
+        if(action.response){
+            state[action.requestCondition.formKey].status = action.response.status;
+            if(action.response.failureMsg){
+                state[action.requestCondition.formKey].failureMsg = action.response.failureMsg;
+            }
+            if(action.response.responseData){
+                state[action.requestCondition.formKey].responseData = action.response.responseData;
+            }
         }
-        if(action.response.responseData){
-            state[action.requestCondition.formKey].responseData = action.response.responseData;
-        }
-        state[action.requestCondition.formKey].rule = rule;
         return l_merge({}, state)
     }
 
