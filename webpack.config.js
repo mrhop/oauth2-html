@@ -32,6 +32,7 @@ const toolsJs = [
     'lodash/map',
     'lodash/forEach',
     'lodash/assign',
+    'lodash/difference',
     __dirname + '/workspace/js/util/utilFun',
 ];
 const commonComponentsJs = [
@@ -152,6 +153,7 @@ module.exports = {
             'l_merge': 'lodash/merge',
             'l_map': 'lodash/map',
             'l_assign': 'lodash/assign',
+            'l_difference': 'lodash/difference',
             'humps': 'humps',
             'moment': 'moment',
             'UtilFun': __dirname + '/workspace/js/util/utilFun',

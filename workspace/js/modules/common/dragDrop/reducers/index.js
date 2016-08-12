@@ -20,16 +20,16 @@ function main(state = {}, action) {
     }
     if (action.type === ActionTypes.ROLES_GET_SUCCESS) {
         //get need rows
-        if (action.response.responseData) {
-            state[action.requestCondition.symbol].roles = action.response.responseData;
+        if (action.response) {
+            state[action.requestCondition.symbol].roles = action.response;
         }
         return l_merge({}, state)
     }
 
     if (action.type === ActionTypes.POSITIONS_GET_SUCCESS) {
         //get need rows
-        if (action.response.responseData) {
-            state[action.requestCondition.symbol].positions = action.response.responseData;
+        if (action.response) {
+            state[action.requestCondition.symbol].positions = action.response;
         }
         return l_merge({}, state)
     }
@@ -70,61 +70,18 @@ function main(state = {}, action) {
         state[action.requestCondition.symbol].dragModalData = null
         return l_merge({}, state)
     }
-    if (action.type === ActionTypes.AFTER_SAVE_ELEMENT) {
-        if (action.data) {
-            state[action.requestCondition.symbol].data = action.data
-        } else {
-            var data = state[action.requestCondition.symbol].data
-            var items = data[action.requestCondition.level]
-            if (!items) {
-                items = [action.requestCondition]
-                data.push(items)
-            } else {
-                items.push(action.requestCondition);
-            }
-        }
-        return l_merge({}, state)
-    }
 
     if (action.type === ActionTypes.AFTER_SAVE_ELEMENT) {
         if (action.data) {
             state[action.requestCondition.symbol].data = action.data
         } else {
+            var dataInput = action.requestCondition.data
             var data = state[action.requestCondition.symbol].data;
-            var items = data[action.requestCondition.level]
-            if (!items) {
-                items = [action.requestCondition]
-                data.push(items)
-            } else {
-                items.push(action.requestCondition);
-            }
-            if (requestCondition.parentId && data[requestCondition.level - 1]) {
-                items = data[requestCondition.level - 1]
-                for (var i = 0; i < items.length; i++) {
-                    if (requestCondition.parentId.indexOf(items[i].id) > -1) {
-                        var childId = items[i].childId;
-                        if (!childId) {
-                            items[i].childId = [requestCondition.id];
-                        } else if (childId && childId.indexOf(requestCondition.id) < 0) {
-                            items[i].childId.push(requestCondition.id)
-                        }
-                    }
-                }
-            }
-            if (requestCondition.parentId && data[requestCondition.level + 1]) {
-                items = data[requestCondition.level + 1]
-                for (var i = 0; i < items.length; i++) {
-                    if (requestCondition.childId.indexOf(items[i].id) > -1) {
-                        var parentId = items[i].parentId;
-                        if (!parentId) {
-                            items[i].parentId = [requestCondition.id];
-                        } else if (parentId && parentId.indexOf(requestCondition.id) < 0) {
-                            items[i].parentId.push(requestCondition.id)
-                        }
-                    }
-                }
-            }
+            state[action.requestCondition.symbol].data = ActionTypes.saveOrUpdateElement(data,dataInput)
         }
+        state[action.requestCondition.symbol].addFormVisible = false
+        state[action.requestCondition.symbol].dragElementForm = null
+        state[action.requestCondition.symbol].dragModalData = null
         return l_merge({}, state)
     }
     if (action.type === ActionTypes.DELETE_ELEMENT) {
@@ -132,7 +89,7 @@ function main(state = {}, action) {
             state[action.requestCondition.symbol].data = action.data
         } else {
             var data = state[action.requestCondition.symbol].data
-            var items = data[requestCondition.level]
+            var items = data[action.requestCondition.level]
             var item = null;
             for (var i = 0; i < items.length; i++) {
                 if (items[i].id === requestCondition.id) {
@@ -142,7 +99,7 @@ function main(state = {}, action) {
                 }
             }
             if (item) {
-                items = data[requestCondition.level - 1]
+                items = data[action.requestCondition.level - 1]
                 if (items && item.parentId) {
                     for (var i = 0; i < items.length; i++) {
                         var itemSub = items[i]
@@ -154,7 +111,7 @@ function main(state = {}, action) {
                     }
                 }
                 var itemsTemp = [];
-                ActionTypes.iterationFlowDelete(item, data, requestCondition.level + 1, itemsTemp)
+                ActionTypes.iterationFlowDelete(item, data, action.requestCondition.level + 1, itemsTemp)
                 for (var i = 0; i < itemsTemp.length; i++) {
                     var obj = itemsTemp[i];
                     data[obi.i].splice(obi.j, 1);

@@ -74,6 +74,9 @@ export default {
     }, dragToastData: {
         content: <span>不能将角色和职位关联，行为和行为关联</span>,
         title: '拖拽错误'
+    }, dragToastData2: {
+        content: <span>每个职位或角色只能有一个关联行为</span>,
+        title: '拖拽错误'
     }
 
 }

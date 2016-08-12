@@ -1,6 +1,7 @@
 /**
  * Created by Donghui Huo on 2016/5/13.
  */
+import d3 from 'd3'
 
 export default class WorkGroup {
     constructor(parent) {
@@ -17,7 +18,7 @@ export default class WorkGroup {
             .attr("transform", "translate(0,0)")
     }
 
-    resize(containerWidth, containerHeight,data) {
+    resize(containerWidth, containerHeight, data) {
         this.baseReact
             .attr("x", 0)
             .attr("y", 0)
@@ -25,10 +26,10 @@ export default class WorkGroup {
             .attr("height", containerHeight - 10);
         this.data.containerWidth = containerWidth - 110
         this.data.containerHeight = containerHeight - 10
-        if(data){
+        if (data) {
             this.data.items = data
             this.drawData()
-        }else{
+        } else {
             this.data.items = data
             this.cleanWorkgroup();
         }
@@ -56,6 +57,7 @@ export default class WorkGroup {
         }
         var linePoints = {}
         var positionData = [];
+        var relatedElementClick = [];
         for (var i = 0; i < this.data.items.length; i++) {
             var item = this.data.items[i];
             var length = item.length;
@@ -76,16 +78,68 @@ export default class WorkGroup {
                 } else {
                     x = subSize * j;
                 }
-                var group = this.totalElemntGroup.append("g").data([subItem])
+                //获取data
+                //获取dataup
+                //获取datadown
+                var dataUp = {}
+                var dataDown = {}
+                if (this.data.items[i - 1] && this.data.items[i - 1].length > 0) {
+                    var upItems = this.data.items[i - 1]
+                    if (subItem.type == "action") {
+                        var positionUps = this.generateOptions(upItems, "position", "up", subItem.id)
+                        var roleUps = this.generateOptions(upItems, "role", "up", subItem.id)
+                        if (positionUps.data && positionUps.data.length > 0) {
+                            dataUp.positions = positionUps
+                        }
+                        if (roleUps.data && roleUps.data.length > 0) {
+                            dataUp.roles = roleUps
+                        }
+                    } else {
+                        var actionUps = this.generateOptions(upItems, "action", "up", subItem.id)
+                        dataUp = actionUps;
+                    }
+                }
+                if (this.data.items[i + 1] && this.data.items[i + 1].length > 0) {
+                    var downItems = this.data.items[i + 1]
+                    if (subItem.type == "action") {
+                        var positionDowns = this.generateOptions(downItems, "position", "down", subItem.id)
+                        var roleDowns = this.generateOptions(downItems, "role", "down", subItem.id)
+                        if (positionDowns.data && positionDowns.data.length > 0) {
+                            dataDown.positions = positionDowns
+                        }
+                        if (roleDowns.data && roleDowns.data.length > 0) {
+                            dataDown.roles = roleDowns
+                        }
+                    } else {
+                        var actionDowns = this.generateOptions(downItems, "action", "down", subItem.id)
+                        dataDown = actionDowns;
+                    }
+                }
+                var group = this.totalElemntGroup.append("g").data([{dataUp, dataDown, data: subItem}])
                     .attr("id", "item-workgroup-" + subItem.id)
                     .attr("transform", "translate(" + x + "," + y + ")")
-                positionData.push({
-                    x1: x,
-                    y1: y,
-                    x2: hor ? x + size : x + subSize,
-                    y2: hor ? y + subSize : size + y,
-                    data: subItem
-                })
+                    .on("click", function (d) {
+                            if (d3.event.defaultPrevented) {
+                                return;
+                            }
+                            this.parent.showElementFrom({
+                                operationType: "update",
+                                data: d.data,
+                                dataUp: d.dataUp,
+                                dataDown: d.dataDown
+                            })
+                        }.bind(this)
+                    );
+                relatedElementClick.push({dataUp, dataDown, group, data: subItem});
+                positionData
+                    .push({
+                            x1: x,
+                            y1: y,
+                            x2: hor ? x + size : x + subSize,
+                            y2: hor ? y + subSize : size + y,
+                            data: subItem
+                        }
+                    )
                 var type = "rect";
                 if (subItem.type == "role") {
                     type = "ellipse"
@@ -154,4 +208,27 @@ export default class WorkGroup {
         }
         this.parent.workDataCoordinate = positionData;
     }
+
+
+    generateOptions(items, type, direction, id) {
+        var data = []
+        var defaultValue = ""
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (item.type == type) {
+                data.push({"value": item.id, "label": item.label})
+                if (direction == "up" && item.childId && item.childId.indexOf(id) > -1) {
+                    defaultValue = defaultValue + "," + item.id
+                }
+                if (direction == "down" && item.parentId && item.parentId.indexOf(id) > -1) {
+                    defaultValue = defaultValue + "," + item.id
+                }
+            }
+        }
+        if (defaultValue != "") {
+            defaultValue = defaultValue.substring(1, defaultValue.length);
+        }
+        return {data, defaultValue}
+    }
+
 }

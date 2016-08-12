@@ -27,6 +27,7 @@ export const AFTER_SAVE_WORK_FLOW_SUCCESS = 'AFTER_SAVE_WORK_FLOW_SUCCESS'
 export const CLEAN_WORK_GROUP = 'CLEAN_WORK_GROUP'
 //显示新建或者需修改的单个元素的form modal
 export const SHOW_ELEMENT_FORM = 'SHOW_ELEMENT_FORM'
+export const AFTER_SAVE_ELEMENT = 'AFTER_SAVE_ELEMENT'
 export const HIDE_ELEMENT_FORM = 'HIDE_ELEMENT_FORM'
 //删除单个元素，同时删除单独关联元素
 export const DELETE_ELEMENT = 'DELETE_ELEMENT'
@@ -135,6 +136,7 @@ export function cleanWorkgroup(requestCondition) {
 //show the new element form and
 export function showElementFrom(requestCondition) {
     //base on the key,根据内容进行调整 form的内容，以及modal的标题等，并放置在requestCondition里面
+    var _this = requestCondition._this
     var dataObj = requestCondition.dataObj
     var data = dataObj.data
     var dataRelated = dataObj.dataRelated
@@ -158,10 +160,10 @@ export function showElementFrom(requestCondition) {
     dragElementForm.structure.push({
         name: "id",
         type: "hidden",
-        defaultValue: data.id ? data.id : "temp_id" + this.state.anonymousId
+        defaultValue: data.id ? data.id : "temp_id" + _this.state.anonymousId
     })
     if (!data.id) {
-        this.state.anonymousId += 1;
+        _this.state.anonymousId += 1;
     }
     if (dataRelated) {
         dragElementForm.structure.push({
@@ -170,21 +172,23 @@ export function showElementFrom(requestCondition) {
             defaultValue: [dataRelated.id],
         })
     }
-    dragElementForm.structure.push({
-        name: "label",
-        label: '名称',
-        type: "text",
-        placeholder: '请输入名称',
-        defaultValue: data.label,
-        required: true,
-        validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
-    })
+    if (data.type == "action") {
+        dragElementForm.structure.push({
+            name: "label",
+            label: '名称',
+            type: "text",
+            placeholder: '请输入名称',
+            defaultValue: data.label,
+            required: true,
+            validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+        })
+    }
     if (data.type == "position") {
         dragElementForm.structure.push({
             name: "elementId",
             label: '选择职位',
             type: "select",
-            items: this.props.positions,
+            items: _this.props.positions,
             defaultValue: data.elementId,
             required: true,
             validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
@@ -194,7 +198,7 @@ export function showElementFrom(requestCondition) {
             name: "elementId",
             label: '选择角色',
             type: "select",
-            items: this.props.roles,
+            items: _this.props.roles,
             defaultValue: data.elementId,
             required: true,
             validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
@@ -206,7 +210,7 @@ export function showElementFrom(requestCondition) {
             defaultValue: data.elementId
         })
         dragElementForm.structure.push({
-            name: "action",
+            name: "actionRule",
             label: '行为标准',
             type: "radio",
             items: dragDropRules.defaultActionChoices,
@@ -216,7 +220,7 @@ export function showElementFrom(requestCondition) {
         })
     }
     if (dataUp) {
-        if (type === 'role' || type === 'position' && dataUp.data) {
+        if ((data.type === 'role' || data.type === 'position') && dataUp.data && dataUp.data.length > 0) {
             dragElementForm.structure.push({
                 name: "parent",
                 label: '上行行为',
@@ -227,32 +231,31 @@ export function showElementFrom(requestCondition) {
                 validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
             })
         } else {
-            if (dataUp.data.roles && dataUp.data.roles.length > 0) {
+            if (dataUp.roles && dataUp.roles.data && dataUp.roles.data.length > 0) {
                 dragElementForm.structure.push({
                     name: "parentRoles",
                     label: '上行角色',
                     type: "checkbox",
-                    items: dataUp.data.roles,
-                    defaultValue: dataUp.defaultValue.roles,
-                    required: true,
-                    validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+                    items: dataUp.roles.data,
+                    defaultValue: dataUp.roles.defaultValue,
                 })
             }
-            if (dataUp.data.positions && dataUp.data.positions.length > 0) {
+            if (dataUp.positions && dataUp.positions.data && dataUp.positions.data.length > 0) {
                 dragElementForm.structure.push({
                     name: "parentPositions",
                     label: '上行职位',
                     type: "checkbox",
-                    items: dataUp.data.positions,
-                    defaultValue: dataUp.defaultValue.positions,
-                    required: true,
-                    validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+                    items: dataUp.positions.data,
+                    defaultValue: dataUp.positions.defaultValue
                 })
             }
         }
     }
     if (dataDown) {
-        if (type === 'role' || type === 'position' && dataDown.data) {
+        if ((data.type === 'role' || data.type === 'position') && dataDown.data && dataDown.data.length > 0) {
+            if (typeof data.id == "number") {
+                dataDown.defaultValue = Number(dataDown.defaultValue)
+            }
             dragElementForm.structure.push({
                 name: "child",
                 label: '下行行为',
@@ -263,26 +266,22 @@ export function showElementFrom(requestCondition) {
                 validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
             })
         } else {
-            if (dataDown.data.roles && dataDown.data.roles.length > 0) {
+            if (dataDown.roles && dataDown.roles.data && dataDown.roles.data.length > 0) {
                 dragElementForm.structure.push({
                     name: "childRoles",
                     label: '下行角色',
                     type: "checkbox",
-                    items: dataDown.data.roles,
-                    defaultValue: dataDown.defaultValue.roles,
-                    required: true,
-                    validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+                    items: dataDown.roles.data,
+                    defaultValue: dataDown.roles.defaultValue
                 })
             }
-            if (dataDown.data.positions && dataDown.data.positions.length > 0) {
+            if (dataDown.positions && dataDown.positions.data && dataDown.positions.data.length > 0) {
                 dragElementForm.structure.push({
                     name: "childPositions",
                     label: '下行职位',
                     type: "checkbox",
-                    items: dataDown.data.positions,
-                    defaultValue: dataDown.defaultValue.positions,
-                    required: true,
-                    validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+                    items: dataDown.positions.data,
+                    defaultValue: dataDown.positions.defaultValue
                 })
             }
         }
@@ -292,10 +291,14 @@ export function showElementFrom(requestCondition) {
         label: "详细说明",
         type: "textarea",
         defaultValue: data.desc,
+        rows: 3,
         placeholder: '请输入详细说明'
     })
     requestCondition.dragElementForm = dragElementForm
     requestCondition.dragModalData = dragDropRules.dragModalData
+    requestCondition.dragModalData.title = (dataObj.operationType == "add" ? "增加" : "修改")
+        + (data.type == "role" ? "角色" : (data.type == "position" ? "职位" : "行为"))
+        + (data.label ? "[" + data.label + "]" : "")
     //注意此处的数据结构要和传输的data保持一致性，所以要在commonElement部分进行data结构的解析和完善，分为多种，注意toplevel的情况处理，
     // 是否尝试在modalheadr部分加入声明title？，比如您正在添加一个角色，您正在修改一个角色，您正在将角色添加在顶部等等！！！
     return (dispatch, getState) => {
@@ -313,43 +316,13 @@ export function hideElementFrom(requestCondition) {
 //-I think the form have been saved,shall be callback, 根据返回的data,进行新增element 的id的更新，预设temp id
 export function afterSaveElement(requestCondition) {
     //base on the key
+    var dataInput = requestCondition.data
     if (window.localStorage && window.localStorage["work_flow::" + requestCondition.symbol]) {
-        var data = JSON.parse(window.localStorage["work_flow::" + requestCondition.symbol]).data
-        var items = data[requestCondition.level]
-        if (!items) {
-            items = [requestCondition]
-            data.push(items)
-        } else {
-            items.push(requestCondition);
-        }
-        if (requestCondition.parentId && data[requestCondition.level - 1]) {
-            items = data[requestCondition.level - 1]
-            for (var i = 0; i < items.length; i++) {
-                if (requestCondition.parentId.indexOf(items[i].id) > -1) {
-                    var childId = items[i].childId;
-                    if (!childId) {
-                        items[i].childId = [requestCondition.id];
-                    } else if (childId && childId.indexOf(requestCondition.id) < 0) {
-                        items[i].childId.push(requestCondition.id)
-                    }
-                }
-            }
-        }
-        if (requestCondition.parentId && data[requestCondition.level + 1]) {
-            items = data[requestCondition.level + 1]
-            for (var i = 0; i < items.length; i++) {
-                if (requestCondition.childId.indexOf(items[i].id) > -1) {
-                    var parentId = items[i].parentId;
-                    if (!parentId) {
-                        items[i].parentId = [requestCondition.id];
-                    } else if (parentId && parentId.indexOf(requestCondition.id) < 0) {
-                        items[i].parentId.push(requestCondition.id)
-                    }
-                }
-            }
-        }
+        var json = JSON.parse(window.localStorage["work_flow::" + requestCondition.symbol]);
+        json.data = saveOrUpdateElement(json.data, dataInput)
+        window.localStorage["work_flow::" + requestCondition.symbol] = JSON.stringify(json);
         return (dispatch, getState) => {
-            return dispatch({type: AFTER_SAVE_ELEMENT, requestCondition, data})
+            return dispatch({type: AFTER_SAVE_ELEMENT, requestCondition, data: json.data})
         }
     }
     return (dispatch, getState) => {
@@ -462,4 +435,69 @@ export function resizeSvg(_this) {
 }
 export function cleanWorkflowDialog(_this) {
     Modal.createModal.bind(_this, {modalValues: dragDropRules.cleanWorkflowDialog, type: 'messageConfirm'})()
+}
+
+
+export function saveOrUpdateElement(data, dataInput) {
+    var items = data[dataInput.level]
+    if (!items) {
+        items = [dataInput]
+        data.push(items)
+    } else {
+        var insertFlag = true;
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i]
+            if (items[i].id == dataInput.id) {
+                items[i] = dataInput;
+                insertFlag = false;
+                break
+            } else if (item.level == dataInput.level && (dataInput.elementId && item.elementId == dataInput.elementId)) {
+                if (dataInput.parentId) {
+                    if (item.parentId) {
+                        if (item.parentId.indexOf(dataInput.parentId[0]) < 0) {
+                            item.parentId.push(dataInput.parentId[0])
+                        }
+                    } else {
+                        item.parentId = dataInput.parentId
+                    }
+                }
+                insertFlag = false;
+                break
+            }
+        }
+        if (insertFlag) {
+            items.push(dataInput);
+        }
+    }
+    if (dataInput.parentId && data[dataInput.level - 1]) {
+        items = data[dataInput.level - 1]
+        for (var i = 0; i < items.length; i++) {
+            if (dataInput.parentId.indexOf(items[i].id) > -1) {
+                var childId = items[i].childId;
+                if (!childId) {
+                    items[i].childId = [dataInput.id];
+                } else if (childId && childId.indexOf(dataInput.id) < 0) {
+                    items[i].childId.push(dataInput.id)
+                }
+            } else if (items[i].childId && items[i].childId.indexOf(dataInput.id) > -1) {
+                items[i].childId.splice(items[i].childId.indexOf(dataInput.id), 1)
+            }
+        }
+    }
+    if (dataInput.childId && data[dataInput.level + 1]) {
+        items = data[dataInput.level + 1]
+        for (var i = 0; i < items.length; i++) {
+            if (dataInput.childId.indexOf(items[i].id) > -1) {
+                var parentId = items[i].parentId;
+                if (!parentId) {
+                    items[i].parentId = [dataInput.id];
+                } else if (parentId && parentId.indexOf(dataInput.id) < 0) {
+                    items[i].parentId.push(dataInput.id)
+                }
+            } else if (items[i].parentId && items[i].parentId.indexOf(dataInput.id) > -1) {
+                items[i].parentId.splice(items[i].parentId.indexOf(dataInput.id), 1)
+            }
+        }
+    }
+    return data
 }

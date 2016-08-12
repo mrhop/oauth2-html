@@ -167,6 +167,9 @@ function validateInternal(itemData, validateRules, required) {
 
     var tmpData = null;
     if (itemData) {
+        if (typeof itemData === 'number') {
+            itemData = itemData + ''
+        }
         if (typeof itemData === 'string') {
             tmpData = itemData.replace(/(^\s*)|(\s*$)/g, "")
         } else if (typeof itemData === 'object') {

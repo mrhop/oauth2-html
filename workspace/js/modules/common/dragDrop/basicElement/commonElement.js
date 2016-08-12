@@ -17,7 +17,6 @@ const dragModalData = {
 };
 
 
-
 export default class CommonElement {
     constructor(parent, group, data, dragstart, drag, dragend) {
         this.data = data;
@@ -183,13 +182,16 @@ export default class CommonElement {
                     if ((d.type == "action" && item.data.type == "action") ||
                         ((d.type == "position" || d.type == "role") && (item.data.type == "position" || item.data.type == "role"))) {
                         Toast.createToast.bind(this, dragDropRules.dragToastData, 'error')()
+                    } else if (d.type == "action" && item.data.childId && item.data.childId.length > 0) {
+                        Toast.createToast.bind(this, dragDropRules.dragToastData2, 'error')()
                     } else {
                         //do contact
                         console.log("next")
                         //Modal.createModal.bind(this,{modalValues:dragModalData,type:'message',children:defaultDragDropForm})()
                         //use action
                         //SHALL base on the condition give the data related the data to show in the form
-                        d.parent.showElementFrom()
+                        var data = {type: d.type, level: parseInt(item.data.level) + 1}
+                        d.parent.showElementFrom({operationType: "add", data, dataRelated: item.data})
                     }
                     break;
                 }

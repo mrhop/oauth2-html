@@ -49,9 +49,9 @@ class DragDrop extends React.Component {
         var dragdropDivClasses = classNames("dragdrop-wrapper", this.props.type, this.props.extraClassName)
         var addElementFormSymbol = 'form-' + 'work-flow-drag-drop-default'
         return <div className={dragdropDivClasses} ref="wrapper">
-            {this.props.dragModalData && <Modal.MessageDefaultModal modalValues={dragDropRules.dragModalData}
+            {this.props.dragModalData && <Modal.MessageDefaultModal modalValues={this.props.dragModalData}
                                                                     alertVisible={this.props.addFormVisible}>
-                <Form.HorizontalForm url={this.saveElementFrom.bind(this)} initRule={dragDropRules.dragElementForm}
+                <Form.HorizontalForm url={this.saveElementFrom.bind(this)} initRule={this.props.dragElementForm}
                                      symbol={addElementFormSymbol}/>
             </Modal.MessageDefaultModal>}
         </div>
@@ -79,22 +79,40 @@ class DragDrop extends React.Component {
     }
 
     //show form
-    showElementFrom(dataObj = {operationType,data,dataRelated,dataUp,dataDown}) {
-        this.props.showElementFrom.bind(this, {symbol: this.props.symbol,dataObj})();
+    showElementFrom(dataObj = {operationType, data, dataRelated, dataUp, dataDown}) {
+        this.props.showElementFrom({_this: this, symbol: this.props.symbol, dataObj});
     }
+
     //hide form
     hideElementFrom() {
-        this.props.hideElementFrom.bind(this, {symbol: this.props.symbol})();
+        this.props.hideElementFrom({symbol: this.props.symbol});
         return true;
     }
 
     //saveElementFrom
     saveElementFrom(requestCondition) {
         //do something with requestCondition.data
-        console.log("tese function save")
+        var data = requestCondition.data
+        if (data) {
+            if (data.type == "position") {
+                for (var i = 0; i < this.props.positions.length; i++) {
+                    var item = this.props.positions[i]
+                    if (item.value == data.elementId) {
+                        data.label = item.label
+                    }
+                }
+            }
+            if (data.type == "role") {
+                for (var i = 0; i < this.props.roles.length; i++) {
+                    var item = this.props.roles[i]
+                    if (item.value == data.elementId) {
+                        data.label = item.label
+                    }
+                }
+            }
+        }
+        this.props.afterSaveElement({symbol: this.props.symbol,data})
     }
-
-    //save
 }
 DragDrop.propTypes = {
     symbol: React.PropTypes.any.isRequired,
@@ -107,6 +125,8 @@ DragDrop.propTypes = {
     saveUrl: React.PropTypes.string,
     rolesUrl: React.PropTypes.string,
     positionsUrl: React.PropTypes.string,
+    dragElementForm: React.PropTypes.object,
+    dragModalData: React.PropTypes.object,
     initWorkflowDispatch: React.PropTypes.func,
     getRolesDispatch: React.PropTypes.func,
     getPositionsDispatch: React.PropTypes.func,
