@@ -72,3 +72,5 @@ action-->index.js部分，即将转移至basicElement-->commonElement.js的编�
     // 是否尝试在modalheadr部分加入声明title？，比如您正在添加一个角色，您正在修改一个角色，您正在将角色添加在顶部等等！！！
 
 下午将验证完成，然后更新form，然后完成，然后单个元素的删除？？此处如何执行删除操作？，然后整体的save和删除
+
+目前更新出现问题，parentId生成时的number和string不一致的问题

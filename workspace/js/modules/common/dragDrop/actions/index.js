@@ -440,15 +440,39 @@ export function cleanWorkflowDialog(_this) {
 
 export function saveOrUpdateElement(data, dataInput) {
     var items = data[dataInput.level]
+    var insertFlag = true;
     if (!items) {
         items = [dataInput]
         data.push(items)
     } else {
-        var insertFlag = true;
         for (var i = 0; i < items.length; i++) {
             var item = items[i]
             if (items[i].id == dataInput.id) {
                 items[i] = dataInput;
+                //here shall give the parentId and the childId
+                if (dataInput.parent) {
+                    dataInput.parentId = dataInput.parent.split(",")
+                    if(dataInput.parentId&&dataInput.parentId.length>0){
+                        for(var !!!)
+                        //需要转换为数据类型，然后逐步向下
+                    }
+                }
+                if (dataInput.child) {
+                    dataInput.childId = dataInput.child.split(",")
+                }
+
+                if (dataInput.parentRoles || dataInput.parentPositions) {
+                    var parent1 = dataInput.parentRoles ? dataInput.parentRoles.split(",") : []
+                    var parent2 = dataInput.parentRoles ? dataInput.parentPositions.split(",") : []
+                    dataInput.parentId = parent1.concat(parent2)
+                    dataInput.parentId = dataInput.parentId.length > 0 ? dataInput.parentId : null
+                }
+                if (dataInput.childRoles || dataInput.childPositions) {
+                    var child1 = dataInput.childRoles ? dataInput.childRoles.split(",") : []
+                    var child2 = dataInput.childPositions ? dataInput.childPositions.split(",") : []
+                    dataInput.childId = child1.concat(child2)
+                    dataInput.childId = dataInput.childId.length > 0 ? dataInput.parentId : null
+                }
                 insertFlag = false;
                 break
             } else if (item.level == dataInput.level && (dataInput.elementId && item.elementId == dataInput.elementId)) {
