@@ -76,3 +76,8 @@ action-->index.js部分，即将转移至basicElement-->commonElement.js的编�
 目前更新出现问题，parentId生成时的number和string不一致的问题
 
 下行和上行设置为空的情况处理！！！被遗漏，以及考虑对行为设置多个上行角色时，将角色的下行行为的处理，比如角色已有行为的情况
+
+删除元素
+
+1. elementId 不为number
+2. 增加和修改时，同级的处理不应该有额外的元素

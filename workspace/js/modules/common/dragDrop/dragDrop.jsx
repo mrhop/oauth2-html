@@ -80,6 +80,7 @@ class DragDrop extends React.Component {
 
     //show form
     showElementFrom(dataObj = {operationType, data, dataRelated, dataUp, dataDown}) {
+        dataObj.dataLevel = this.props.workData[dataObj.data.level]
         this.props.showElementFrom({_this: this, symbol: this.props.symbol, dataObj});
     }
 

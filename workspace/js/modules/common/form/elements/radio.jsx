@@ -10,7 +10,7 @@ export default class Radio extends React.Component {
     }
 
     onChange(e) {
-        var item = this.props.rule.dataType && this.props.rule.dataType == "number" ? Number(e.target.value) : e.target.value
+        var item = this.props.rule.dataType && this.props.rule.dataType == "number" && !isNaN(e.target.value) ? Number(e.target.value) : e.target.value
         this.props.data[this.props.name] = item;
         if (this.props.rule.validated != undefined) {
             this.props.rule.validated = true;

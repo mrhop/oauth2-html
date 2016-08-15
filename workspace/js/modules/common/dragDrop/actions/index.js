@@ -140,6 +140,7 @@ export function showElementFrom(requestCondition) {
     var dataObj = requestCondition.dataObj
     var data = dataObj.data
     var dataRelated = dataObj.dataRelated
+    var dataLevel = dataObj.dataLevel
     var dataUp = dataObj.dataUp
     var dataDown = dataObj.dataDown
     var dragElementForm = {
@@ -190,11 +191,21 @@ export function showElementFrom(requestCondition) {
                 dataType = "number"
             }
         }
+        var optionItems = _this.props.positions;
+        if (dataLevel) {
+            var dataForDiff = []
+            for (var i = 0; i < dataLevel.length; i++) {
+                if (dataLevel[i].type == "position" && dataLevel[i].elementId != data.elementId) {
+                    dataForDiff.push({value: dataLevel[i].elementId})
+                }
+            }
+            optionItems = l_differenceBy(optionItems, dataForDiff, 'value');
+        }
         dragElementForm.structure.push({
             name: "elementId",
             label: '选择职位',
             type: "select",
-            items: _this.props.positions,
+            items: optionItems,
             dataType: dataType,
             defaultValue: data.elementId,
             required: true,
@@ -207,11 +218,21 @@ export function showElementFrom(requestCondition) {
                 dataType = "number"
             }
         }
+        var optionItems = _this.props.roles;
+        if (dataLevel) {
+            var dataForDiff = []
+            for (var i = 0; i < dataLevel.length; i++) {
+                if (dataLevel[i].type == "role" && dataLevel[i].elementId != data.elementId) {
+                    dataForDiff.push({value: dataLevel[i].elementId})
+                }
+            }
+            optionItems = l_differenceBy(optionItems, dataForDiff, 'value');
+        }
         dragElementForm.structure.push({
             name: "elementId",
             label: '选择角色',
             type: "select",
-            items: _this.props.roles,
+            items: optionItems,
             dataType: dataType,
             defaultValue: data.elementId,
             required: true,
@@ -517,11 +538,16 @@ export function saveOrUpdateElement(data, dataInput) {
             } else if (item.level == dataInput.level && (dataInput.elementId && item.type == dataInput.type && item.elementId == dataInput.elementId)) {
                 if (dataInput.parentId) {
                     if (item.parentId) {
-                        if (item.parentId.indexOf(dataInput.parentId[0]) < 0) {
-                            item.parentId.push(dataInput.parentId[0])
-                        }
+                        item.parentId = l_uniq(item.parentId.concat(dataInput.parentId))
                     } else {
                         item.parentId = dataInput.parentId
+                    }
+                }
+                if (dataInput.childId) {
+                    if (item.childId) {
+                        item.childId = l_uniq(item.childId.concat(dataInput.childId))
+                    } else {
+                        item.childId = dataInput.childId
                     }
                 }
                 insertFlag = false;

@@ -8,20 +8,10 @@ require('./selectWrapper.scss');
 export default class SelectWrapper extends React.Component {
     constructor(props) {
         super(props);
-        let ruleItems = null
-        if (this.props.rule.items && this.props.rule.dataType && this.props.rule.dataType == "number") {
-            ruleItems = []
-            for (var i = 0; i < this.props.rule.items.length; i++) {
-                ruleItems.push({value: this.props.rule.items[i].value + "", label: this.props.rule.items[i].label});
-            }
-        } else {
-            ruleItems = this.props.rule.items;
-        }
-        this.ruleItems = ruleItems;
     }
 
     onChange(e) {
-        var item = this.props.rule.dataType && this.props.rule.dataType == "number" ? Number(e.value) : e.value
+        var item = this.props.rule.dataType && this.props.rule.dataType == "number" && !isNaN(e.value) ? Number(e.value) : e.value
         this.props.data[this.props.name] = e ? item : null;
         if (this.props.rule.validated != undefined) {
             this.props.rule.validated = true;
@@ -40,10 +30,18 @@ export default class SelectWrapper extends React.Component {
         let labelClassNames = null
         let errorBlockClassNames = 'error-block';
 
-
+        let ruleItems = null
+        if (this.props.rule.items && this.props.rule.dataType && this.props.rule.dataType == "number") {
+            ruleItems = []
+            for (var i = 0; i < this.props.rule.items.length; i++) {
+                ruleItems.push({value: this.props.rule.items[i].value + "", label: this.props.rule.items[i].label});
+            }
+        } else {
+            ruleItems = this.props.rule.items;
+        }
         let selectEle = <Select name={rule.name}
                                 value={this.props.data[this.props.name] ? this.props.data[this.props.name] + ""  : null}
-                                options={ this.ruleItems }
+                                options={ ruleItems }
                                 onChange={this.onChange.bind(this)}>
         </Select>
         switch (this.props.formType) {

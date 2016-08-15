@@ -57,7 +57,7 @@ export default class WorkGroup {
         }
         var linePoints = {}
         var positionData = [];
-        var relatedElementClick = [];
+        //var relatedElementClick = [];
         for (var i = 0; i < this.data.items.length; i++) {
             var item = this.data.items[i];
             var length = item.length;
@@ -130,7 +130,7 @@ export default class WorkGroup {
                             })
                         }.bind(this)
                     );
-                relatedElementClick.push({dataUp, dataDown, group, data: subItem});
+                //relatedElementClick.push({dataUp, dataDown, group, data: subItem});
                 positionData
                     .push({
                             x1: x,
@@ -227,5 +227,7 @@ export default class WorkGroup {
         }
         return {data, defaultValue}
     }
+
+    //drag and delete
 
 }
