@@ -212,21 +212,18 @@ export default class WorkGroup {
 
     generateOptions(items, type, direction, id) {
         var data = []
-        var defaultValue = ""
+        var defaultValue = []
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
             if (item.type == type) {
                 data.push({"value": item.id, "label": item.label})
                 if (direction == "up" && item.childId && item.childId.indexOf(id) > -1) {
-                    defaultValue = defaultValue + "," + item.id
+                    defaultValue.push(item.id)
                 }
                 if (direction == "down" && item.parentId && item.parentId.indexOf(id) > -1) {
-                    defaultValue = defaultValue + "," + item.id
+                    defaultValue.push(item.id)
                 }
             }
-        }
-        if (defaultValue != "") {
-            defaultValue = defaultValue.substring(1, defaultValue.length);
         }
         return {data, defaultValue}
     }

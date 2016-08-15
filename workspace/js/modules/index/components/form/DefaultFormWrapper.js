@@ -38,7 +38,10 @@ let initRule = {
         type: 'daterange',
         placeholder: 'shall be just date',
         required: true,
-        validateRules: [[{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '起始时间不能为空'}],[{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '结束时间不能为空'}]]
+        validateRules: [[{
+            name: VALIDATE_RULE.REQUIRED_VALIDATE.name,
+            errorMsg: '起始时间不能为空'
+        }], [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '结束时间不能为空'}]]
     }, {
         name: 'testFile',
         label: 'TestFile1',
@@ -60,6 +63,7 @@ let initRule = {
         items: [{value: 1, label: 'label1'}, {value: 2, label: 'label2'}],
         label: 'TestCheckBox',
         type: 'checkbox',
+        dataType: "number",
         required: true,
         validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
     }, {
@@ -68,6 +72,7 @@ let initRule = {
         label: 'TestRadio',
         type: 'radio',
         required: true,
+        dataType: "number",
         validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
     }, {
         name: 'testPassword',
@@ -123,10 +128,11 @@ let initBlockRule = {
         validateRules: [{name: 'custom_validate', validateRegex: '^(-?\\d+)(\\.\\d+)?$', errorMsg: '必须为数字'}]
     }, {
         name: 'testCheckbox',
-        defaultValue: '1,2',
+        defaultValue: [1, 2],
         items: [{value: 1, label: 'label1'}, {value: 2, label: 'label2'}],
         label: 'TestCheckBox',
         type: 'checkbox',
+        dataType: "number",
         required: true,
         validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
     }, {
@@ -156,6 +162,7 @@ let initBlockRule = {
     }, {
         name: 'testRadio',
         items: [{value: 1, label: 'label1'}, {value: 2, label: 'label2'}],
+        dataType: "number",
         label: 'TestRadio',
         type: 'radio',
         required: true,
@@ -183,7 +190,7 @@ let initBlockRule = {
             validateRegex: '^([\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+)$',
             errorMsg: '只能为电子邮件'
         }]
-    }],[
+    }], [
         {
             name: 'testDate',
             defaultValue: '2011/11/11',
@@ -192,7 +199,7 @@ let initBlockRule = {
             placeholder: 'shall be just date',
             required: true,
             validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
-        },{
+        }, {
             name: 'testDateRange',
             defaultStartValue: '2011/11/11',
             defaultEndValue: '2011/11/15',
@@ -200,7 +207,10 @@ let initBlockRule = {
             type: 'daterange',
             placeholder: 'shall be just date',
             required: true,
-            validateRules: [[{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '起始时间不能为空'}],[{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '结束时间不能为空'}]]
+            validateRules: [[{
+                name: VALIDATE_RULE.REQUIRED_VALIDATE.name,
+                errorMsg: '起始时间不能为空'
+            }], [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '结束时间不能为空'}]]
         }
     ]],
     submit: {label: '保存'},
@@ -213,7 +223,7 @@ export class DefaultFormWrapper extends React.Component {
 
         let symbol = 'form-' + 'index-demo-default'
         return <Form.DefaultForm extraClassName={extraClassName} url={url} callback={callback} initRule={initRule}
-                            symbol={symbol}/>
+                                 symbol={symbol}/>
     }
 }
 
@@ -223,7 +233,7 @@ export class NoLabelFormWrapper extends React.Component {
         let extraClassName = 'test-nolabel-form';
         let symbol = 'form-' + 'index-demo-nolabel'
         return <Form.NoLabelForm extraClassName={extraClassName} url={url} callback={callback} initRule={initRule}
-                            symbol={symbol}/>
+                                 symbol={symbol}/>
     }
 }
 export class HorizontalFormWrapper extends React.Component {
@@ -232,7 +242,7 @@ export class HorizontalFormWrapper extends React.Component {
         let extraClassName = 'test-horizontal-form';
         let symbol = 'form-' + 'index-demo-horizontal'
         return <Form.HorizontalForm extraClassName={extraClassName} url={url} callback={callback} initRule={initRule}
-                               symbol={symbol}/>
+                                    symbol={symbol}/>
     }
 }
 
@@ -242,7 +252,7 @@ export class InlineFormWrapper extends React.Component {
         let extraClassName = 'test-inline-form';
         let symbol = 'form-' + 'index-demo-inline'
         return <Form.InlineForm extraClassName={extraClassName} url={url} callback={callback} initRule={initRule}
-                           symbol={symbol}/>
+                                symbol={symbol}/>
     }
 }
 
@@ -252,6 +262,6 @@ export class BlockFormWrapper extends React.Component {
         let extraClassName = 'test-block-form';
         let symbol = 'form-' + 'index-demo-block'
         return <Form.BlockForm extraClassName={extraClassName} url={url} callback={callback} initRule={initBlockRule}
-                          symbol={symbol}/>
+                               symbol={symbol}/>
     }
 }

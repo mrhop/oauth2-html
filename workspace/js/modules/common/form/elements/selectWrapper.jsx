@@ -8,10 +8,21 @@ require('./selectWrapper.scss');
 export default class SelectWrapper extends React.Component {
     constructor(props) {
         super(props);
+        let ruleItems = null
+        if (this.props.rule.items && this.props.rule.dataType && this.props.rule.dataType == "number") {
+            ruleItems = []
+            for (var i = 0; i < this.props.rule.items.length; i++) {
+                ruleItems.push({value: this.props.rule.items[i].value + "", label: this.props.rule.items[i].label});
+            }
+        } else {
+            ruleItems = this.props.rule.items;
+        }
+        this.ruleItems = ruleItems;
     }
 
     onChange(e) {
-        this.props.data[this.props.name] = e ? e.value : null;
+        var item = this.props.rule.dataType && this.props.rule.dataType == "number" ? Number(e.value) : e.value
+        this.props.data[this.props.name] = e ? item : null;
         if (this.props.rule.validated != undefined) {
             this.props.rule.validated = true;
         }
@@ -28,11 +39,11 @@ export default class SelectWrapper extends React.Component {
 
         let labelClassNames = null
         let errorBlockClassNames = 'error-block';
-        
+
 
         let selectEle = <Select name={rule.name}
-                                value={this.props.data[this.props.name] ? this.props.data[this.props.name] : null}
-                                options={rule.items}
+                                value={this.props.data[this.props.name] ? this.props.data[this.props.name] + ""  : null}
+                                options={ this.ruleItems }
                                 onChange={this.onChange.bind(this)}>
         </Select>
         switch (this.props.formType) {
@@ -44,7 +55,9 @@ export default class SelectWrapper extends React.Component {
                 </div>
             case  'inlineForm':
                 selectEle =
-                    <div className="select-first-wrapper"><div className="select-second-wrapper"> {selectEle}</div></div>
+                    <div className="select-first-wrapper">
+                        <div className="select-second-wrapper"> {selectEle}</div>
+                    </div>
         }
         return <div className={eleClassNames}>
             <label

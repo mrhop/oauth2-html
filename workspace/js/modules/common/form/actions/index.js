@@ -172,6 +172,8 @@ function validateInternal(itemData, validateRules, required) {
         }
         if (typeof itemData === 'string') {
             tmpData = itemData.replace(/(^\s*)|(\s*$)/g, "")
+        } else if (itemData instanceof Array && itemData.length > 0) {
+            tmpData = JSON.stringify(itemData);
         } else if (typeof itemData === 'object') {
             tmpData = ''
             for (var key in itemData) {

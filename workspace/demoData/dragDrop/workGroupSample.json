@@ -8,7 +8,7 @@
         "label": "角色1",
         "elementId": 1,
         "type": "role",
-        "level": "0",
+        "level": 0,
         "desc":"角色测试",
         "parentId": null,
         "childId": [
@@ -20,7 +20,7 @@
         "label": "职位1",
         "elementId": 1,
         "type": "position",
-        "level": "0",
+        "level": 0,
         "parentId": null,
         "childId": [
           4
@@ -31,7 +31,7 @@
         "label": "角色2",
         "elementId": 2,
         "type": "role",
-        "level": "0",
+        "level": 0,
         "parentId": null,
         "childId": [
           5

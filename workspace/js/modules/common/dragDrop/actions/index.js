@@ -184,21 +184,35 @@ export function showElementFrom(requestCondition) {
         })
     }
     if (data.type == "position") {
+        var dataType = null
+        if (_this.props.positions && _this.props.positions.length > 0) {
+            if (typeof _this.props.positions[0].value == "number") {
+                dataType = "number"
+            }
+        }
         dragElementForm.structure.push({
             name: "elementId",
             label: '选择职位',
             type: "select",
             items: _this.props.positions,
+            dataType: dataType,
             defaultValue: data.elementId,
             required: true,
             validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
         })
     } else if (data.type == "role") {
+        var dataType = null
+        if (_this.props.roles && _this.props.roles.length > 0) {
+            if (typeof _this.props.roles[0].value == "number") {
+                dataType = "number"
+            }
+        }
         dragElementForm.structure.push({
             name: "elementId",
             label: '选择角色',
             type: "select",
             items: _this.props.roles,
+            dataType: dataType,
             defaultValue: data.elementId,
             required: true,
             validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
@@ -221,40 +235,56 @@ export function showElementFrom(requestCondition) {
     }
     if (dataUp) {
         if ((data.type === 'role' || data.type === 'position') && dataUp.data && dataUp.data.length > 0) {
+            var dataType = null
+            if (typeof dataUp.data[0].value == "number") {
+                dataType = "number"
+            }
             dragElementForm.structure.push({
                 name: "parent",
                 label: '上行行为',
                 type: "checkbox",
                 items: dataUp.data,
                 defaultValue: dataUp.defaultValue,
+                dataType: dataType,
                 required: true,
                 validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
             })
         } else {
             if (dataUp.roles && dataUp.roles.data && dataUp.roles.data.length > 0) {
+                var dataType = null
+                if (typeof dataUp.roles.data[0].value == "number") {
+                    dataType = "number"
+                }
                 dragElementForm.structure.push({
                     name: "parentRoles",
                     label: '上行角色',
                     type: "checkbox",
                     items: dataUp.roles.data,
                     defaultValue: dataUp.roles.defaultValue,
+                    dataType: dataType
                 })
             }
             if (dataUp.positions && dataUp.positions.data && dataUp.positions.data.length > 0) {
+                var dataType = null
+                if (typeof dataUp.positions.data[0].value == "number") {
+                    dataType = "number"
+                }
                 dragElementForm.structure.push({
                     name: "parentPositions",
                     label: '上行职位',
                     type: "checkbox",
                     items: dataUp.positions.data,
-                    defaultValue: dataUp.positions.defaultValue
+                    defaultValue: dataUp.positions.defaultValue,
+                    dataType: dataType
                 })
             }
         }
     }
     if (dataDown) {
         if ((data.type === 'role' || data.type === 'position') && dataDown.data && dataDown.data.length > 0) {
-            if (typeof data.id == "number") {
-                dataDown.defaultValue = Number(dataDown.defaultValue)
+            var dataType = null
+            if (typeof dataDown.data[0].value == "number") {
+                dataType = "number"
             }
             dragElementForm.structure.push({
                 name: "child",
@@ -262,26 +292,38 @@ export function showElementFrom(requestCondition) {
                 type: "select",
                 items: dataDown.data,
                 defaultValue: dataDown.defaultValue,
+                dataType: dataType,
                 required: true,
                 validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
             })
         } else {
             if (dataDown.roles && dataDown.roles.data && dataDown.roles.data.length > 0) {
+                var dataType = null
+                if (typeof dataDown.roles.data[0].value == "number") {
+                    dataType = "number"
+                }
                 dragElementForm.structure.push({
                     name: "childRoles",
                     label: '下行角色',
                     type: "checkbox",
                     items: dataDown.roles.data,
-                    defaultValue: dataDown.roles.defaultValue
+                    defaultValue: dataDown.roles.defaultValue,
+                    dataType: dataType,
+
                 })
             }
             if (dataDown.positions && dataDown.positions.data && dataDown.positions.data.length > 0) {
+                var dataType = null
+                if (typeof dataDown.positions.data[0].value == "number") {
+                    dataType = "number"
+                }
                 dragElementForm.structure.push({
                     name: "childPositions",
                     label: '下行职位',
                     type: "checkbox",
                     items: dataDown.positions.data,
-                    defaultValue: dataDown.positions.defaultValue
+                    defaultValue: dataDown.positions.defaultValue,
+                    dataType: dataType,
                 })
             }
         }
@@ -450,32 +492,29 @@ export function saveOrUpdateElement(data, dataInput) {
             if (items[i].id == dataInput.id) {
                 items[i] = dataInput;
                 //here shall give the parentId and the childId
-                if (dataInput.parent) {
-                    dataInput.parentId = dataInput.parent.split(",")
-                    if(dataInput.parentId&&dataInput.parentId.length>0){
-                        for(var !!!)
-                        //需要转换为数据类型，然后逐步向下
-                    }
+                if (dataInput.parent && dataInput.parent.length > 0) {
+                    dataInput.parentId = dataInput.parent
                 }
+
                 if (dataInput.child) {
-                    dataInput.childId = dataInput.child.split(",")
+                    dataInput.childId = [dataInput.child]
                 }
 
                 if (dataInput.parentRoles || dataInput.parentPositions) {
-                    var parent1 = dataInput.parentRoles ? dataInput.parentRoles.split(",") : []
-                    var parent2 = dataInput.parentRoles ? dataInput.parentPositions.split(",") : []
+                    var parent1 = dataInput.parentRoles ? dataInput.parentRoles : []
+                    var parent2 = dataInput.parentRoles ? dataInput.parentPositions : []
                     dataInput.parentId = parent1.concat(parent2)
                     dataInput.parentId = dataInput.parentId.length > 0 ? dataInput.parentId : null
                 }
                 if (dataInput.childRoles || dataInput.childPositions) {
-                    var child1 = dataInput.childRoles ? dataInput.childRoles.split(",") : []
-                    var child2 = dataInput.childPositions ? dataInput.childPositions.split(",") : []
+                    var child1 = dataInput.childRoles ? dataInput.childRoles : []
+                    var child2 = dataInput.childPositions ? dataInput.childPositions : []
                     dataInput.childId = child1.concat(child2)
-                    dataInput.childId = dataInput.childId.length > 0 ? dataInput.parentId : null
+                    dataInput.childId = dataInput.childId.length > 0 ? dataInput.childId : null
                 }
                 insertFlag = false;
                 break
-            } else if (item.level == dataInput.level && (dataInput.elementId && item.elementId == dataInput.elementId)) {
+            } else if (item.level == dataInput.level && (dataInput.elementId && item.type == dataInput.type && item.elementId == dataInput.elementId)) {
                 if (dataInput.parentId) {
                     if (item.parentId) {
                         if (item.parentId.indexOf(dataInput.parentId[0]) < 0) {

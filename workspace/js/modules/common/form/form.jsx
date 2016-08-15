@@ -23,18 +23,6 @@ class BasicForm extends React.Component {
             footerContent: <span>Form confirm Error</span>,
         }
         this.state = {data: {}};
-        // const {structure} = this.props.initRule
-        // if (this.formType === 'defaultForm' || this.formType === 'inlineForm' || this.formType === 'noLabelForm' || this.formType === 'horizontalForm') {
-        //     for(var item in structure){
-        //         this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
-        //     }
-        // } else if (this.formType === 'blockForm') {
-        //     for(var item in structure){
-        //         for(var subItem in item){
-        //             this.state.data[subItem['name']] = subItem['defaultValue'] ? subItem['defaultValue'] : null;
-        //         }
-        //     }
-        // }
     }
 
     componentWillMount() {
@@ -68,8 +56,17 @@ class BasicForm extends React.Component {
                         this.state.data[subItem['name']] = {};
                         this.state.data[subItem['name']].dateTimeStart = subItem['defaultStartValue'] ? subItem['defaultStartValue'] : null;
                         this.state.data[subItem['name']].dateTimeEnd = subItem['defaultEndValue'] ? subItem['defaultEndValue'] : null;
+                    } else if (subItem.type == 'checkbox') {
+                        var stateData = null
+                        if (subItem['defaultValue']) {
+                            stateData = []
+                            for (var i = 0; i < subItem['defaultValue'].length; i++) {
+                                stateData.push(subItem['defaultValue'][i]);
+                            }
+                        }
+                        this.state.data[subItem['name']] = stateData;
                     } else {
-                        this.state.data[subItem['name']] = subItem['defaultValue'] ? subItem['defaultValue'] : null;
+                        this.state.data[subItem['name']] = (subItem['defaultValue'] == 0 || subItem['defaultValue']) ? subItem['defaultValue'] : null;
                     }
                 }
             }
@@ -79,8 +76,17 @@ class BasicForm extends React.Component {
                     this.state.data[item['name']] = {};
                     this.state.data[item['name']].dateTimeStart = item['defaultStartValue'] ? item['defaultStartValue'] : null;
                     this.state.data[item['name']].dateTimeEnd = item['defaultEndValue'] ? item['defaultEndValue'] : null;
+                } else if (item.type == 'checkbox') {
+                    var stateData = null
+                    if (item['defaultValue']) {
+                        stateData = []
+                        for (var i = 0; i < item['defaultValue'].length; i++) {
+                            stateData.push(item['defaultValue'][i]);
+                        }
+                    }
+                    this.state.data[item['name']] = stateData;
                 } else {
-                    this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+                    this.state.data[item['name']] = (item['defaultValue'] == 0 || item['defaultValue']) ? item['defaultValue'] : null;
                 }
             }.bind(this))
         }
@@ -114,9 +120,6 @@ class BasicForm extends React.Component {
         } else if (rule.type === 'date' || rule.type === 'daterange' || rule.type === 'time' || rule.type === 'datetime') {
             return <Datetime key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
         }
-        // else if (rule.type === 'file') {
-        //     return <File key={id} formType={this.formType} rule={rule} id={id} data={this.state.data} name={name}/>
-        // }
     }
 
 
@@ -216,8 +219,17 @@ class DefaultForm extends BasicForm {
                 this.state.data[item['name']] = {};
                 this.state.data[item['name']].dateTimeStart = item['defaultStartValue'] ? item['defaultStartValue'] : null;
                 this.state.data[item['name']].dateTimeEnd = item['defaultEndValue'] ? item['defaultEndValue'] : null;
+            } else if (item.type == 'checkbox') {
+                var stateData = null
+                if (item['defaultValue']) {
+                    stateData = []
+                    for (var i = 0; i < item['defaultValue'].length; i++) {
+                        stateData.push(item['defaultValue'][i]);
+                    }
+                }
+                this.state.data[item['name']] = stateData;
             } else {
-                this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+                this.state.data[item['name']] = (item['defaultValue'] == 0 || item['defaultValue'])? item['defaultValue'] : null;
             }
         }.bind(this))
     }
@@ -237,8 +249,17 @@ class InlineForm extends BasicForm {
                 this.state.data[item['name']] = {};
                 this.state.data[item['name']].dateTimeStart = item['defaultStartValue'] ? item['defaultStartValue'] : null;
                 this.state.data[item['name']].dateTimeEnd = item['defaultEndValue'] ? item['defaultEndValue'] : null;
+            } else if (item.type == 'checkbox') {
+                var stateData = null
+                if (item['defaultValue']) {
+                    stateData = []
+                    for (var i = 0; i < item['defaultValue'].length; i++) {
+                        stateData.push(item['defaultValue'][i]);
+                    }
+                }
+                this.state.data[item['name']] = stateData;
             } else {
-                this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+                this.state.data[item['name']] =(item['defaultValue'] == 0 || item['defaultValue']) ? item['defaultValue'] : null;
             }
         }.bind(this))
     }
@@ -258,8 +279,17 @@ class NoLabelForm extends BasicForm {
                 this.state.data[item['name']] = {};
                 this.state.data[item['name']].dateTimeStart = item['defaultStartValue'] ? item['defaultStartValue'] : null;
                 this.state.data[item['name']].dateTimeEnd = item['defaultEndValue'] ? item['defaultEndValue'] : null;
+            } else if (item.type == 'checkbox') {
+                var stateData = null
+                if (item['defaultValue']) {
+                    stateData = []
+                    for (var i = 0; i < item['defaultValue'].length; i++) {
+                        stateData.push(item['defaultValue'][i]);
+                    }
+                }
+                this.state.data[item['name']] = stateData;
             } else {
-                this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+                this.state.data[item['name']] = (item['defaultValue'] == 0 || item['defaultValue']) ? item['defaultValue'] : null;
             }
         }.bind(this))
     }
@@ -279,8 +309,17 @@ class HorizontalForm extends BasicForm {
                 this.state.data[item['name']] = {};
                 this.state.data[item['name']].dateTimeStart = item['defaultStartValue'] ? item['defaultStartValue'] : null;
                 this.state.data[item['name']].dateTimeEnd = item['defaultEndValue'] ? item['defaultEndValue'] : null;
+            } else if (item.type == 'checkbox') {
+                var stateData = null
+                if (item['defaultValue']) {
+                    stateData = []
+                    for (var i = 0; i < item['defaultValue'].length; i++) {
+                        stateData.push(item['defaultValue'][i]);
+                    }
+                }
+                this.state.data[item['name']] = stateData;
             } else {
-                this.state.data[item['name']] = item['defaultValue'] ? item['defaultValue'] : null;
+                this.state.data[item['name']] = (item['defaultValue'] == 0 || item['defaultValue'])? item['defaultValue'] : null;
             }
         }.bind(this))
 
@@ -304,8 +343,17 @@ class BlockForm extends BasicForm {
                     this.state.data[subItem['name']] = {};
                     this.state.data[subItem['name']].dateTimeStart = subItem['defaultStartValue'] ? subItem['defaultStartValue'] : null;
                     this.state.data[subItem['name']].dateTimeEnd = subItem['defaultEndValue'] ? subItem['defaultEndValue'] : null;
-                } else {
-                    this.state.data[subItem['name']] = subItem['defaultValue'] ? subItem['defaultValue'] : null;
+                } else if (subItem.type == 'checkbox') {
+                    var stateData = null
+                    if (subItem['defaultValue']) {
+                        stateData = []
+                        for (var i = 0; i < subItem['defaultValue'].length; i++) {
+                            stateData.push(subItem['defaultValue'][i]);
+                        }
+                    }
+                    this.state.data[subItem['name']] = stateData;
+                }else {
+                    this.state.data[subItem['name']] = (subItem['defaultValue'] == 0 || subItem['defaultValue']) ? subItem['defaultValue'] : null;
                 }
             }
         }

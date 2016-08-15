@@ -10,7 +10,8 @@ export default class Radio extends React.Component {
     }
 
     onChange(e) {
-        this.props.data[this.props.name] = e.target.value;
+        var item = this.props.rule.dataType && this.props.rule.dataType == "number" ? Number(e.target.value) : e.target.value
+        this.props.data[this.props.name] = item;
         if (this.props.rule.validated != undefined) {
             this.props.rule.validated = true;
         }
@@ -36,7 +37,7 @@ export default class Radio extends React.Component {
             return <li key={index}>
                 <input type="radio" id={this.props.id + '-' + index} name={rule.name} value={item.value}
                        onChange={this.onChange.bind(this)}
-                       checked={this.props.data[this.props.name] ? ((this.props.data[this.props.name] === (item.value + '')) ? 'checked' : false) : false}/>
+                       checked={this.props.data[this.props.name] ? ((this.props.data[this.props.name] === (item.value)) ? 'checked' : false) : false}/>
                 <label htmlFor={this.props.id + '-' + index}>
                     <span>{item.label}</span>
                 </label>
