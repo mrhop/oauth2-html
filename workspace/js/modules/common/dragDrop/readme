@@ -79,5 +79,4 @@ action-->index.js部分，即将转移至basicElement-->commonElement.js的编�
 
 删除元素
 
-1. elementId 不为number
-2. 增加和修改时，同级的处理不应该有额外的元素
+2.删除元素,关联到form部分的样式，函数回调等，然后有comfirm modal的创建以及后续实现，然后就是save了，save按钮放置在哪里？

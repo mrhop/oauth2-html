@@ -132,7 +132,7 @@ class BasicForm extends React.Component {
         }
         if (this.props.rule) {
             const rule = this.props.rule;
-            const {structure, submit, reset} = rule
+            const {structure, submit, reset, actions} = rule
             var formDivClasses = classNames(this.formType, this.props.extraClassName)
 
             var submitClasses = classNames('btn btn-primary', this.props.submitProcess.status ? 'disabled' : null);
@@ -147,6 +147,14 @@ class BasicForm extends React.Component {
                 resetElement =
                     <button type="button" className="btn btn-warning"
                             onClick={this.reset.bind(this)}>{reset.label ? reset.label : 'Reset'}</button>;
+            }
+            var actionElements = null
+            if (actions) {
+                actionElements = actions.map(function (item) {
+                    var className = classNames("btn btn-warning", item.extraClassName)
+                    return <button type="button" className={className}
+                                   onClick={item.action}>{item.label}</button>;
+                })
             }
             if (this.formType === 'defaultForm' || this.formType === 'inlineForm' || this.formType === 'noLabelForm' || this.formType === 'horizontalForm') {
                 let formElements = structure.map(function (item, index) {
@@ -165,6 +173,9 @@ class BasicForm extends React.Component {
                             <div className="reset">
                                 {resetElement}
                             </div>
+                            {actions && <div className="actions">
+                                {actionElements}
+                            </div>}
                         </div>
                     </form>
                 </div>
@@ -229,7 +240,7 @@ class DefaultForm extends BasicForm {
                 }
                 this.state.data[item['name']] = stateData;
             } else {
-                this.state.data[item['name']] = (item['defaultValue'] == 0 || item['defaultValue'])? item['defaultValue'] : null;
+                this.state.data[item['name']] = (item['defaultValue'] == 0 || item['defaultValue']) ? item['defaultValue'] : null;
             }
         }.bind(this))
     }
@@ -259,7 +270,7 @@ class InlineForm extends BasicForm {
                 }
                 this.state.data[item['name']] = stateData;
             } else {
-                this.state.data[item['name']] =(item['defaultValue'] == 0 || item['defaultValue']) ? item['defaultValue'] : null;
+                this.state.data[item['name']] = (item['defaultValue'] == 0 || item['defaultValue']) ? item['defaultValue'] : null;
             }
         }.bind(this))
     }
@@ -319,7 +330,7 @@ class HorizontalForm extends BasicForm {
                 }
                 this.state.data[item['name']] = stateData;
             } else {
-                this.state.data[item['name']] = (item['defaultValue'] == 0 || item['defaultValue'])? item['defaultValue'] : null;
+                this.state.data[item['name']] = (item['defaultValue'] == 0 || item['defaultValue']) ? item['defaultValue'] : null;
             }
         }.bind(this))
 
@@ -352,7 +363,7 @@ class BlockForm extends BasicForm {
                         }
                     }
                     this.state.data[subItem['name']] = stateData;
-                }else {
+                } else {
                     this.state.data[subItem['name']] = (subItem['defaultValue'] == 0 || subItem['defaultValue']) ? subItem['defaultValue'] : null;
                 }
             }

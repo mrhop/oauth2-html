@@ -65,7 +65,7 @@ export default {
             placeholder: '说明',
         },],
         submit: {label: '保存'},
-        reset: {label: '重置'}
+        reset: {label: '重置'},
     }, dragModalData: {
         title: '设置属性',
         footerCloseButton: {

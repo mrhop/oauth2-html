@@ -357,6 +357,14 @@ export function showElementFrom(requestCondition) {
         rows: 3,
         placeholder: '请输入详细说明'
     })
+    if (dataObj.operationType == "update") {
+        dragElementForm.actions = [{
+            label: '删除',extraClassName:'btn-delete', action: function () {
+                console.log("delete" + data.id)
+            }
+        }]
+    }
+
     requestCondition.dragElementForm = dragElementForm
     requestCondition.dragModalData = dragDropRules.dragModalData
     requestCondition.dragModalData.title = (dataObj.operationType == "add" ? "增加" : "修改")

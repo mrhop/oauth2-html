@@ -175,6 +175,7 @@ export default class CommonElement {
     defaultDragEnd(d) {
         console.log('drag end')
         //此处应该关联到工作区的callback
+        var topFlag = true
         if (d.parent && d.parent.workDataCoordinate && d.parent.workDataCoordinate.length > 0) {
             for (var i = 0; i < d.parent.workDataCoordinate.length; i++) {
                 var item = d.parent.workDataCoordinate[i];
@@ -193,11 +194,17 @@ export default class CommonElement {
                         var data = {type: d.type, level: parseInt(item.data.level) + 1}
                         d.parent.showElementFrom({operationType: "add", data, dataRelated: item.data})
                     }
+                    topFlag = false
                     break;
                 }
             }
-        } else {
-            //when there is no parameters first add shall be only role and position
+            if(d.type == "action"){
+                topFlag = false
+            } 
+        } 
+        if(topFlag){
+            var data = {type: d.type, level: 0}
+            d.parent.showElementFrom({operationType: "add", data, dataRelated: null})
         }
         d.x = d.initX
         d.y = d.initY
