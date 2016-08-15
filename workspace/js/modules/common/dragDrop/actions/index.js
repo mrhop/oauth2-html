@@ -497,7 +497,7 @@ export function saveOrUpdateElement(data, dataInput) {
                 }
 
                 if (dataInput.child) {
-                    dataInput.childId = [dataInput.child]
+                    dataInput.childId = Array.isArray(dataInput.child) ? dataInput.child : [dataInput.child]
                 }
 
                 if (dataInput.parentRoles || dataInput.parentPositions) {
@@ -532,12 +532,28 @@ export function saveOrUpdateElement(data, dataInput) {
             items.push(dataInput);
         }
     }
-    if (dataInput.parentId && data[dataInput.level - 1]) {
+    if (data[dataInput.level - 1]) {
         items = data[dataInput.level - 1]
         for (var i = 0; i < items.length; i++) {
-            if (dataInput.parentId.indexOf(items[i].id) > -1) {
+            if (dataInput.parentId && dataInput.parentId.indexOf(items[i].id) > -1) {
                 var childId = items[i].childId;
-                if (!childId) {
+                if (items[i].type != "action") {
+                    if (childId) {
+                        for (var j = 0; j < childId.length; j++) {
+                            if (childId[j] != dataInput.id) {
+                                for (var k = 0; k < data[dataInput.level].length; k++) {
+                                    if (data[dataInput.level][k].id == childId[j]) {
+                                        if (data[dataInput.level][k].parentId) {
+                                            data[dataInput.level][k].parentId.splice(data[dataInput.level][k].parentId.indexOf(items[i].id), 1)
+                                        }
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    items[i].childId = [dataInput.id];
+                } else if (!childId) {
                     items[i].childId = [dataInput.id];
                 } else if (childId && childId.indexOf(dataInput.id) < 0) {
                     items[i].childId.push(dataInput.id)
@@ -547,10 +563,10 @@ export function saveOrUpdateElement(data, dataInput) {
             }
         }
     }
-    if (dataInput.childId && data[dataInput.level + 1]) {
+    if (data[dataInput.level + 1]) {
         items = data[dataInput.level + 1]
         for (var i = 0; i < items.length; i++) {
-            if (dataInput.childId.indexOf(items[i].id) > -1) {
+            if (dataInput.childId && dataInput.childId.indexOf(items[i].id) > -1) {
                 var parentId = items[i].parentId;
                 if (!parentId) {
                     items[i].parentId = [dataInput.id];
