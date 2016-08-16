@@ -78,7 +78,7 @@ class DragDrop extends React.Component {
                                      symbol={addElementFormSymbol}/>
             </Modal.MessageDefaultModal>}
             {this.props.saveFlowVisible && <Modal.MessageDefaultModal modalValues={this.saveFlowModalData}
-                                                                      alertVisible={this.props.addFormVisible}>
+                                                                      alertVisible={this.props.saveFlowVisible}>
                 <Form.HorizontalForm url={this.saveWorkflow.bind(this)} initRule={dragDropRules.saveFlowForm}
                                      symbol={saveFlowFormSymbol}/>
             </Modal.MessageDefaultModal>}
