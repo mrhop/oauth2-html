@@ -40,7 +40,6 @@ export default class WorkGroup {
         this.parent.workDataCoordinate = null
     }
 
-
     drawData() {
         this.cleanWorkgroup();
         var hor = this.data.containerWidth > this.data.containerHeight ? true : false;

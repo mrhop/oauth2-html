@@ -151,7 +151,7 @@ class BasicForm extends React.Component {
             var actionElements = null
             if (actions) {
                 actionElements = actions.map(function (item,index) {
-                    var className = classNames("btn btn-warning", item.extraClassName)
+                    var className = classNames("btn", item.extraClassName)
                     return <button key={index} type="button" className={className}
                                    onClick={item.action}>{item.label}</button>;
                 })

@@ -201,7 +201,11 @@ export default class CommonElement {
             if(d.type == "action"){
                 topFlag = false
             } 
-        } 
+        }else if(d.parent && !d.parent.workDataCoordinate ) {
+            if(d.type == "action"){
+                topFlag = false
+            }
+        }
         if(topFlag){
             var data = {type: d.type, level: 0}
             d.parent.showElementFrom({operationType: "add", data, dataRelated: null})

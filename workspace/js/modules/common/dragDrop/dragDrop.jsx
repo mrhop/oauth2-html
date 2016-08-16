@@ -80,7 +80,7 @@ class DragDrop extends React.Component {
 
     //show form
     showElementFrom(dataObj = {operationType, data, dataRelated, dataUp, dataDown}) {
-        dataObj.dataLevel = this.props.workData[dataObj.data.level]
+        dataObj.dataLevel = this.props.workData ? this.props.workData[dataObj.data.level] : null
         this.props.showElementFrom({_this: this, symbol: this.props.symbol, dataObj});
     }
 
@@ -112,13 +112,13 @@ class DragDrop extends React.Component {
                 }
             }
         }
-        this.props.afterSaveElement({symbol: this.props.symbol,data})
+        this.props.afterSaveElement({symbol: this.props.symbol, data})
     }
 
     //delete element
     //清空工作区
     deleteElement() {
-        this.props.deleteElement({symbol: this.props.symbol,nowDelete:this.state.nowDelete})
+        this.props.deleteElement({symbol: this.props.symbol, nowDelete: this.state.nowDelete})
     }
 }
 DragDrop.propTypes = {

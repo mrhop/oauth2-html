@@ -359,7 +359,7 @@ export function showElementFrom(requestCondition) {
     })
     if (dataObj.operationType == "update") {
         dragElementForm.actions = [{
-            label: '删除', extraClassName: 'btn-delete', action: deleteElementDialog.bind(_this, data)
+            label: '删除', extraClassName: 'btn-danger', action: deleteElementDialog.bind(_this, data)
         }]
     }
 
@@ -527,11 +527,15 @@ export function cleanWorkflowDialog(_this) {
 
 
 export function saveOrUpdateElement(data, dataInput) {
-    var items = data[dataInput.level]
+    var items = data ? data[dataInput.level] : null
     var insertFlag = true;
     if (!items) {
         items = [dataInput]
-        data.push(items)
+        if(data){
+            data.push(items)
+        }else{
+            data =  [items]
+        }
     } else {
         for (var i = 0; i < items.length; i++) {
             var item = items[i]
