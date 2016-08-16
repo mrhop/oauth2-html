@@ -101,3 +101,5 @@ file 只处理name，内容部分 form submit处理
    以及http://blog.teamtreehouse.com/uploading-files-ajax
 now draggable~~~!!!需要进行设计
 then map
+
+以后考虑需要将table checkbox中的,分割改为数组，另外需要将action等内置在common table组件中！！！！！！！！！！！！！！

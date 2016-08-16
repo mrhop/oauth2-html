@@ -3,12 +3,6 @@
  */
 import {VALIDATE_RULE} from '../../../common/form/actions'
 export default {
-    defaultWorkFlowSample: [
-        {model: 'ellipse', type: 'role', label: '角色'},
-        {model: 'rect', type: 'position', label: '职位'},
-        {model: 'diamond', type: 'action', label: '动作'}],
-    defaultPositionsFlowSample: [
-        {model: 'rect', type: 'position', label: '职位'}],
     defaultActionChoices: [
         {label: '一票通过', value: 'single'},
         {label: '多票通过', value: 'multi'},
@@ -26,46 +20,6 @@ export default {
             visible: true,
             title: 'Cancel',
         },
-    },
-    dragElementForm: {
-        structure: [{
-            name: 'id',
-            type: 'hidden',
-            defaultValue: '1',
-        }, {
-            name: 'relateId',
-            type: 'hidden',
-            defaultValue: '1',
-        }, {
-            name: 'roles',
-            label: '选择角色',
-            type: 'checkbox',
-            items: [{label: 'select 1', value: 'select1'}, {label: 'select 2', value: 'select2'}],
-            required: true,
-            validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
-        }, {
-            name: 'positions',
-            label: '选择职位',
-            type: 'checkbox',
-            items: [{label: 'select 1', value: 'select1'}, {label: 'select 2', value: 'select2'}],
-            required: true,
-            validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
-        },{
-            name: 'action',
-            label: '选择角色',
-            type: 'select',
-            items: [{label: 'select 1', value: 'select1'}, {label: 'select 2', value: 'select2'}],
-            required: true,
-            validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
-        },  {
-            name: '说明',
-            label: 'TestTextarea',
-            type: 'textarea',
-            rows: 3,
-            placeholder: '说明',
-        },],
-        submit: {label: '保存'},
-        reset: {label: '重置'},
     }, dragModalData: {
         title: '设置属性',
         footerCloseButton: {
@@ -90,8 +44,30 @@ export default {
             visible: true,
             title: 'Cancel',
         },
+    },saveFlowForm: {
+        structure: [{
+            name: 'flowName',
+            label: '名称',
+            type: 'text',
+            placeholder: '请输入工作流名称',
+            required: true,
+            validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
+        },{
+            name: 'desc',
+            label: '详细说明',
+            type: 'textarea',
+            rows: 3,
+            placeholder: '说明',
+        }],
+        submit: {label: '保存'},
+        reset: {label: '重置'},
+    }, saveFlowModalData: {
+        title: '保存工作流',
+        footerCloseButton: {
+            visible: false,
+        }
     },
-    
-    
+
+
 
 }

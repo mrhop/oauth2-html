@@ -18,6 +18,9 @@ export const POSITIONS_GET_REQUEST = 'POSITIONS_GET_REQUEST'
 export const POSITIONS_GET_SUCCESS = 'POSITIONS_GET_SUCCESS'
 export const POSITIONS_GET_FAILURE = 'POSITIONS_GET_FAILURE'
 
+export const SHOW_SAVE_WORK_FLOW_FORM = 'SHOW_SAVE_WORK_FLOW_FORM'
+export const HIDE_SAVE_WORK_FLOW_FORM = 'HIDE_SAVE_WORK_FLOW_FORM'
+
 export const SAVE_WORK_FLOW_REQUEST = 'SAVE_WORK_FLOW_REQUEST'
 export const SAVE_WORK_FLOW_SUCCESS = 'SAVE_WORK_FLOW_SUCCESS'
 export const SAVE_WORK_FLOW_FAILURE = 'SAVE_WORK_FLOW_FAILURE'
@@ -50,12 +53,12 @@ export function initWorkflowDispatch(requestCondition) {
             return dispatch(initWorkflow(requestCondition))
         }
     } else {
-        if (window.localStorage && window.localStorage["work_flow"] && window.localStorage["work_flow"][requestCondition.symbol]) {
+        if (window.localStorage && window.localStorage["work_flow::" + requestCondition.symbol]) {
             return (dispatch, getState) => {
                 return dispatch({
                     type: INIT_WORK_FLOW_SUCCESS,
                     requestCondition: requestCondition,
-                    response: window.localStorage["work_flow"][requestCondition.symbol]
+                    response: JSON.parse(window.localStorage["work_flow::" + requestCondition.symbol])
                 })
             }
         } else {
@@ -104,6 +107,17 @@ export function getPositionsDispatch(requestCondition) {
     }
 }
 
+export function showSaveWorkflowForm(requestCondition) {
+    return (dispatch, getState) => {
+        return dispatch({type: SHOW_SAVE_WORK_FLOW_FORM, requestCondition})
+    }
+}
+export function hideSaveWorkflowFrom(requestCondition) {
+    //base on the key,根据内容进行调整 form的内容，以及modal的标题等，并放置在requestCondition里面
+    return (dispatch, getState) => {
+        return dispatch({type: HIDE_SAVE_WORK_FLOW_FORM, requestCondition})
+    }
+}
 //save workflow template
 function saveWorkflow(requestCondition) {
     return {
@@ -117,6 +131,22 @@ function saveWorkflow(requestCondition) {
 }
 export function saveWorkflowDispatch(requestCondition) {
     return (dispatch, getState) => {
+        if (window.localStorage && window.localStorage["work_flow::" + requestCondition.symbol]) {
+            requestCondition.data = JSON.parse(window.localStorage["work_flow::" + requestCondition.symbol])
+
+        } else {
+            requestCondition.data = getState().dragDrop.main[requestCondition.symbol].flow
+        }
+        if(requestCondition.flowName){
+            requestCondition.data.flowName = requestCondition.flowName
+            if(requestCondition.desc){
+                requestCondition.data.desc = requestCondition.desc
+            }
+            getState().dragDrop.main[requestCondition.symbol].flow =  requestCondition.data
+            if (window.localStorage && window.localStorage["work_flow::" + requestCondition.symbol]) {
+                window.localStorage["work_flow::" + requestCondition.symbol] = JSON.stringify(requestCondition.data)
+            }
+        }
         return dispatch(saveWorkflow(requestCondition))
     }
 }
@@ -364,7 +394,7 @@ export function showElementFrom(requestCondition) {
     }
 
     requestCondition.dragElementForm = dragElementForm
-    requestCondition.dragModalData = dragDropRules.dragModalData
+    requestCondition.dragModalData = _this.dragModalData
     requestCondition.dragModalData.title = (dataObj.operationType == "add" ? "增加" : "修改")
         + (data.type == "role" ? "角色" : (data.type == "position" ? "职位" : "行为"))
         + (data.label ? "[" + data.label + "]" : "")
@@ -511,7 +541,7 @@ export function createBasicSvg(_this, type) {
         _this.d3.workGroup = new WorkGroup(_this);
     _this.d3.trashGroup = new TrashGroup(_this);
     _this.d3.sampleGroup = new SampleGroup(_this,
-        (type && type == 'positions') ? dragDropRules.defaultPositionsFlowSample : dragDropRules.defaultWorkFlowSample);
+        (type && type == 'positions') ? _this.defaultPositionsFlowSample : _this.defaultWorkFlowSample);
 }
 
 export function resizeSvg(_this) {
@@ -531,10 +561,10 @@ export function saveOrUpdateElement(data, dataInput) {
     var insertFlag = true;
     if (!items) {
         items = [dataInput]
-        if(data){
+        if (data) {
             data.push(items)
-        }else{
-            data =  [items]
+        } else {
+            data = [items]
         }
     } else {
         for (var i = 0; i < items.length; i++) {
@@ -640,3 +670,4 @@ export function deleteElementDialog(data) {
     this.state.nowDelete = data;
     Modal.createModal.bind(this, {modalValues: dragDropRules.deleteElementDialog, type: 'messageConfirm'})()
 }
+

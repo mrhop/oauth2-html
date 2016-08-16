@@ -9,6 +9,8 @@ import {
     initWorkflowDispatch,
     getRolesDispatch,
     getPositionsDispatch,
+    showSaveWorkflowForm,
+    hideSaveWorkflowFrom,
     saveWorkflowDispatch,
     cleanWorkgroup,
     showElementFrom,
@@ -23,7 +25,27 @@ class DragDrop extends React.Component {
         super(props);
         //shall be data relate form localstorage or data from server
         this.state = {size: {w: 0, h: 0}, anonymousId: 0};
-        dragDropRules.dragModalData.closeFun = this.hideElementFrom.bind(this);
+        this.saveFlowModalData = {
+            title: '设置属性',
+            footerCloseButton: {
+                visible: false,
+            },
+            closeFun: this.hideSaveWorkflowFrom.bind(this)
+        }
+        this.dragModalData = {
+            title: '设置属性',
+            footerCloseButton: {
+                visible: false,
+            },
+            closeFun: this.hideElementFrom.bind(this)
+        }
+
+        this.defaultWorkFlowSample = [
+            {model: 'ellipse', type: 'role', label: '角色'},
+            {model: 'rect', type: 'position', label: '职位'},
+            {model: 'diamond', type: 'action', label: '动作'}]
+        this.defaultPositionsFlowSample = [
+            {model: 'rect', type: 'position', label: '职位'}]
     }
 
     componentWillMount() {
@@ -48,11 +70,17 @@ class DragDrop extends React.Component {
     render() {
         var dragdropDivClasses = classNames("dragdrop-wrapper", this.props.type, this.props.extraClassName)
         var addElementFormSymbol = 'form-' + 'work-flow-drag-drop-default'
+        var saveFlowFormSymbol = 'form-' + 'work-flow-save-work-flow-default'
         return <div className={dragdropDivClasses} ref="wrapper">
             {this.props.dragModalData && <Modal.MessageDefaultModal modalValues={this.props.dragModalData}
                                                                     alertVisible={this.props.addFormVisible}>
                 <Form.HorizontalForm url={this.saveElementFrom.bind(this)} initRule={this.props.dragElementForm}
                                      symbol={addElementFormSymbol}/>
+            </Modal.MessageDefaultModal>}
+            {this.props.saveFlowVisible && <Modal.MessageDefaultModal modalValues={this.saveFlowModalData}
+                                                                      alertVisible={this.props.addFormVisible}>
+                <Form.HorizontalForm url={this.saveWorkflow.bind(this)} initRule={dragDropRules.saveFlowForm}
+                                     symbol={saveFlowFormSymbol}/>
             </Modal.MessageDefaultModal>}
         </div>
     }
@@ -116,14 +144,43 @@ class DragDrop extends React.Component {
     }
 
     //delete element
-    //清空工作区
     deleteElement() {
         this.props.deleteElement({symbol: this.props.symbol, nowDelete: this.state.nowDelete})
     }
+
+    //save workflow
+    saveWorkflow(requestCondition) {
+        if (requestCondition && requestCondition.data) {
+            this.props.saveWorkflowDispatch({
+                symbol: this.props.symbol,
+                url: this.props.saveUrl,
+                flowName: requestCondition.data.flowName,
+                desc: requestCondition.data.desc,
+            })
+        } else {
+            this.props.saveWorkflowDispatch({
+                symbol: this.props.symbol,
+                url: this.props.saveUrl
+            })
+        }
+    }
+
+    //show form
+    showSaveWorkflowForm() {
+        this.props.showSaveWorkflowForm({symbol: this.props.symbol});
+    }
+
+    //hide form
+    hideSaveWorkflowFrom() {
+        this.props.hideSaveWorkflowFrom({symbol: this.props.symbol});
+        return true;
+    }
+
 }
 DragDrop.propTypes = {
     symbol: React.PropTypes.any.isRequired,
     type: React.PropTypes.string,
+    flowId: React.PropTypes.any,
     extraClassName: React.PropTypes.string,
     workData: React.PropTypes.array,
     roles: React.PropTypes.array,
@@ -137,6 +194,7 @@ DragDrop.propTypes = {
     initWorkflowDispatch: React.PropTypes.func,
     getRolesDispatch: React.PropTypes.func,
     getPositionsDispatch: React.PropTypes.func,
+    showSaveWorkflowForm: React.PropTypes.func,
     saveWorkflowDispatch: React.PropTypes.func,
     cleanWorkgroup: React.PropTypes.func,
     showElementFrom: React.PropTypes.func,
@@ -148,14 +206,17 @@ DragDrop.propTypes = {
 function mapStateToProps(state, ownProps) {
     if (ownProps.symbol && state && state.dragDrop && state.dragDrop.main[ownProps.symbol]) {
         const {
-            data,
-            flowId,
-            flowName,
+            flow:{
+                data,
+                flowId,
+                flowName,
+            },
             roles,
             positions,
             addFormVisible,
             dragElementForm,
-            dragModalData
+            dragModalData,
+            saveFlowVisible
         } = state.dragDrop.main[ownProps.symbol]
         return {
             workData: data,
@@ -163,7 +224,8 @@ function mapStateToProps(state, ownProps) {
             roles, positions,
             addFormVisible,
             dragElementForm,
-            dragModalData
+            dragModalData,
+            saveFlowVisible
         }
     } else {
         return {};
@@ -175,6 +237,8 @@ module.exports = {
             initWorkflowDispatch,
             getRolesDispatch,
             getPositionsDispatch,
+            showSaveWorkflowForm,
+            hideSaveWorkflowFrom,
             saveWorkflowDispatch,
             cleanWorkgroup,
             showElementFrom,

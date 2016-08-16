@@ -32,7 +32,7 @@ export default class CommonElement {
         this.dragend = dragend ? dragend : this.defaultDragEnd;
 
         let select = this.model === 'diamond' ? 'polygon' : this.model;
-        this.groupBack = this.group.append("g").data([{x: 0, y: 0, model: this.model}])
+        this.groupBack = this.group.append("g")
             .attr("class", "sample-group-drag")
         if (this.label) {
             this.textElementBack = this.groupBack.append("text")
@@ -41,9 +41,14 @@ export default class CommonElement {
         }
         this.elementBack = this.groupBack.append(select)
             .attr("class", "common-element common-element-back")
-        this.groupDrag = this.group.append("g").data([{x: 0, y: 0, model: this.model}])
-            .attr("class", "sample-group-drag")
-            .call(this.dragEvent.bind(this)())
+        this.groupDrag = this.group.append("g")
+            .attr("class", "sample-group-drag ")
+           // .call(this.dragEvent.bind(this)())
+            .call(d3.behavior.drag()
+                    .on("dragstart", this.dragstart)
+                    .on("drag", this.drag)
+                    .on("dragend", this.dragend)
+            )
         if (this.label) {
             this.textElementDrag = this.groupDrag.append("text")
                 .attr("class", this.model + "-text innner-text")

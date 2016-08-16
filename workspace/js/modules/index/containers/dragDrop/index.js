@@ -4,7 +4,7 @@
 require('./index.scss');
 
 import {
-    DefaultDragDropWrapper
+    DefaultDragDropWrapper,UpdateDragDropWrapper
 } from '../../components/dragDrop/DefaultDragDropWrapper'
 export default class DragDropMainBlock extends React.Component {
     constructor(props) {
@@ -16,6 +16,9 @@ export default class DragDropMainBlock extends React.Component {
             <div>
                 <Panel.PanelWithHeader panelValues={{title : 'Default Test DragAndDrop'}}>
                     <DefaultDragDropWrapper />
+                </Panel.PanelWithHeader>
+                <Panel.PanelWithHeader panelValues={{title : 'Default Test DragAndDrop With Data Init'}}>
+                    <UpdateDragDropWrapper />
                 </Panel.PanelWithHeader>
             </div>)
             ;
