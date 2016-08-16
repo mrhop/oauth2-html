@@ -77,6 +77,21 @@ export default {
     }, dragToastData2: {
         content: <span>每个职位或角色只能有一个关联行为</span>,
         title: '拖拽错误'
-    }
+    },deleteElementDialog: {
+        content: <span>If you confirm this, this element will be deleted</span>,
+        title: 'Do you want to delete this element?',
+        footerConfirmButton: {
+            callback: function () {
+                this.deleteElement();
+            },
+            title: 'Confirm',
+        },
+        footerCloseButton: {
+            visible: true,
+            title: 'Cancel',
+        },
+    },
+    
+    
 
 }

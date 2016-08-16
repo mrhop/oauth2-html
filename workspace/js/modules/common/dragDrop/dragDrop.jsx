@@ -114,6 +114,12 @@ class DragDrop extends React.Component {
         }
         this.props.afterSaveElement({symbol: this.props.symbol,data})
     }
+
+    //delete element
+    //清空工作区
+    deleteElement() {
+        this.props.deleteElement({symbol: this.props.symbol,nowDelete:this.state.nowDelete})
+    }
 }
 DragDrop.propTypes = {
     symbol: React.PropTypes.any.isRequired,

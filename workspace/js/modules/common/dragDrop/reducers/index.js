@@ -77,7 +77,7 @@ function main(state = {}, action) {
         } else {
             var dataInput = action.requestCondition.data
             var data = state[action.requestCondition.symbol].data;
-            state[action.requestCondition.symbol].data = ActionTypes.saveOrUpdateElement(data,dataInput)
+            state[action.requestCondition.symbol].data = ActionTypes.saveOrUpdateElement(data, dataInput)
         }
         state[action.requestCondition.symbol].addFormVisible = false
         state[action.requestCondition.symbol].dragElementForm = null
@@ -89,35 +89,12 @@ function main(state = {}, action) {
             state[action.requestCondition.symbol].data = action.data
         } else {
             var data = state[action.requestCondition.symbol].data
-            var items = data[action.requestCondition.level]
-            var item = null;
-            for (var i = 0; i < items.length; i++) {
-                if (items[i].id === requestCondition.id) {
-                    item = items.splice(i, 1);
-                    // base on the item find the children-->sub children delete, find the parent and release the connection!!!
-                    break
-                }
-            }
-            if (item) {
-                items = data[action.requestCondition.level - 1]
-                if (items && item.parentId) {
-                    for (var i = 0; i < items.length; i++) {
-                        var itemSub = items[i]
-                        if (item.parentId.indexOf(itemSub.id) > -1) {
-                            if (itemSub.childId) {
-                                itemSub.childId.splice(itemSub.childId.indexOf(item.id), 1);
-                            }
-                        }
-                    }
-                }
-                var itemsTemp = [];
-                ActionTypes.iterationFlowDelete(item, data, action.requestCondition.level + 1, itemsTemp)
-                for (var i = 0; i < itemsTemp.length; i++) {
-                    var obj = itemsTemp[i];
-                    data[obi.i].splice(obi.j, 1);
-                }
-            }
+            var item = action.requestCondition.nowDelete;
+            state[action.requestCondition.symbol].data = ActionTypes.deleteElementInternal(item,data)
         }
+        state[action.requestCondition.symbol].addFormVisible = false
+        state[action.requestCondition.symbol].dragElementForm = null
+        state[action.requestCondition.symbol].dragModalData = null
         return l_merge({}, state)
     }
     return state

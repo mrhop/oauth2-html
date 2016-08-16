@@ -106,7 +106,8 @@ let initRule = {
         validateRules: [{name: VALIDATE_RULE.REQUIRED_VALIDATE.name, errorMsg: '不能为空'}]
     }],
     submit: {label: '保存'},
-    reset: {label: '重置'}
+    reset: {label: '重置'},
+    actions:[{label:'删除'},{label:'新增'}]
 }
 
 let initBlockRule = {
@@ -214,7 +215,8 @@ let initBlockRule = {
         }
     ]],
     submit: {label: '保存'},
-    reset: {label: '重置'}
+    reset: {label: '重置'},
+    actions:[{label:'删除'},{label:'新增'}]
 }
 export class DefaultFormWrapper extends React.Component {
 

@@ -150,9 +150,9 @@ class BasicForm extends React.Component {
             }
             var actionElements = null
             if (actions) {
-                actionElements = actions.map(function (item) {
+                actionElements = actions.map(function (item,index) {
                     var className = classNames("btn btn-warning", item.extraClassName)
-                    return <button type="button" className={className}
+                    return <button key={index} type="button" className={className}
                                    onClick={item.action}>{item.label}</button>;
                 })
             }
@@ -210,6 +210,9 @@ class BasicForm extends React.Component {
                             <div className="reset">
                                 {resetElement}
                             </div>
+                            {actions && <div className="actions">
+                                {actionElements}
+                            </div>}
                         </div>
                     </form>
                 </div>

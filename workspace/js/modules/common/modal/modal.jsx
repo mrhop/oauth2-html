@@ -7,7 +7,7 @@ function createModal({modalValues, type, children}) {
     if (!modalWrapper) {
         modalWrapper = document.createElement('div');
         modalWrapper.setAttribute('id', 'modal-wrapper');
-        document.body.insertBefore(modalWrapper, document.body.children[0]);
+        document.body.insertBefore(modalWrapper, document.body.children[document.body.children.length - 1].nextSibling);
     }
     if (!type || type == 'default') {
         ReactDOM.render(<DefaultModal key={UtilFun.uuid()} modalValues={modalValues}
@@ -93,7 +93,7 @@ class BasicModal extends React.Component {
 
     handleAlertDismiss() {
         this.setState({alertVisible: false});
-        this.props.modalValues.closeFun();
+        this.props.modalValues.closeFun && this.props.modalValues.closeFun();
     }
 
     closeModal(e) {

@@ -359,9 +359,7 @@ export function showElementFrom(requestCondition) {
     })
     if (dataObj.operationType == "update") {
         dragElementForm.actions = [{
-            label: '删除',extraClassName:'btn-delete', action: function () {
-                console.log("delete" + data.id)
-            }
+            label: '删除', extraClassName: 'btn-delete', action: deleteElementDialog.bind(_this, data)
         }]
     }
 
@@ -404,42 +402,61 @@ export function afterSaveElement(requestCondition) {
 export function deleteElement(requestCondition) {
     //base on the key
     if (window.localStorage && window.localStorage["work_flow::" + requestCondition.symbol]) {
-        var data = JSON.parse(window.localStorage["work_flow::" + requestCondition.symbol]).data
-        var items = data[requestCondition.level]
-        var item = null;
-        for (var i = 0; i < items.length; i++) {
-            if (items[i].id === requestCondition.id) {
-                var item = items.splice(i, 1);
-                // base on the item find the children-->sub children delete, find the parent and release the connection!!!
-                break
-            }
+        var json = JSON.parse(window.localStorage["work_flow::" + requestCondition.symbol]);
+        var item = requestCondition.nowDelete;
+        json.data = deleteElementInternal(item, json.data)
+        window.localStorage["work_flow::" + requestCondition.symbol] = JSON.stringify(json);
+        return (dispatch, getState) => {
+            return dispatch({type: DELETE_ELEMENT, requestCondition, data: json.data})
         }
-        if (item) {
-            items = data[requestCondition.level - 1]
-            if (items && item.parentId) {
-                for (var i = 0; i < items.length; i++) {
-                    var itemSub = items[i]
-                    if (item.parentId.indexOf(itemSub.id) > -1) {
-                        if (itemSub.childId) {
-                            itemSub.childId.splice(itemSub.childId.indexOf(item.id), 1);
-                        }
+    } else {
+        return (dispatch, getState) => {
+            return dispatch({type: DELETE_ELEMENT, requestCondition})
+        }
+    }
+}
+export function deleteElementInternal(item, data) {
+    var items = data[item.level]
+    for (var i = 0; i < items.length; i++) {
+        if (items[i].id === item.id) {
+            items.splice(i, 1);
+            // base on the item find the children-->sub children delete, find the parent and release the connection!!!
+            break
+        }
+    }
+    if (item) {
+        items = data[item.level - 1]
+        if (items && item.parentId) {
+            for (var i = 0; i < items.length; i++) {
+                var itemSub = items[i]
+                if (item.parentId.indexOf(itemSub.id) > -1) {
+                    if (itemSub.childId) {
+                        itemSub.childId.splice(itemSub.childId.indexOf(item.id), 1);
                     }
                 }
             }
-            var itemsTemp = [];
-            iterationFlowDelete(item, data, requestCondition.level + 1, itemsTemp)
-            for (var i = 0; i < itemsTemp.length; i++) {
-                var obj = itemsTemp[i];
-                data[obi.i].splice(obi.j, 1);
+        }
+        //不进行递归的删除处理，而仅删除第一层关系
+        // var itemsTemp = [];
+        // itemsTemp = iterationFlowDelete(item, data, item.level + 1, itemsTemp)
+        // for (var i = 0; i < itemsTemp.length; i++) {
+        //     var obj = itemsTemp[i];
+        //     data[obj.x].splice(obj.y, 1);
+        // }
+        items = data[item.level + 1]
+        if (items && item.childId) {
+            for (var j = 0; j < items.length; j++) {
+                var itemSub = items[j]
+                if (itemSub.parentId) {
+                    var index = itemSub.parentId.indexOf(item.id)
+                    if (index > -1) {
+                        itemSub.parentId.splice(index, 1)
+                    }
+                }
             }
         }
-        return (dispatch, getState) => {
-            return dispatch({type: DELETE_ELEMENT, requestCondition, data})
-        }
     }
-    return (dispatch, getState) => {
-        return dispatch({type: DELETE_ELEMENT, requestCondition})
-    }
+    return data
 }
 
 export function iterationFlowDelete(item, data, level, dataReturn) {
@@ -449,7 +466,7 @@ export function iterationFlowDelete(item, data, level, dataReturn) {
             var itemSub = items[j]
             if (itemSub.parentId && itemSub.parentId.length == 1 && itemSub.parentId.indexOf(item.id) > -1) {
                 dataReturn.push({x: level, y: j})
-                iterationDelete(itemSub, data, level + 1, dataReturn)
+                iterationFlowDelete(itemSub, data, level + 1, dataReturn)
             }
         }
     }
@@ -613,4 +630,9 @@ export function saveOrUpdateElement(data, dataInput) {
         }
     }
     return data
+}
+
+export function deleteElementDialog(data) {
+    this.state.nowDelete = data;
+    Modal.createModal.bind(this, {modalValues: dragDropRules.deleteElementDialog, type: 'messageConfirm'})()
 }

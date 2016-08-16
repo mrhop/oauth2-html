@@ -189,6 +189,16 @@
     vertical-align: middle;
   }
 }
+.defaultForm, .horizontalForm,.noLabelForm{
+  .action {
+    .actions{
+      float: right;
+      button{
+        margin-left: 10px;
+      }
+    }
+  }
+}
 
 .horizontalForm {
   .form-group, .checkbox-wrapper, .radio-wrapper, .select-wrapper, .datetime-wrapper {
@@ -232,10 +242,13 @@
     }
   }
   .action {
+    padding-left: 0px;
+    padding-right: 0px;
     @media (min-width: $screen-sm-min) {
       float: right;
       padding: 0;
       padding-left: 10px;
+      padding-right: 10px;
     }
   }
 }
@@ -292,15 +305,24 @@
     }
     div.action {
       display: inline-block;
+      width: auto;
+      display: inline-block;
       div.submit, div.reset {
         display: inline-block;
         float: none;
       }
-    }
+      div.actions{
+        display: inline-block;
 
-    .action {
-      width: 120px;
-      display: inline-block;
+      }
+    }
+  }
+  div.action {
+    div.actions{
+      button{
+        margin-left: 10px;
+      }
+
     }
   }
 }
@@ -321,9 +343,17 @@
     }
   }
   .action {
+    margin-left: -10px;
     @media (min-width: $screen-sm-min) {
       float: left;
       width: 100%;
+      margin-right: -10px;
+    }
+    .actions{
+      float: right;
+      button{
+        margin-left: 10px;
+      }
     }
   }
 }
