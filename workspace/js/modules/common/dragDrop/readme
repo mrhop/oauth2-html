@@ -79,4 +79,4 @@ action-->index.js部分，即将转移至basicElement-->commonElement.js的编�
 
 删除元素
 
-2.now save，save按钮放置在哪里？!!
+now：drag 部分需要考虑组织结构部分的实现，主要是塔状，顶层只允许一个，然后拖拽时，考虑position 可以拖拽至position，关联parent child时，考虑类似action的，一个下属只能有一个上级！！

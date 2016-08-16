@@ -102,4 +102,6 @@ file 只处理name，内容部分 form submit处理
 now draggable~~~!!!需要进行设计
 then map
 
+drag 部分需要考虑组织结构部分的实现，主要是塔状，顶层只允许一个，然后拖拽时，考虑position 可以拖拽至position，关联parent child时，考虑类似action的，一个下属只能有一个上级！！
+
 以后考虑需要将table checkbox中的,分割改为数组，另外需要将action等内置在common table组件中！！！！！！！！！！！！！！
