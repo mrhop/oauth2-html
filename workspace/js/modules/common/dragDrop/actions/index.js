@@ -1,4 +1,3 @@
-import d3 from 'd3'
 import dragDropRules from '../structure'
 import SampleGroup from '../basicGroup/sampleGroup';
 import WorkGroup from '../basicGroup/workGroup';

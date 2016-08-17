@@ -1,7 +1,6 @@
 /**
  * Created by Donghui Huo on 2016/5/13.
  */
-import d3 from 'd3'
 import CommonElement from '../basicElement/commonElement';
 
 export default class SampleGroup {

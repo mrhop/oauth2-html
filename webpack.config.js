@@ -23,6 +23,7 @@ const vendorJs = [
 ];
 //tools like utilfun,lodash
 const toolsJs = [
+    'd3',
     'classnames',
     'normalizr',
     'humps',
@@ -48,7 +49,8 @@ const commonComponentsJs = [
     __dirname + '/workspace/js/modules/common/tab/tab.jsx',
     __dirname + '/workspace/js/modules/common/table/table.jsx',
     __dirname + '/workspace/js/modules/common/toast/toast.jsx',
-    __dirname + '/workspace/js/modules/common/form/form.jsx'];
+    __dirname + '/workspace/js/modules/common/form/form.jsx',
+    __dirname + '/workspace/js/modules/common/dragDrop/dragDrop.jsx'];
 var moduleAll = new Object({'vendor': vendorJs, 'tools': toolsJs, 'common-components': commonComponentsJs});
 
 var walk = function (dir) {
@@ -104,7 +106,7 @@ module.exports = {
                 loader: ExtractTextPlugin.extract('css!sass', {
                     publicPath: '../'
                 })
-            },{
+            }, {
                 test: /\.css$/,
                 loaders: ['style', 'css']
             },
@@ -149,6 +151,7 @@ module.exports = {
             'ReactIntlEn': __dirname + '/node_modules/react-intl/locale-data/en',
             'ReactIntlZh': __dirname + '/node_modules/react-intl/locale-data/zh',
             'Select': 'react-select',
+            'd3': 'd3',
             'rd3': 'rd3',
             'classNames': 'classnames',
             'normalizr': 'normalizr',
@@ -173,6 +176,7 @@ module.exports = {
             'Table': __dirname + '/workspace/js/modules/common/table/table.jsx',
             'Toast': __dirname + '/workspace/js/modules/common/toast/toast.jsx',
             'Form': __dirname + '/workspace/js/modules/common/form/form.jsx',
+            'DragDrop': __dirname + '/workspace/js/modules/common/dragDrop/dragDrop.jsx',
         }),
         new ExtractTextPlugin('./css/[name].css', {
             allChunks: true

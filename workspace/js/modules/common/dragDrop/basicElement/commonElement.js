@@ -1,21 +1,7 @@
 /**
  * Created by Donghui Huo on 2016/5/13.
  */
-import d3 from 'd3'
-import {VALIDATE_RULE} from '../../../common/form/actions'
 import dragDropRules from '../structure'
-const dragToastData = {
-    content: <span>不能将角色和职位关联，行为和行为关联</span>,
-    title: '拖拽错误'
-};
-
-const dragModalData = {
-    title: '设置属性',
-    footerCloseButton: {
-        visible: false,
-    }
-};
-
 
 export default class CommonElement {
     constructor(parent, group, data, dragstart, drag, dragend) {
