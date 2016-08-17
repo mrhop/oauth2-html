@@ -43,7 +43,7 @@ class DashBoardMainBlock extends React.Component {
             },
             footerConfirmButton: {
                 callback: function () {
-                    console.log('confirm')
+                    //console.log('confirm')
                 },
                 title: 'Confirm',
             },

@@ -138,12 +138,12 @@ export default class CommonElement {
     }
 
     defaultDragStart(d) {
-        console.log('startDrag')
+        //console.log('startDrag')
     }
 
     defaultDrag(d) {
         //var node = d3.select(this.parentNode);
-        console.log('dragging')
+        //console.log('dragging')
         d.x = d3.event.dx + d.x
         d.y = d3.event.dy + d.y
         if (d.x > 5) {
@@ -162,7 +162,7 @@ export default class CommonElement {
     }
 
     defaultDragEnd(d) {
-        console.log('drag end')
+        //console.log('drag end')
         //此处应该关联到工作区的callback
         var topFlag = true
         if (d.parent && d.parent.workDataCoordinate && d.parent.workDataCoordinate.length > 0) {
@@ -177,7 +177,7 @@ export default class CommonElement {
                         Toast.createToast.bind(this, dragDropRules.dragToastData2, 'error')()
                     } else {
                         //do contact
-                        console.log("next")
+                        //console.log("next")
                         //Modal.createModal.bind(this,{modalValues:dragModalData,type:'message',children:defaultDragDropForm})()
                         //use action
                         //SHALL base on the condition give the data related the data to show in the form

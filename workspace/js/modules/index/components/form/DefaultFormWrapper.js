@@ -2,7 +2,7 @@
 import {VALIDATE_RULE} from '../../../common/form/actions'
 let url = 'demoData/formData/basicForm.json'
 let callback = function (data) {
-    console.log('the data:' + data)
+    //console.log('the data:' + data)
 }
 let initRule = {
     structure: [{

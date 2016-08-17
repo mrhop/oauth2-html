@@ -222,7 +222,7 @@ function mapStateToProps(state, ownProps) {
             dragModalData,
             saveFlowVisible
         } = state.dragDrop.main[ownProps.symbol]
-        console.log(roles ? "roles-true" + roles.length : "roles-false");
+        //console.log(roles ? "roles-true" + roles.length : "roles-false");
         return {
             workData: data,
             flowId, flowName,
