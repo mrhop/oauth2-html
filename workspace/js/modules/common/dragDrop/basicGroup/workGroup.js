@@ -84,34 +84,48 @@ export default class WorkGroup {
                 var dataDown = {}
                 if (this.data.items[i - 1] && this.data.items[i - 1].length > 0) {
                     var upItems = this.data.items[i - 1]
-                    if (subItem.type == "action") {
-                        var positionUps = this.generateOptions(upItems, "position", "up", subItem.id)
-                        var roleUps = this.generateOptions(upItems, "role", "up", subItem.id)
+                    if (this.parent.props.type == "actions") {
+                        if (subItem.type == "action") {
+                            var positionUps = this.generateOptions(upItems, "position", "up", subItem.id, this.parent)
+                            var roleUps = this.generateOptions(upItems, "role", "up", subItem.id, this.parent)
+                            if (positionUps.data && positionUps.data.length > 0) {
+                                dataUp.positions = positionUps
+                            }
+                            if (roleUps.data && roleUps.data.length > 0) {
+                                dataUp.roles = roleUps
+                            }
+                        } else {
+                            var actionUps = this.generateOptions(upItems, "action", "up", subItem.id, this.parent)
+                            dataUp = actionUps;
+                        }
+                    } else {
+                        var positionUps = this.generateOptions(upItems, "position", "up", subItem.id, this.parent)
                         if (positionUps.data && positionUps.data.length > 0) {
                             dataUp.positions = positionUps
                         }
-                        if (roleUps.data && roleUps.data.length > 0) {
-                            dataUp.roles = roleUps
-                        }
-                    } else {
-                        var actionUps = this.generateOptions(upItems, "action", "up", subItem.id)
-                        dataUp = actionUps;
                     }
                 }
                 if (this.data.items[i + 1] && this.data.items[i + 1].length > 0) {
                     var downItems = this.data.items[i + 1]
-                    if (subItem.type == "action") {
-                        var positionDowns = this.generateOptions(downItems, "position", "down", subItem.id)
-                        var roleDowns = this.generateOptions(downItems, "role", "down", subItem.id)
+                    if (this.parent.props.type == "actions") {
+                        if (subItem.type == "action") {
+                            var positionDowns = this.generateOptions(downItems, "position", "down", subItem.id, this.parent)
+                            var roleDowns = this.generateOptions(downItems, "role", "down", subItem.id, this.parent)
+                            if (positionDowns.data && positionDowns.data.length > 0) {
+                                dataDown.positions = positionDowns
+                            }
+                            if (roleDowns.data && roleDowns.data.length > 0) {
+                                dataDown.roles = roleDowns
+                            }
+                        } else {
+                            var actionDowns = this.generateOptions(downItems, "action", "down", subItem.id, this.parent)
+                            dataDown = actionDowns;
+                        }
+                    } else {
+                        var positionDowns = this.generateOptions(downItems, "position", "down", subItem.id, this.parent)
                         if (positionDowns.data && positionDowns.data.length > 0) {
                             dataDown.positions = positionDowns
                         }
-                        if (roleDowns.data && roleDowns.data.length > 0) {
-                            dataDown.roles = roleDowns
-                        }
-                    } else {
-                        var actionDowns = this.generateOptions(downItems, "action", "down", subItem.id)
-                        dataDown = actionDowns;
                     }
                 }
                 var group = this.totalElemntGroup.append("g").data([{dataUp, dataDown, data: subItem}])
@@ -209,13 +223,19 @@ export default class WorkGroup {
     }
 
 
-    generateOptions(items, type, direction, id) {
+    generateOptions(items, type, direction, id, parent) {
         var data = []
         var defaultValue = []
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
             if (item.type == type) {
-                data.push({"value": item.id, "label": item.label})
+                if (direction == "up" || parent.props.type == "actions") {
+                    data.push({"value": item.id, "label": item.label})
+                } else if (direction == "down" && parent.props.type == "positions") {
+                    if (!item.parentId || item.parentId.length <= 0 || item.parentId.indexOf(id) > -1) {
+                        data.push({"value": item.id, "label": item.label})
+                    }
+                }
                 if (direction == "up" && item.childId && item.childId.indexOf(id) > -1) {
                     defaultValue.push(item.id)
                 }

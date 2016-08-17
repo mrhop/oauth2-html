@@ -43,11 +43,10 @@ export default class CommonElement {
             .attr("class", "common-element common-element-back")
         this.groupDrag = this.group.append("g")
             .attr("class", "sample-group-drag ")
-           // .call(this.dragEvent.bind(this)())
             .call(d3.behavior.drag()
-                    .on("dragstart", this.dragstart)
-                    .on("drag", this.drag)
-                    .on("dragend", this.dragend)
+                .on("dragstart", this.dragstart)
+                .on("drag", this.drag)
+                .on("dragend", this.dragend)
             )
         if (this.label) {
             this.textElementDrag = this.groupDrag.append("text")
@@ -185,8 +184,9 @@ export default class CommonElement {
             for (var i = 0; i < d.parent.workDataCoordinate.length; i++) {
                 var item = d.parent.workDataCoordinate[i];
                 if ((item.x1 <= (d.containerWidth + d.x - 100)) && ((d.containerWidth + d.x - 100) <= item.x2 ) && (item.y1 <= d.y) && ( d.y <= item.y2)) {
-                    if ((d.type == "action" && item.data.type == "action") ||
-                        ((d.type == "position" || d.type == "role") && (item.data.type == "position" || item.data.type == "role"))) {
+                    if (d.parent.props.type == "actions" &&
+                        ((d.type == "action" && item.data.type == "action") ||
+                        ((d.type == "position" || d.type == "role") && (item.data.type == "position" || item.data.type == "role")))) {
                         Toast.createToast.bind(this, dragDropRules.dragToastData, 'error')()
                     } else if (d.type == "action" && item.data.childId && item.data.childId.length > 0) {
                         Toast.createToast.bind(this, dragDropRules.dragToastData2, 'error')()
@@ -203,15 +203,18 @@ export default class CommonElement {
                     break;
                 }
             }
-            if(d.type == "action"){
+            if (d.type == "action") {
                 topFlag = false
-            } 
-        }else if(d.parent && !d.parent.workDataCoordinate ) {
-            if(d.type == "action"){
+            }
+            if (d.parent.props.type == "positions" && d.parent.props.workData && d.parent.props.workData[0] && d.parent.props.workData[0].length > 0) {
+                topFlag = false
+            }
+        } else if (d.parent && !d.parent.workDataCoordinate) {
+            if (d.type == "action") {
                 topFlag = false
             }
         }
-        if(topFlag){
+        if (topFlag) {
             var data = {type: d.type, level: 0}
             d.parent.showElementFrom({operationType: "add", data, dataRelated: null})
         }
@@ -219,13 +222,5 @@ export default class CommonElement {
         d.y = d.initY
         d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
         d3.event.sourceEvent.stopPropagation();
-    }
-
-    dragEvent() {
-        var _this = this;
-        return d3.behavior.drag()
-            .on("dragstart", _this.dragstart)
-            .on("drag", _this.drag)
-            .on("dragend", _this.dragend)
     }
 }

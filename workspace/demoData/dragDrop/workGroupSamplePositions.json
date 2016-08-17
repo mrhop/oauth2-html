@@ -12,30 +12,31 @@
         "level": 0,
         "parentId": null,
         "childId": [
-         3
-        ]
-      },
-      {
-        "id": 2,
-        "label": "职位2",
-        "elementId": 2,
-        "type": "position",
-        "level": 0,
-        "parentId": null,
-        "childId": [
-          3
+         2,3
         ]
       }
     ],
-    [
+    [    {
+      "id": 2,
+      "label": "职位2",
+      "elementId": 2,
+      "type": "position",
+      "level": 1,
+      "parentId": [
+        1
+      ],
+      "childId": [
+        6,7
+      ]
+    },
       {
         "id": 3,
         "label": "职位3",
         "elementId": 3,
         "type": "position",
+        "level": 1,
         "parentId": [
-          1,
-          2
+          1
         ],
         "childId": [
           4,
@@ -63,6 +64,28 @@
         "level": 2,
         "parentId": [
           3
+        ],
+        "childId": null
+      },
+      {
+        "id": 6,
+        "label": "职位6",
+        "elementId": 6,
+        "type": "position",
+        "level": 2,
+        "parentId": [
+          2
+        ],
+        "childId": null
+      },
+      {
+        "id": 7,
+        "label": "职位7",
+        "elementId":7,
+        "type": "position",
+        "level": 2,
+        "parentId": [
+          2
         ],
         "childId": null
       }

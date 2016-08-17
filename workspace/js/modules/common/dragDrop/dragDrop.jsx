@@ -58,8 +58,12 @@ class DragDrop extends React.Component {
         elementResizeEvent(this.refs.wrapper, this.fitToParentSize.bind(this));
         //init data
         this.props.initWorkflowDispatch({url: this.props.initUrl, symbol: this.props.symbol})
-        this.props.getRolesDispatch({url: this.props.rolesUrl, symbol: this.props.symbol})
-        this.props.getPositionsDispatch({url: this.props.positionsUrl, symbol: this.props.symbol})
+        if(this.props.rolesUr){
+            this.props.getRolesDispatch({url: this.props.rolesUrl, symbol: this.props.symbol})
+        }
+        if(this.props.positionsUrl){
+            this.props.getPositionsDispatch({url: this.props.positionsUrl, symbol: this.props.symbol})
+        }
         this.fitToParentSize()
     }
 
@@ -140,7 +144,7 @@ class DragDrop extends React.Component {
                 }
             }
         }
-        this.props.afterSaveElement({symbol: this.props.symbol, data})
+        this.props.afterSaveElement({symbol: this.props.symbol, data,type:this.props.type})
     }
 
     //delete element
