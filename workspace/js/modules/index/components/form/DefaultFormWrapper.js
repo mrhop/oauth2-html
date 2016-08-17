@@ -107,7 +107,7 @@ let initRule = {
     }],
     submit: {label: '保存'},
     reset: {label: '重置'},
-    actions:[{label:'删除'},{label:'新增'}]
+    actions:[{label:'删除',extraClassName: 'btn-danger'}]
 }
 
 let initBlockRule = {
@@ -216,7 +216,7 @@ let initBlockRule = {
     ]],
     submit: {label: '保存'},
     reset: {label: '重置'},
-    actions:[{label:'删除'},{label:'新增'}]
+    actions:[{extraClassName: 'btn-danger',label:'删除'}]
 }
 export class DefaultFormWrapper extends React.Component {
 

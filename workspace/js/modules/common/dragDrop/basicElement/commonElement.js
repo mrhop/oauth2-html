@@ -159,7 +159,6 @@ export default class CommonElement {
             d.y = d.containerHeight - 15 - d.size;
         }
         d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
-        d3.event.sourceEvent.stopPropagation();
     }
 
     defaultDragEnd(d) {
@@ -207,6 +206,5 @@ export default class CommonElement {
         d.x = d.initX
         d.y = d.initY
         d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
-        d3.event.sourceEvent.stopPropagation();
     }
 }
